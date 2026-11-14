@@ -1,0 +1,1801 @@
+{
+  "meta": {
+    "name": "Money Gym",
+    "version": "1.0.0",
+    "locales": [
+      "en",
+      "fi",
+      "sv"
+    ],
+    "facts_checked": "2026-11-14",
+    "description": "Bite-size financial-literacy lessons for young adults and everyone else, built around Rahakamu's three-basket model. Each lesson is unlocked by the customer's own data (unlock_rule) so learning happens at the moment it is relevant.",
+    "localisation": "Every user-facing text is {en, fi, sv} (unlock_hint too). The /api/lessons?locale=xx endpoint flattens these to plain strings; quiz.options is {en:[...], fi:[...], sv:[...]} with a shared answer_index.",
+    "unlock_rule_format": "{'always': true} or {'metric': <name>, 'op': '<'|'<='|'>'|'>='|'in'|'has', 'value': ...}. Metrics: leak_share, savings_rate, small_tx_per_week, late_night_share (spender_profile); safe_status (safe_to_spend.status); min_balance_90d (lowest balance in the last 90 days, EUR); recurring_leak_count (recurring_payments items with basket 'leak'); goal_count, goal_kind (list_goals); age (customer). The human-readable unlock_hint is shown in the app.",
+    "pedagogy": "Levels: 1 = foundations (cash flow, baskets, habits), 2 = building (budget rules, interest, inflation, debt, psychology), 3 = growing (investing, first home). Every lesson ends with a key takeaway and a single-question quiz with an explanation, so the coach can reinforce the concept in chat.",
+    "disclaimer": {
+      "en": "General financial education, not personalised financial or investment advice. Rules (taxes, ASP, loan caps) are as checked on 2026-11-14 and can change — verify current terms with S-Bank or official sources.",
+      "fi": "Yleistä taloustietoa, ei henkilökohtaista talous- tai sijoitusneuvontaa. Säännöt (verot, ASP, lainakatto) on tarkistettu 14.11.2026 ja voivat muuttua — tarkista ajantasaiset ehdot S-Pankista tai virallisista lähteistä.",
+      "sv": "Allmän ekonomisk information, inte personlig ekonomisk rådgivning eller placeringsrådgivning. Reglerna (skatter, ASP, lånetak) är kontrollerade den 14 november 2026 och kan ändras — kontrollera de aktuella villkoren hos S-Banken eller i officiella källor."
+    },
+    "sources": [
+      {
+        "name": "Statistics Finland — Consumer price index (annual changes)",
+        "url": "https://pxdata.stat.fi/PxWeb/pxweb/en/StatFin/StatFin__khi/122p.px/"
+      },
+      {
+        "name": "Statistics Finland — Household budget survey 2022",
+        "url": "https://pxdata.stat.fi/PxWeb/pxweb/en/StatFin/StatFin__ktutk/14q4.px/"
+      },
+      {
+        "name": "Finnish Government — ASP reform in force 1 June 2026",
+        "url": "https://valtioneuvosto.fi/-/1410903/asp-korkotukilainan-enimmaismaarat-nousevat-ja-alueelliset-rajat-selkeytyvat"
+      },
+      {
+        "name": "Taloustaito — new ASP rules (age limit, monthly deposits, 10 % own savings)",
+        "url": "https://www.taloustaito.fi/koti/2025/ensiasuntoa-saastavan-uusi-asp-on-aiempaa-joustavampi/"
+      },
+      {
+        "name": "Finnish Competition and Consumer Authority — price of credit (interest cap)",
+        "url": "https://www.kkv.fi/en/consumer-affairs/credit-and-payments/credit/price-of-credit/"
+      },
+      {
+        "name": "Finnish Tax Administration — positive credit register",
+        "url": "https://www.vero.fi/positiivinenluottotietorekisteri/"
+      },
+      {
+        "name": "Finance Finland — deposit guarantee in Finland",
+        "url": "https://www.finanssiala.fi/en/topics/deposit-guarantee-in-finland/"
+      },
+      {
+        "name": "Finnish Tax Administration — equity savings account",
+        "url": "https://vero.fi/henkiloasiakkaat/omaisuus/sijoitukset/osakes%C3%A4%C3%A4st%C3%B6tili/"
+      },
+      {
+        "name": "Finnish Tax Administration — transfer tax and first-home buyers",
+        "url": "https://www.vero.fi/syventavat-vero-ohjeet/ohje-hakusivu/79875/ensiasunnon-varainsiirtoverovapaus4/"
+      },
+      {
+        "name": "FIN-FSA — loan cap decision (June 2026)",
+        "url": "https://www.sttinfo.fi/announcement/72171635?publisherId=69817444"
+      }
+    ]
+  },
+  "lessons": [
+    {
+      "id": "three-baskets",
+      "emoji": "🧺",
+      "level": 1,
+      "flagship": true,
+      "tags": [
+        "baskets",
+        "budgeting",
+        "basics"
+      ],
+      "unlock_hint": {
+        "en": "Always unlocked — the core model behind every Rahakamu screen.",
+        "fi": "Aina avoinna — jokaisen Rahakamu-näkymän perusmalli.",
+        "sv": "Alltid öppen — grundmodellen bakom varje vy i Rahakamu."
+      },
+      "unlock_rule": {
+        "always": true
+      },
+      "title": {
+        "en": "The three baskets",
+        "fi": "Kolme koria",
+        "sv": "De tre korgarna"
+      },
+      "summary": {
+        "en": "Sort every euro you spend into fixed essentials, irregular essentials and everyday leaks.",
+        "fi": "Lajittele jokainen käyttämäsi euro kiinteisiin, epäsäännöllisiin ja arjen vuotoihin.",
+        "sv": "Sortera varje euro du lägger i fasta måsten, oregelbundna måsten och vardagsläckor."
+      },
+      "body": {
+        "en": "Most budgets fail because they have too many categories. Rahakamu uses just three baskets.\n\n🧱 **Fixed essentials** are mandatory and regular: rent, electricity, phone, groceries and your travel card. They are predictable, so you plan them first.\n\n🧰 **Irregular essentials** are mandatory but unpredictable: the dentist, a car repair, new winter boots, a broken laptop. They are not surprises in the long run — they just do not arrive every month. You cover them with a buffer.\n\n💧 **Everyday leaks** are optional purchases that slip through your fingers: takeaway coffee, food delivery, taxis, kiosk snacks, impulse shopping. One leak is tiny; fifty leaks a month are not.\n\nThe goal is not to remove the leak basket — treats make life better. The goal is to *see* it. Once you know that leaks take, say, 30 % of your spending, you can decide how much is worth it and move the rest to savings. Every chart in this app is coloured by these three baskets.",
+        "fi": "Moni budjetti kaatuu siihen, että luokkia on liikaa. Rahakamu käyttää vain kolmea koria.\n\n🧱 **Kiinteät välttämättömät** ovat pakollisia ja säännöllisiä: vuokra, sähkö, puhelin, ruokaostokset ja matkakortti. Ne ovat ennustettavia, joten ne suunnitellaan ensin.\n\n🧰 **Epäsäännölliset välttämättömät** ovat pakollisia mutta ennalta arvaamattomia: hammaslääkäri, auton korjaus, uudet talvikengät, rikkoutunut läppäri. Pitkällä aikavälillä ne eivät ole yllätyksiä — ne vain eivät tule joka kuukausi. Niihin varaudutaan puskurilla.\n\n💧 **Arjen vuodot** ovat valinnaisia ostoksia, jotka valuvat sormien läpi: kahvi mukaan, ruokalähetit, taksit, kioskiherkut ja heräteostokset. Yksi vuoto on pieni, viisikymmentä kuukaudessa ei ole.\n\nTavoite ei ole tyhjentää vuotokoria — pienet ilot kuuluvat elämään. Tavoite on *nähdä* se. Kun tiedät, että vuodot vievät vaikkapa 30 % kulutuksestasi, voit päättää, mikä on sen arvoista, ja siirtää loput säästöön. Jokainen sovelluksen kaavio on väritetty näillä kolmella korilla.",
+        "sv": "De flesta budgetar spricker för att de har för många kategorier. Rahakamu använder bara tre korgar.\n\n🧱 **Fasta måsten** är obligatoriska och regelbundna: hyra, el, telefon, mat och ditt resekort. De är förutsägbara, så du planerar dem först.\n\n🧰 **Oregelbundna måsten** är obligatoriska men oförutsägbara: tandläkaren, en bilreparation, nya vinterkängor, en trasig dator. På lång sikt är de inga överraskningar — de kommer bara inte varje månad. Du täcker dem med en buffert.\n\n💧 **Vardagsläckor** är valfria köp som rinner mellan fingrarna: kaffe att ta med, matleveranser, taxi, kiosksnacks, impulsshopping. En läcka är liten; femtio läckor i månaden är det inte.\n\nMålet är inte att tömma läckkorgen — guldkanter gör livet bättre. Målet är att *se* den. När du vet att läckorna tar till exempel 30 % av dina utgifter kan du bestämma hur mycket som är värt det och flytta resten till sparande. Varje diagram i appen är färgat enligt de här tre korgarna."
+      },
+      "key_takeaway": {
+        "en": "Plan fixed costs, buffer the irregular ones, and consciously choose your leaks.",
+        "fi": "Suunnittele kiinteät, puskuroi epäsäännölliset ja valitse vuotosi tietoisesti.",
+        "sv": "Planera de fasta kostnaderna, buffra för de oregelbundna och välj dina läckor medvetet."
+      },
+      "quiz": {
+        "question": {
+          "en": "Your bike breaks and the repair costs 120 €. Which basket is it?",
+          "fi": "Pyöräsi hajoaa ja korjaus maksaa 120 €. Mihin koriin se kuuluu?",
+          "sv": "Din cykel går sönder och reparationen kostar 120 €. Vilken korg hör den till?"
+        },
+        "options": {
+          "en": [
+            "Fixed essentials",
+            "Irregular essentials",
+            "Everyday leaks"
+          ],
+          "fi": [
+            "Kiinteät välttämättömät",
+            "Epäsäännölliset välttämättömät",
+            "Arjen vuodot"
+          ],
+          "sv": [
+            "Fasta måsten",
+            "Oregelbundna måsten",
+            "Vardagsläckor"
+          ]
+        },
+        "answer_index": 1,
+        "explanation": {
+          "en": "You need the bike, but repairs do not happen every month — a textbook irregular essential your buffer should cover.",
+          "fi": "Tarvitset pyörää, mutta korjauksia ei tule joka kuukausi — tyypillinen epäsäännöllinen välttämättömyys, johon puskurin pitää riittää.",
+          "sv": "Du behöver cykeln, men reparationer sker inte varje månad — ett typiskt oregelbundet måste som bufferten ska täcka."
+        }
+      },
+      "related_concepts": [
+        "fixed-costs",
+        "irregular-costs",
+        "leaks",
+        "emergency-fund"
+      ],
+      "order": 1
+    },
+    {
+      "id": "safe-to-spend",
+      "emoji": "🟢",
+      "level": 1,
+      "tags": [
+        "cash-flow",
+        "daily",
+        "payday"
+      ],
+      "unlock_hint": {
+        "en": "Safe-to-spend status is 'tight' or 'critical', or the user asks 'can I afford…'.",
+        "fi": "Turvallisesti käytettävissä -tila on 'tiukka' tai 'kriittinen', tai käyttäjä kysyy 'onko minulla varaa…'.",
+        "sv": "Läget för tryggt att använda är 'tight' eller 'kritiskt', eller så frågar användaren 'har jag råd…'."
+      },
+      "unlock_rule": {
+        "metric": "safe_status",
+        "op": "in",
+        "value": [
+          "tight",
+          "critical"
+        ]
+      },
+      "title": {
+        "en": "Safe-to-spend: the only number you need today",
+        "fi": "Turvallisesti käytettävissä: päivän tärkein luku",
+        "sv": "Tryggt att använda: det enda talet du behöver i dag"
+      },
+      "summary": {
+        "en": "Your balance is not your spending money. Subtract what is already promised.",
+        "fi": "Tilin saldo ei ole käyttörahaa. Vähennä siitä se, mikä on jo luvattu muualle.",
+        "sv": "Ditt saldo är inte dina fickpengar. Dra av det som redan är lovat."
+      },
+      "body": {
+        "en": "Looking at your balance and thinking \"I have 600 €\" is the most common money trap. Part of that money is already spoken for.\n\n**Safe-to-spend** works like this:\n1. Start with your balance today.\n2. Subtract the bills due before your next payday — rent, electricity, phone, subscriptions.\n3. Subtract a small buffer for irregular essentials, like a pharmacy visit.\n4. Subtract what you planned to put towards your goals.\n5. Divide what is left by the days until payday.\n\nThe result — for example 18 € per day — is money you can use without stress. If you spend less today, tomorrow's amount grows. If you overspend, it shrinks, and you see it immediately instead of at the end of the month.\n\nStudents on Kela study grant or anyone paid once a month can use the same trick: the 'payday' is simply the next date money arrives. Rahakamu calculates this for you every day from your own transactions.",
+        "fi": "Moni katsoo saldoa ja ajattelee: \"Minulla on 600 €.\" Se on yleisin raha-ansa, sillä osa rahasta on jo varattu.\n\n**Turvallisesti käytettävä summa** lasketaan näin:\n1. Aloita tämän päivän saldosta.\n2. Vähennä laskut, jotka erääntyvät ennen seuraavaa palkkapäivää — vuokra, sähkö, puhelin, tilaukset.\n3. Vähennä pieni puskuri epäsäännöllisiin menoihin, kuten apteekkikäyntiin.\n4. Vähennä summa, jonka aiot siirtää tavoitteisiisi.\n5. Jaa loput palkkapäivään jäljellä olevilla päivillä.\n\nTulos — esimerkiksi 18 € päivässä — on rahaa, jota voit käyttää ilman stressiä. Jos käytät tänään vähemmän, huomisen summa kasvaa. Jos ylität, se pienenee, ja näet sen heti eikä vasta kuun lopussa.\n\nSama toimii myös Kelan opintorahalla eläville tai kerran kuussa palkkaa saaville: 'palkkapäivä' on yksinkertaisesti seuraava päivä, jolloin rahaa tulee. Rahakamu laskee luvun joka päivä omista tilitapahtumistasi.",
+        "sv": "Att titta på saldot och tänka \"jag har 600 €\" är den vanligaste pengafällan. En del av pengarna är redan uppbokade.\n\n**Tryggt att använda** fungerar så här:\n1. Börja med ditt saldo i dag.\n2. Dra av räkningarna som förfaller före nästa lönedag — hyra, el, telefon, prenumerationer.\n3. Dra av en liten buffert för oregelbundna måsten, som ett apoteksbesök.\n4. Dra av det du har tänkt lägga på dina mål.\n5. Dela det som blir kvar med antalet dagar till lönedagen.\n\nResultatet — till exempel 18 € per dag — är pengar du kan använda utan stress. Om du använder mindre i dag växer morgondagens belopp. Om du använder för mycket krymper det, och du ser det direkt i stället för i slutet av månaden.\n\nStuderande med studiepenning från FPA eller alla som får lön en gång i månaden kan använda samma knep: 'lönedagen' är helt enkelt nästa dag då det kommer pengar. Rahakamu räknar ut det här åt dig varje dag utifrån dina egna transaktioner."
+      },
+      "key_takeaway": {
+        "en": "Spend from what is free, not from what is on the screen.",
+        "fi": "Käytä vapaata rahaa, älä ruudulla näkyvää saldoa.",
+        "sv": "Använd det som är fritt, inte det som syns på skärmen."
+      },
+      "quiz": {
+        "question": {
+          "en": "Balance 500 €, bills before payday 260 €, goal transfer 40 €, 10 days to payday. What is safe to spend per day (no buffer)?",
+          "fi": "Saldo 500 €, laskut ennen palkkapäivää 260 €, tavoitesiirto 40 €, palkkapäivään 10 päivää. Paljonko voit käyttää päivässä (ilman puskuria)?",
+          "sv": "Saldo 500 €, räkningar före lönedagen 260 €, överföring till mål 40 €, 10 dagar till lönedagen. Hur mycket är tryggt att använda per dag (utan buffert)?"
+        },
+        "options": {
+          "en": [
+            "50 €",
+            "24 €",
+            "20 €",
+            "30 €"
+          ],
+          "fi": [
+            "50 €",
+            "24 €",
+            "20 €",
+            "30 €"
+          ],
+          "sv": [
+            "50 €",
+            "24 €",
+            "20 €",
+            "30 €"
+          ]
+        },
+        "answer_index": 2,
+        "explanation": {
+          "en": "500 − 260 − 40 = 200 € free, divided by 10 days = 20 € per day.",
+          "fi": "500 − 260 − 40 = 200 € vapaata, jaettuna 10 päivällä = 20 € päivässä.",
+          "sv": "500 − 260 − 40 = 200 € fritt, delat med 10 dagar = 20 € per dag."
+        }
+      },
+      "related_concepts": [
+        "safe-to-spend",
+        "emergency-fund"
+      ],
+      "order": 2
+    },
+    {
+      "id": "emergency-fund",
+      "emoji": "🛟",
+      "level": 1,
+      "tags": [
+        "buffer",
+        "saving",
+        "irregular"
+      ],
+      "unlock_hint": {
+        "en": "Irregular essentials are a big share of spending, or the balance has dipped near or below zero, or no emergency-fund goal exists.",
+        "fi": "Epäsäännölliset välttämättömät ovat iso osa kulutuksesta, saldo on käynyt lähellä nollaa tai alle, tai puskuritavoitetta ei ole.",
+        "sv": "Oregelbundna måsten är en stor del av utgifterna, saldot har varit nära noll eller under, eller så finns inget buffertmål."
+      },
+      "unlock_rule": {
+        "metric": "min_balance_90d",
+        "op": "<",
+        "value": 200
+      },
+      "title": {
+        "en": "Emergency fund: your financial airbag",
+        "fi": "Puskurirahasto: talouden turvatyyny",
+        "sv": "Buffert: din ekonomiska krockkudde"
+      },
+      "summary": {
+        "en": "A buffer turns irregular essentials from a crisis into a non-event.",
+        "fi": "Puskuri muuttaa epäsäännölliset menot kriisistä arkiseksi asiaksi.",
+        "sv": "En buffert gör oregelbundna måsten från en kris till en icke-händelse."
+      },
+      "body": {
+        "en": "Life will send you a dentist bill, a broken phone or a surprise train ticket home. If you have no buffer, these moments end up on a credit card or a quick loan — and cost far more than the original bill.\n\nAn **emergency fund** is money parked separately for exactly these irregular essentials. A common rule of thumb is one to three months of your essential (fixed) spending. If your rent, bills and food cost 1 100 € a month, a first target of 1 000 € already covers most surprises.\n\nTips that work:\n• Keep it in a separate savings account so you do not see it every day — but can reach it in a day.\n• Start small: 20 € per payday is a real start.\n• When you use it, refill it before restarting other goals.\n\nIn Finland, bank deposits are protected by the deposit guarantee up to 100 000 € per customer per bank, so a savings account is a safe place for this money. It is not meant to grow — it is meant to be there.",
+        "fi": "Elämä tuo eteen hammaslääkärilaskun, rikkoutuneen puhelimen tai yllättävän junalipun kotiin. Ilman puskuria nämä päätyvät luottokortille tai pikavippiin — ja maksavat paljon enemmän kuin alkuperäinen lasku.\n\n**Puskurirahasto** on erikseen säästettyä rahaa juuri näitä epäsäännöllisiä välttämättömiä menoja varten. Yleinen nyrkkisääntö on yhdestä kolmeen kuukauden välttämättömät (kiinteät) menot. Jos vuokra, laskut ja ruoka maksavat 1 100 € kuussa, ensimmäinen 1 000 €:n tavoite kattaa jo useimmat yllätykset.\n\nToimivia vinkkejä:\n• Pidä puskuri erillisellä säästötilillä, jotta et näe sitä joka päivä — mutta saat sen käyttöön päivässä.\n• Aloita pienestä: 20 € jokaisesta palkasta on oikea alku.\n• Kun käytät puskuria, täytä se ennen muita tavoitteita.\n\nSuomessa talletussuoja turvaa pankkitalletukset 100 000 euroon asti asiakasta kohden pankissa, joten säästötili on turvallinen paikka tälle rahalle. Sen ei tarvitse kasvaa — sen pitää olla olemassa.",
+        "sv": "Livet kommer att skicka dig en tandläkarräkning, en trasig telefon eller en oväntad tågbiljett hem. Om du inte har någon buffert hamnar de stunderna på kreditkortet eller ett snabblån — och kostar mycket mer än den ursprungliga räkningen.\n\nEn **buffert** är pengar som är parkerade separat för just de här oregelbundna måstena. En vanlig tumregel är en till tre månader av dina nödvändiga (fasta) utgifter. Om hyra, räkningar och mat kostar 1 100 € i månaden täcker ett första mål på 1 000 € redan de flesta överraskningar.\n\nTips som fungerar:\n• Håll pengarna på ett separat sparkonto så att du inte ser dem varje dag — men kommer åt dem inom en dag.\n• Börja smått: 20 € per lönedag är en riktig start.\n• När du använder bufferten, fyll på den innan du fortsätter med andra mål.\n\nI Finland skyddas bankinsättningar av insättningsgarantin upp till 100 000 € per kund och bank, så ett sparkonto är en trygg plats för de här pengarna. De ska inte växa — de ska finnas där."
+      },
+      "key_takeaway": {
+        "en": "Build a buffer of 1–3 months of essential costs before chasing bigger goals.",
+        "fi": "Kerää 1–3 kuukauden välttämättömiä menoja vastaava puskuri ennen isompia tavoitteita.",
+        "sv": "Bygg en buffert på 1–3 månaders nödvändiga kostnader innan du jagar större mål."
+      },
+      "quiz": {
+        "question": {
+          "en": "Where should an emergency fund usually be kept?",
+          "fi": "Missä puskurirahastoa yleensä kannattaa pitää?",
+          "sv": "Var brukar man hålla sin buffert?"
+        },
+        "options": {
+          "en": [
+            "In shares, to maximise growth",
+            "In a separate savings account you can reach quickly",
+            "As cash under the mattress",
+            "On your everyday account with your spending money"
+          ],
+          "fi": [
+            "Osakkeissa, jotta se kasvaa",
+            "Erillisellä säästötilillä, josta sen saa nopeasti",
+            "Käteisenä patjan alla",
+            "Käyttötilillä muun käyttörahan seassa"
+          ],
+          "sv": [
+            "I aktier, för att maximera tillväxten",
+            "På ett separat sparkonto som du snabbt kommer åt",
+            "Som kontanter under madrassen",
+            "På brukskontot tillsammans med pengarna du handlar för"
+          ]
+        },
+        "answer_index": 1,
+        "explanation": {
+          "en": "A buffer must be safe and available fast. Shares can be down exactly when you need the money, and the everyday account makes it too easy to spend.",
+          "fi": "Puskurin pitää olla turvassa ja nopeasti saatavilla. Osakkeet voivat olla laskussa juuri silloin, kun rahaa tarvitaan, ja käyttötilillä se kuluu liian helposti.",
+          "sv": "En buffert måste vara trygg och snabbt tillgänglig. Aktier kan ha gått ner precis när du behöver pengarna, och på brukskontot är det för lätt att använda dem."
+        }
+      },
+      "related_concepts": [
+        "emergency-fund",
+        "deposit-guarantee"
+      ],
+      "order": 3
+    },
+    {
+      "id": "pay-yourself-first",
+      "emoji": "🥇",
+      "level": 1,
+      "tags": [
+        "saving",
+        "habits",
+        "automation"
+      ],
+      "unlock_hint": {
+        "en": "Savings rate below 10 % of income, or savings only happen at the end of the month.",
+        "fi": "Säästöaste alle 10 % tuloista, tai säästöt syntyvät vasta kuun lopussa.",
+        "sv": "Sparkvoten är under 10 % av inkomsten, eller så blir det sparat först i slutet av månaden."
+      },
+      "unlock_rule": {
+        "metric": "savings_rate",
+        "op": "<",
+        "value": 0.1
+      },
+      "title": {
+        "en": "Pay yourself first",
+        "fi": "Maksa ensin itsellesi",
+        "sv": "Betala dig själv först"
+      },
+      "summary": {
+        "en": "Save on payday, automatically — not with whatever is left at the end of the month.",
+        "fi": "Säästä palkkapäivänä automaattisesti — älä sitä, mitä kuun lopussa sattuu jäämään.",
+        "sv": "Spara på lönedagen, automatiskt — inte det som råkar bli kvar i slutet av månaden."
+      },
+      "body": {
+        "en": "Most people try to save what is left at the end of the month. The problem: there is rarely anything left. Spending expands to fill the money available.\n\n**Pay yourself first** flips the order. On payday, before rent, before groceries, a fixed amount moves automatically to savings. You then live on the rest — and your brain adapts surprisingly fast.\n\nHow to start:\n• Pick an amount you will not miss: 5 % of your net income is a good first rep. On 1 600 € that is 80 € a month.\n• Set up a recurring transfer in your bank app for the day after payday.\n• Raise it by 1 percentage point every time your income grows or a goal is reached.\n\nAutomation beats willpower because you only make the decision once. In your account these transfers show up as 'Salary Sweep' or 'Invest Deposit' transactions, and Rahakamu counts them in your **saving** flow — separate from the three spending baskets — so you can watch the habit grow month by month.",
+        "fi": "Useimmat yrittävät säästää sen, mitä kuun lopussa jää. Ongelma: harvoin jää mitään. Kulutus kasvaa täyttämään käytettävissä olevan rahan.\n\n**Maksa ensin itsellesi** kääntää järjestyksen. Palkkapäivänä, ennen vuokraa ja ruokaostoksia, sovittu summa siirtyy automaattisesti säästöön. Elät lopulla — ja aivot tottuvat yllättävän nopeasti.\n\nNäin aloitat:\n• Valitse summa, jota et huomaa: 5 % nettotuloista on hyvä ensimmäinen toisto. 1 600 eurosta se on 80 € kuussa.\n• Tee pankkisovellukseen toistuva siirto palkkapäivää seuraavalle päivälle.\n• Nosta summaa prosenttiyksiköllä aina, kun tulosi kasvavat tai saavutat tavoitteen.\n\nAutomaatio voittaa tahdonvoiman, koska päätös tehdään vain kerran. Tililläsi nämä siirrot näkyvät 'Salary Sweep'- tai 'Invest Deposit' -tapahtumina, ja Rahakamu laskee ne **säästö**virtaan — erilleen kolmesta kulutuskorista — jotta näet tavan vahvistuvan kuukausi kuukaudelta.",
+        "sv": "De flesta försöker spara det som blir över i slutet av månaden. Problemet: det blir sällan något över. Utgifterna växer så att de fyller de pengar som finns.\n\n**Betala dig själv först** vänder på ordningen. På lönedagen, före hyran och före matinköpen, flyttas en fast summa automatiskt till sparande. Sedan lever du på resten — och hjärnan anpassar sig förvånansvärt snabbt.\n\nSå kommer du i gång:\n• Välj en summa du inte saknar: 5 % av nettoinkomsten är en bra första repetition. På 1 600 € blir det 80 € i månaden.\n• Lägg upp en stående överföring i bankappen till dagen efter lönedagen.\n• Höj den med 1 procentenhet varje gång inkomsten växer eller ett mål nås.\n\nAutomatik slår viljestyrka eftersom du bara fattar beslutet en gång. På kontot syns överföringarna som transaktioner av typen 'Salary Sweep' eller 'Invest Deposit', och Rahakamu räknar dem till ditt **sparande** — skilt från de tre utgiftskorgarna — så att du kan se vanan växa månad för månad."
+      },
+      "key_takeaway": {
+        "en": "Automate a transfer on payday; live on what remains.",
+        "fi": "Automatisoi siirto palkkapäivälle ja elä sillä, mitä jää.",
+        "sv": "Automatisera en överföring på lönedagen och lev på det som blir kvar."
+      },
+      "quiz": {
+        "question": {
+          "en": "Why does an automatic payday transfer work better than saving 'what is left'?",
+          "fi": "Miksi automaattinen siirto palkkapäivänä toimii paremmin kuin 'jäljelle jäävän' säästäminen?",
+          "sv": "Varför fungerar en automatisk överföring på lönedagen bättre än att spara 'det som blir över'?"
+        },
+        "options": {
+          "en": [
+            "Banks pay a bonus for automatic transfers",
+            "You decide once and spending adapts to the remaining money",
+            "It avoids taxes on savings"
+          ],
+          "fi": [
+            "Pankki maksaa bonusta automaattisista siirroista",
+            "Päätös tehdään kerran ja kulutus sopeutuu jäljelle jäävään rahaan",
+            "Säästöistä ei silloin makseta veroa"
+          ],
+          "sv": [
+            "Banker betalar bonus för automatiska överföringar",
+            "Du bestämmer en gång och utgifterna anpassar sig till pengarna som blir kvar",
+            "Man slipper skatt på sparandet"
+          ]
+        },
+        "answer_index": 1,
+        "explanation": {
+          "en": "Spending tends to grow to match available money. Moving savings out first removes the daily temptation and the need for willpower.",
+          "fi": "Kulutus kasvaa helposti käytettävissä olevan rahan mukaan. Kun säästö siirretään ensin pois, kiusausta ja tahdonvoiman tarvetta ei synny.",
+          "sv": "Utgifterna brukar växa i takt med pengarna som finns. När sparandet flyttas undan först försvinner den dagliga frestelsen och behovet av viljestyrka."
+        }
+      },
+      "related_concepts": [
+        "pay-yourself-first",
+        "savings-rate"
+      ],
+      "order": 4
+    },
+    {
+      "id": "latte-factor",
+      "emoji": "☕",
+      "level": 1,
+      "tags": [
+        "leaks",
+        "habits",
+        "small-purchases"
+      ],
+      "unlock_hint": {
+        "en": "More than 10 small (< 15 €) leak purchases per week, or archetype 'latte_leaker'.",
+        "fi": "Yli 10 pientä (< 15 €) vuoto-ostosta viikossa, tai arkkityyppi 'lattevuotaja'.",
+        "sv": "Fler än 10 små (< 15 €) läckköp i veckan, eller arketypen 'latteläckare'."
+      },
+      "unlock_rule": {
+        "metric": "small_tx_per_week",
+        "op": ">",
+        "value": 10
+      },
+      "title": {
+        "en": "The latte factor: small leaks, big buckets",
+        "fi": "Lattetekijä: pienistä vuodoista iso ämpäri",
+        "sv": "Lattefaktorn: små läckor, stora hinkar"
+      },
+      "summary": {
+        "en": "4.50 € a day looks harmless. Over a year it is a holiday.",
+        "fi": "4,50 € päivässä näyttää harmittomalta. Vuodessa se on lomamatka.",
+        "sv": "4,50 € om dagen ser ofarligt ut. På ett år blir det en semester."
+      },
+      "body": {
+        "en": "The **latte factor** is the idea that small, frequent purchases add up to surprisingly large sums. It is not about coffee — it is about anything you buy on autopilot.\n\nDo the maths once: a 4.50 € coffee every workday is about 22.50 € a week and roughly 1 170 € a year. Add an energy drink from the kiosk and a weekly food delivery and you can pass 2 500 € a year without a single 'big' purchase.\n\nSmall leaks are hard to see because each one feels too small to matter, and they are spread across many shops. That is why Rahakamu groups them into the leak basket and counts your **small purchases per week**.\n\nYou do not have to quit your coffee. Try this instead:\n• Pick your favourite leak and keep it guilt-free.\n• Halve one other leak for a week — a 'reps' challenge.\n• Move the money you saved to a goal the same day so you can see it grow.\n\nSmall wins compound into habits, and habits compound into money.",
+        "fi": "**Lattetekijä** tarkoittaa, että pienet ja toistuvat ostokset kasvavat yllättävän suuriksi summiksi. Kyse ei ole kahvista — vaan kaikesta, mitä ostat autopilotilla.\n\nLaske kerran: 4,50 €:n kahvi joka työpäivä on noin 22,50 € viikossa ja noin 1 170 € vuodessa. Lisää energiajuoma kioskilta ja viikoittainen ruokalähetti, niin ylität 2 500 € vuodessa ilman yhtäkään 'isoa' ostosta.\n\nPieniä vuotoja on vaikea huomata, koska jokainen tuntuu liian pieneltä merkitäkseen mitään ja ne jakautuvat moneen kauppaan. Siksi Rahakamu kokoaa ne vuotokoriin ja laskee **pienet ostoksesi viikossa**.\n\nKahvista ei tarvitse luopua. Kokeile mieluummin näin:\n• Valitse lempivuotosi ja pidä se ilman huonoa omaatuntoa.\n• Puolita jokin toinen vuoto viikoksi — pieni treenihaaste.\n• Siirrä säästynyt raha tavoitteeseen samana päivänä, niin näet sen kasvavan.\n\nPienet voitot kasvavat tavoiksi, ja tavat kasvavat rahaksi.",
+        "sv": "**Lattefaktorn** är tanken att små, täta köp växer till förvånansvärt stora summor. Det handlar inte om kaffe — det handlar om allt du köper på autopilot.\n\nRäkna en gång: ett kaffe för 4,50 € varje arbetsdag blir ungefär 22,50 € i veckan och omkring 1 170 € om året. Lägg till en energidryck från kiosken och en matleverans i veckan, så kan du passera 2 500 € om året utan ett enda 'stort' köp.\n\nSmå läckor är svåra att se eftersom vart och ett känns för litet för att spela roll, och de är utspridda på många butiker. Därför samlar Rahakamu dem i läckkorgen och räknar dina **små köp per vecka**.\n\nDu behöver inte sluta med kaffet. Prova i stället det här:\n• Välj din favoritläcka och behåll den utan dåligt samvete.\n• Halvera en annan läcka i en vecka — en utmaning i repetitioner.\n• Flytta pengarna du sparade till ett mål samma dag, så att du ser dem växa.\n\nSmå vinster växer till vanor, och vanor växer till pengar."
+      },
+      "key_takeaway": {
+        "en": "Multiply any daily habit by 250 workdays before deciding if it is 'small'.",
+        "fi": "Kerro päivittäinen tapa 250 työpäivällä ennen kuin päätät, onko se 'pieni'.",
+        "sv": "Multiplicera varje daglig vana med 250 arbetsdagar innan du bestämmer om den är 'liten'."
+      },
+      "quiz": {
+        "question": {
+          "en": "About how much is a 4.50 € coffee every workday over a year?",
+          "fi": "Paljonko 4,50 €:n kahvi jokaisena työpäivänä maksaa vuodessa suunnilleen?",
+          "sv": "Ungefär hur mycket blir ett kaffe för 4,50 € varje arbetsdag på ett år?"
+        },
+        "options": {
+          "en": [
+            "About 230 €",
+            "About 600 €",
+            "About 1 170 €",
+            "About 3 000 €"
+          ],
+          "fi": [
+            "Noin 230 €",
+            "Noin 600 €",
+            "Noin 1 170 €",
+            "Noin 3 000 €"
+          ],
+          "sv": [
+            "Ungefär 230 €",
+            "Ungefär 600 €",
+            "Ungefär 1 170 €",
+            "Ungefär 3 000 €"
+          ]
+        },
+        "answer_index": 2,
+        "explanation": {
+          "en": "4.50 € × 5 days × 52 weeks ≈ 1 170 €.",
+          "fi": "4,50 € × 5 päivää × 52 viikkoa ≈ 1 170 €.",
+          "sv": "4,50 € × 5 dagar × 52 veckor ≈ 1 170 €."
+        }
+      },
+      "related_concepts": [
+        "leaks"
+      ],
+      "order": 5
+    },
+    {
+      "id": "subscription-creep",
+      "emoji": "🔁",
+      "level": 1,
+      "tags": [
+        "subscriptions",
+        "recurring",
+        "leaks"
+      ],
+      "unlock_hint": {
+        "en": "Three or more recurring payments detected in the leak basket (streaming, apps, gym, memberships).",
+        "fi": "Vuotokorista löytyi vähintään kolme toistuvaa maksua (suoratoisto, sovellukset, kuntosali, jäsenyydet).",
+        "sv": "Minst tre återkommande betalningar hittades i läckkorgen (streaming, appar, gym, medlemskap)."
+      },
+      "unlock_rule": {
+        "metric": "recurring_leak_count",
+        "op": ">=",
+        "value": 3
+      },
+      "title": {
+        "en": "Subscription creep",
+        "fi": "Tilausten hiipivä kasvu",
+        "sv": "Prenumerationer som smyger sig på"
+      },
+      "summary": {
+        "en": "Many small monthly payments quietly become one big fixed cost.",
+        "fi": "Monet pienet kuukausimaksut muuttuvat huomaamatta yhdeksi isoksi kiinteäksi menoksi.",
+        "sv": "Många små månadsbetalningar blir i det tysta en stor fast kostnad."
+      },
+      "body": {
+        "en": "Streaming, music, cloud storage, a gym you visit twice a month, a game pass, a news app… Each one is 'only' 5–15 € a month, and that is exactly the trick. Subscriptions are designed to be easy to start and easy to forget.\n\n**Subscription creep** happens when these payments slowly pile up. Five subscriptions at 11 € each are 55 € a month — 660 € a year — and they now behave like a fixed cost even though they are really leaks.\n\nA simple quarterly check-up:\n1. List every recurring payment. Rahakamu detects them for you from your transactions.\n2. For each one ask: did I use it in the last 30 days? Would I sign up again today at this price?\n3. Cancel or pause the 'no' answers. Many services let you rejoin any time.\n4. Rotate: keep one streaming service at a time and switch when you have watched what you wanted.\n\nWatch out for free trials that roll into paid plans — put a reminder in your calendar the day you start one.",
+        "fi": "Suoratoisto, musiikki, pilvitallennus, kuntosali, jossa käyt kahdesti kuussa, pelipassi, uutissovellus… Jokainen maksaa 'vain' 5–15 € kuussa, ja juuri siinä on juju. Tilaukset on suunniteltu helpoiksi aloittaa ja helpoiksi unohtaa.\n\n**Tilausten hiipivä kasvu** tarkoittaa, että nämä maksut kasautuvat vähitellen. Viisi 11 €:n tilausta on 55 € kuussa — 660 € vuodessa — ja ne käyttäytyvät kuin kiinteä meno, vaikka ovat oikeasti vuotoja.\n\nYksinkertainen tarkistus neljännesvuosittain:\n1. Listaa kaikki toistuvat maksut. Rahakamu tunnistaa ne tilitapahtumistasi.\n2. Kysy jokaisesta: käytinkö tätä viimeisen 30 päivän aikana? Tilaisinko sen tänään uudelleen tällä hinnalla?\n3. Peru tai keskeytä 'ei'-vastaukset. Useimpiin palveluihin voi palata milloin vain.\n4. Kierrätä: pidä yksi suoratoistopalvelu kerrallaan ja vaihda, kun olet katsonut haluamasi.\n\nVaro ilmaisia kokeilujaksoja, jotka muuttuvat maksullisiksi — laita muistutus kalenteriin heti aloituspäivänä.",
+        "sv": "Streaming, musik, molnlagring, ett gym du besöker två gånger i månaden, ett spelpass, en nyhetsapp… Var och en kostar 'bara' 5–15 € i månaden, och det är precis det som är knepet. Prenumerationer är gjorda för att vara lätta att starta och lätta att glömma.\n\n**Prenumerationer som smyger sig på** betyder att de här betalningarna långsamt hopar sig. Fem prenumerationer för 11 € styck blir 55 € i månaden — 660 € om året — och de beter sig nu som en fast kostnad fast de egentligen är läckor.\n\nEn enkel kvartalskoll:\n1. Lista alla återkommande betalningar. Rahakamu hittar dem åt dig i dina transaktioner.\n2. Fråga för var och en: har jag använt den de senaste 30 dagarna? Skulle jag teckna den igen i dag till det här priset?\n3. Säg upp eller pausa dem där svaret är 'nej'. Många tjänster låter dig komma tillbaka när som helst.\n4. Rotera: ha en streamingtjänst åt gången och byt när du har sett det du ville.\n\nSe upp med gratisperioder som övergår i betalda abonnemang — lägg in en påminnelse i kalendern samma dag som du börjar."
+      },
+      "key_takeaway": {
+        "en": "Audit subscriptions every three months: if you would not buy it again today, cancel it.",
+        "fi": "Käy tilaukset läpi kolmen kuukauden välein: jos et ostaisi uudelleen tänään, peru.",
+        "sv": "Gå igenom prenumerationerna var tredje månad: om du inte skulle köpa den igen i dag, säg upp den."
+      },
+      "quiz": {
+        "question": {
+          "en": "Five subscriptions cost 11 € each per month. What is the yearly total?",
+          "fi": "Viisi tilausta maksaa kukin 11 € kuussa. Paljonko se on vuodessa?",
+          "sv": "Fem prenumerationer kostar 11 € styck i månaden. Vad blir summan per år?"
+        },
+        "options": {
+          "en": [
+            "132 €",
+            "330 €",
+            "660 €"
+          ],
+          "fi": [
+            "132 €",
+            "330 €",
+            "660 €"
+          ],
+          "sv": [
+            "132 €",
+            "330 €",
+            "660 €"
+          ]
+        },
+        "answer_index": 2,
+        "explanation": {
+          "en": "5 × 11 € = 55 € per month × 12 = 660 € per year.",
+          "fi": "5 × 11 € = 55 € kuussa × 12 = 660 € vuodessa.",
+          "sv": "5 × 11 € = 55 € i månaden × 12 = 660 € om året."
+        }
+      },
+      "related_concepts": [
+        "subscription",
+        "leaks"
+      ],
+      "order": 6
+    },
+    {
+      "id": "budget-50-30-20",
+      "emoji": "🥧",
+      "level": 2,
+      "tags": [
+        "budgeting",
+        "baskets",
+        "rules-of-thumb"
+      ],
+      "unlock_hint": {
+        "en": "Leak basket above 30 % of monthly spending, or savings below 20 % of income.",
+        "fi": "Vuotokori yli 30 % kuukauden kulutuksesta, tai säästöt alle 20 % tuloista.",
+        "sv": "Läckkorgen är över 30 % av månadens utgifter, eller sparandet under 20 % av inkomsten."
+      },
+      "unlock_rule": {
+        "metric": "leak_share",
+        "op": ">",
+        "value": 0.3
+      },
+      "title": {
+        "en": "50/30/20 — the three-basket way",
+        "fi": "50/30/20 — kolmen korin tapaan",
+        "sv": "50/30/20 — på tre korgars vis"
+      },
+      "summary": {
+        "en": "A simple split of your net income: needs, wants and your future.",
+        "fi": "Yksinkertainen jako nettotuloille: tarpeet, halut ja tulevaisuus.",
+        "sv": "En enkel fördelning av nettoinkomsten: behov, önskemål och din framtid."
+      },
+      "body": {
+        "en": "The classic **50/30/20 rule** splits your take-home pay into 50 % needs, 30 % wants and 20 % savings. Rahakamu adapts it to the three baskets:\n\n• **About 50 % → fixed + irregular essentials.** Rent, bills, groceries, transport and a monthly amount set aside for the dentist or repairs.\n• **Up to 30 % → everyday leaks.** Eating out, hobbies, clothes, trips. Guilt-free, because it is planned.\n• **At least 20 % → saving.** Emergency fund first, then goals and long-term investing.\n\nExample: on 2 000 € net, aim for about 1 000 € essentials, 600 € leaks and 400 € savings.\n\nIt is a starting point, not a law. In Helsinki, rent alone may take half of a young person's income; a student on Kela support may only manage 5 % savings at first. That is fine — what matters is the direction. If essentials are above 60 %, look at housing or transport costs. If leaks are above 30 %, that is the easiest place to free money. Rahakamu shows your real split on the home screen so you can compare it with this target.",
+        "fi": "Klassinen **50/30/20-sääntö** jakaa nettotulot näin: 50 % tarpeisiin, 30 % haluihin ja 20 % säästöön. Rahakamu soveltaa sitä kolmeen koriin:\n\n• **Noin 50 % → kiinteät + epäsäännölliset välttämättömät.** Vuokra, laskut, ruoka, liikkuminen sekä kuukausittain sivuun laitettu summa hammaslääkäriin tai korjauksiin.\n• **Enintään 30 % → arjen vuodot.** Ulkona syöminen, harrastukset, vaatteet, matkat. Ilman huonoa omaatuntoa, koska ne on suunniteltu.\n• **Vähintään 20 % → säästäminen.** Ensin puskuri, sitten tavoitteet ja pitkäaikainen sijoittaminen.\n\nEsimerkki: 2 000 €:n nettotuloilla tavoitteena noin 1 000 € välttämättömiin, 600 € vuotoihin ja 400 € säästöön.\n\nSääntö on lähtökohta, ei laki. Helsingissä pelkkä vuokra voi viedä puolet nuoren tuloista, ja Kelan tuella elävä opiskelija ehkä säästää aluksi vain 5 %. Se on ok — suunta ratkaisee. Jos välttämättömät ylittävät 60 %, tarkastele asumista tai liikkumista. Jos vuodot ylittävät 30 %, sieltä on helpointa vapauttaa rahaa. Rahakamu näyttää todellisen jakosi kotinäkymässä.",
+        "sv": "Den klassiska **50/30/20-regeln** delar nettolönen i 50 % behov, 30 % önskemål och 20 % sparande. Rahakamu anpassar den till de tre korgarna:\n\n• **Ungefär 50 % → fasta och oregelbundna måsten.** Hyra, räkningar, mat, resor och en summa som läggs undan varje månad för tandläkaren eller reparationer.\n• **Högst 30 % → vardagsläckor.** Äta ute, hobbyer, kläder, resor. Utan dåligt samvete, eftersom det är planerat.\n• **Minst 20 % → sparande.** Bufferten först, sedan mål och långsiktiga placeringar.\n\nExempel: på 2 000 € netto siktar du på ungefär 1 000 € till måsten, 600 € till läckor och 400 € till sparande.\n\nDet är en utgångspunkt, inte en lag. I Helsingfors kan hyran ensam ta hälften av en ung persons inkomst; en studerande med stöd från FPA klarar kanske bara 5 % sparande i början. Det gör inget — det viktiga är riktningen. Om måstena är över 60 %, titta på boende- eller resekostnaderna. Om läckorna är över 30 % är det där det är lättast att frigöra pengar. Rahakamu visar din verkliga fördelning på startsidan så att du kan jämföra den med målet."
+      },
+      "key_takeaway": {
+        "en": "Aim for ~50 % essentials, ≤30 % leaks, ≥20 % saving — then adjust to your life.",
+        "fi": "Tavoittele ~50 % välttämättömiin, ≤30 % vuotoihin, ≥20 % säästöön — ja sovita omaan elämääsi.",
+        "sv": "Sikta på cirka 50 % måsten, högst 30 % läckor och minst 20 % sparande — och anpassa sedan efter ditt liv."
+      },
+      "quiz": {
+        "question": {
+          "en": "Net income 1 800 €. Using 50/30/20, how much goes to saving?",
+          "fi": "Nettotulot 1 800 €. Paljonko 50/30/20-säännön mukaan menee säästöön?",
+          "sv": "Nettoinkomsten är 1 800 €. Hur mycket går till sparande enligt 50/30/20?"
+        },
+        "options": {
+          "en": [
+            "180 €",
+            "360 €",
+            "540 €",
+            "900 €"
+          ],
+          "fi": [
+            "180 €",
+            "360 €",
+            "540 €",
+            "900 €"
+          ],
+          "sv": [
+            "180 €",
+            "360 €",
+            "540 €",
+            "900 €"
+          ]
+        },
+        "answer_index": 1,
+        "explanation": {
+          "en": "20 % of 1 800 € is 360 €. 900 € would be essentials and 540 € leaks.",
+          "fi": "20 % 1 800 eurosta on 360 €. 900 € menisi välttämättömiin ja 540 € vuotoihin.",
+          "sv": "20 % av 1 800 € är 360 €. 900 € skulle gå till måsten och 540 € till läckor."
+        }
+      },
+      "related_concepts": [
+        "budget",
+        "leaks",
+        "savings-rate"
+      ],
+      "order": 7
+    },
+    {
+      "id": "compound-interest",
+      "emoji": "❄️",
+      "level": 2,
+      "tags": [
+        "saving",
+        "investing",
+        "time"
+      ],
+      "unlock_hint": {
+        "en": "Savings rate above 10 %, or user has money sitting idle on the everyday account.",
+        "fi": "Säästöaste yli 10 %, tai käyttötilillä makaa käyttämätöntä rahaa.",
+        "sv": "Sparkvoten är över 10 %, eller så ligger det pengar oanvända på brukskontot."
+      },
+      "unlock_rule": {
+        "metric": "savings_rate",
+        "op": ">",
+        "value": 0.1
+      },
+      "title": {
+        "en": "Compound interest: the snowball",
+        "fi": "Korkoa korolle: lumipallo",
+        "sv": "Ränta på ränta: snöbollen"
+      },
+      "summary": {
+        "en": "Returns that earn returns. Time is the secret ingredient.",
+        "fi": "Tuotto, joka tuottaa lisää tuottoa. Aika on salainen ainesosa.",
+        "sv": "Avkastning som ger avkastning. Tiden är den hemliga ingrediensen."
+      },
+      "body": {
+        "en": "**Compound interest** means you earn returns not only on the money you put in, but also on the returns you have already earned. Like a snowball rolling downhill, it starts small and then speeds up.\n\nAn illustration: saving 100 € a month with an average yearly return of 5 % grows to about 15 500 € in 10 years, 41 100 € in 20 years and 83 200 € in 30 years. You put in only 36 000 € over the 30 years — the rest is compounding. Starting ten years later costs you more than 40 000 € of end result.\n\nA handy shortcut is the **rule of 72**: divide 72 by the yearly return to get roughly how many years it takes to double your money. At 6 % that is about 12 years.\n\nImportant honesty: 5 % is an assumption, not a promise. Bank deposits pay less but are safe; investments can earn more on average but can also fall. Compounding works against you too — with debt, unpaid interest grows the same way. The lesson is simple: start early, even small, and let time do the heavy lifting.",
+        "fi": "**Korkoa korolle** tarkoittaa, että saat tuottoa paitsi sijoittamallesi rahalle myös jo kertyneelle tuotolle. Kuin mäkeä alas vierivä lumipallo: alku on pieni, sitten vauhti kiihtyy.\n\nEsimerkki: kun säästät 100 € kuussa ja keskimääräinen vuosituotto on 5 %, summa kasvaa noin 15 500 euroon 10 vuodessa, 41 100 euroon 20 vuodessa ja 83 200 euroon 30 vuodessa. Itse laitat 30 vuodessa vain 36 000 € — loput on korkoa korolle. Jos aloitat kymmenen vuotta myöhemmin, lopputulos jää yli 40 000 € pienemmäksi.\n\nKätevä nyrkkisääntö on **72:n sääntö**: jaa 72 vuosituotolla, niin saat suunnilleen vuodet, joissa raha kaksinkertaistuu. 6 %:n tuotolla se on noin 12 vuotta.\n\nRehellisyyden nimissä: 5 % on oletus, ei lupaus. Talletukset tuottavat vähemmän mutta ovat turvassa; sijoitukset voivat tuottaa keskimäärin enemmän mutta myös laskea. Korkoa korolle toimii myös sinua vastaan — velassa maksamaton korko kasvaa samalla tavalla. Opetus on yksinkertainen: aloita aikaisin, vaikka pienesti, ja anna ajan tehdä raskas työ.",
+        "sv": "**Ränta på ränta** betyder att du får avkastning inte bara på pengarna du sätter in, utan också på avkastningen du redan har fått. Som en snöboll som rullar nerför en backe börjar den smått och tar sedan fart.\n\nEtt exempel: om du sparar 100 € i månaden med en genomsnittlig årlig avkastning på 5 % växer pengarna till ungefär 15 500 € på 10 år, 41 100 € på 20 år och 83 200 € på 30 år. Du sätter bara in 36 000 € under de 30 åren — resten är ränta på ränta. Att börja tio år senare kostar dig mer än 40 000 € av slutresultatet.\n\nEn praktisk genväg är **72-regeln**: dela 72 med den årliga avkastningen så får du ungefär hur många år det tar att fördubbla pengarna. Med 6 % blir det cirka 12 år.\n\nViktigt att vara ärlig om: 5 % är ett antagande, inte ett löfte. Bankinsättningar ger mindre men är trygga; placeringar kan ge mer i genomsnitt men kan också falla. Ränta på ränta fungerar också mot dig — med skulder växer obetald ränta på samma sätt. Lärdomen är enkel: börja tidigt, även med små summor, och låt tiden göra grovjobbet."
+      },
+      "key_takeaway": {
+        "en": "Start early: time in the market matters more than the size of your first deposit.",
+        "fi": "Aloita aikaisin: aika merkitsee enemmän kuin ensimmäisen talletuksen koko.",
+        "sv": "Börja tidigt: tiden på marknaden betyder mer än storleken på din första insättning."
+      },
+      "quiz": {
+        "question": {
+          "en": "Using the rule of 72, how long does money take to double at 8 % a year?",
+          "fi": "72:n säännön mukaan kauanko rahan kaksinkertaistuminen kestää 8 %:n vuosituotolla?",
+          "sv": "Hur länge tar det enligt 72-regeln att fördubbla pengarna med 8 % om året?"
+        },
+        "options": {
+          "en": [
+            "About 6 years",
+            "About 9 years",
+            "About 14 years",
+            "About 20 years"
+          ],
+          "fi": [
+            "Noin 6 vuotta",
+            "Noin 9 vuotta",
+            "Noin 14 vuotta",
+            "Noin 20 vuotta"
+          ],
+          "sv": [
+            "Ungefär 6 år",
+            "Ungefär 9 år",
+            "Ungefär 14 år",
+            "Ungefär 20 år"
+          ]
+        },
+        "answer_index": 1,
+        "explanation": {
+          "en": "72 ÷ 8 = 9 years. It is an approximation that works well for typical returns.",
+          "fi": "72 ÷ 8 = 9 vuotta. Se on likiarvo, joka toimii hyvin tavallisilla tuotoilla.",
+          "sv": "72 ÷ 8 = 9 år. Det är en uppskattning som fungerar bra för vanliga avkastningsnivåer."
+        }
+      },
+      "related_concepts": [
+        "compound-interest",
+        "real-return"
+      ],
+      "order": 8
+    },
+    {
+      "id": "inflation",
+      "emoji": "🎈",
+      "level": 2,
+      "tags": [
+        "inflation",
+        "prices",
+        "economy"
+      ],
+      "unlock_hint": {
+        "en": "Always relevant; highlighted when grocery spending rises year-on-year or savings sit on a 0 % account.",
+        "fi": "Aina ajankohtainen; korostetaan, kun ruokakulut kasvavat vuodessa tai säästöt ovat 0 %:n tilillä.",
+        "sv": "Alltid aktuell; lyfts fram när matutgifterna ökar från året innan eller sparpengarna ligger på ett konto med 0 % ränta."
+      },
+      "unlock_rule": {
+        "always": true
+      },
+      "title": {
+        "en": "Inflation: why 100 € buys less every year",
+        "fi": "Inflaatio: miksi 100 € ostaa joka vuosi vähemmän",
+        "sv": "Inflation: varför 100 € räcker till mindre varje år"
+      },
+      "summary": {
+        "en": "Rising prices quietly shrink the power of money that just sits there.",
+        "fi": "Nousevat hinnat syövät hiljaa paikallaan makaavan rahan ostovoimaa.",
+        "sv": "Stigande priser krymper i det tysta värdet på pengar som bara ligger stilla."
+      },
+      "body": {
+        "en": "**Inflation** is the general rise in prices. Statistics Finland measures it with the consumer price index, which tracks the price of a typical basket of goods and services.\n\nFinland felt it strongly: consumer prices rose 7.1 % in 2022 and 6.2 % in 2023, then calmed to 1.6 % in 2024 and 0.3 % in 2025. In October 2026 the annual rate was 3.1 %. Shopping that cost 1 000 € in 2022 cost roughly 1 080 € by 2025.\n\nWhat it means for you:\n• **Money on a 0 % account loses value.** At 3 % inflation, 1 000 € buys about 970 € worth of today's goods after one year.\n• **Compare interest with inflation.** The 'real' return is roughly the interest rate minus inflation.\n• **Check your budget yearly.** If grocery prices rise, your fixed basket grows even if your habits do not.\n• **Your salary matters too.** A 2 % raise with 3 % inflation is a pay cut in real terms.\n\nInflation is not a reason to panic-spend — it is a reason to keep savings working, keep the buffer in a safe account, and review your plan once a year.",
+        "fi": "**Inflaatio** tarkoittaa yleistä hintojen nousua. Tilastokeskus mittaa sitä kuluttajahintaindeksillä, joka seuraa tyypillisen tavara- ja palvelukorin hintaa.\n\nSuomessa se tuntui vahvasti: kuluttajahinnat nousivat 7,1 % vuonna 2022 ja 6,2 % vuonna 2023, minkä jälkeen nousu tasaantui 1,6 prosenttiin vuonna 2024 ja 0,3 prosenttiin vuonna 2025. Lokakuussa 2026 vuosimuutos oli 3,1 %. Ostokset, jotka maksoivat 1 000 € vuonna 2022, maksoivat vuonna 2025 noin 1 080 €.\n\nMitä se tarkoittaa sinulle:\n• **0 %:n tilillä oleva raha menettää arvoaan.** 3 %:n inflaatiolla 1 000 €:lla saa vuoden päästä noin 970 €:n edestä tämän päivän tavaraa.\n• **Vertaa korkoa inflaatioon.** Reaalituotto on suunnilleen korko miinus inflaatio.\n• **Tarkista budjetti vuosittain.** Kun ruoan hinta nousee, kiinteä kori kasvaa, vaikka tavat eivät muutu.\n• **Myös palkalla on väliä.** 2 %:n korotus 3 %:n inflaatiolla on todellisuudessa palkanalennus.\n\nInflaatio ei ole syy paniikkiostoksiin — se on syy pitää säästöt töissä, puskuri turvallisella tilillä ja tarkistaa suunnitelma kerran vuodessa.",
+        "sv": "**Inflation** är den allmänna prisstegringen. Statistikcentralen mäter den med konsumentprisindexet, som följer priset på en typisk korg av varor och tjänster.\n\nI Finland märktes den tydligt: konsumentpriserna steg med 7,1 % år 2022 och 6,2 % år 2023, och lugnade sedan ner sig till 1,6 % år 2024 och 0,3 % år 2025. I oktober 2026 var årstakten 3,1 %. Inköp som kostade 1 000 € år 2022 kostade ungefär 1 080 € år 2025.\n\nVad det betyder för dig:\n• **Pengar på ett konto med 0 % ränta förlorar i värde.** Med 3 % inflation räcker 1 000 € efter ett år till varor för ungefär 970 € i dagens priser.\n• **Jämför räntan med inflationen.** Den 'reala' avkastningen är ungefär räntan minus inflationen.\n• **Gå igenom budgeten varje år.** Om matpriserna stiger växer din fasta korg även om dina vanor inte ändras.\n• **Din lön spelar också roll.** En löneförhöjning på 2 % med 3 % inflation är en lönesänkning i reala termer.\n\nInflation är inget skäl att panikhandla — den är ett skäl att låta sparandet arbeta, hålla bufferten på ett tryggt konto och se över planen en gång om året."
+      },
+      "key_takeaway": {
+        "en": "Real return ≈ interest − inflation. Review your budget and savings once a year.",
+        "fi": "Reaalituotto ≈ korko − inflaatio. Tarkista budjetti ja säästöt kerran vuodessa.",
+        "sv": "Real avkastning ≈ ränta − inflation. Se över budgeten och sparandet en gång om året."
+      },
+      "quiz": {
+        "question": {
+          "en": "Your savings account pays 1 % and inflation is 3 %. What is your approximate real return?",
+          "fi": "Säästötilisi korko on 1 % ja inflaatio 3 %. Mikä on reaalituottosi suunnilleen?",
+          "sv": "Ditt sparkonto ger 1 % och inflationen är 3 %. Vad är din ungefärliga reala avkastning?"
+        },
+        "options": {
+          "en": [
+            "+4 %",
+            "+1 %",
+            "−2 %",
+            "0 %"
+          ],
+          "fi": [
+            "+4 %",
+            "+1 %",
+            "−2 %",
+            "0 %"
+          ],
+          "sv": [
+            "+4 %",
+            "+1 %",
+            "−2 %",
+            "0 %"
+          ]
+        },
+        "answer_index": 2,
+        "explanation": {
+          "en": "1 % − 3 % ≈ −2 %: the money grows in euros but buys less than before.",
+          "fi": "1 % − 3 % ≈ −2 %: euromäärä kasvaa, mutta rahalla saa vähemmän kuin ennen.",
+          "sv": "1 % − 3 % ≈ −2 %: pengarna växer i euro men räcker till mindre än förut."
+        }
+      },
+      "related_concepts": [
+        "inflation",
+        "real-return"
+      ],
+      "data_refs": [
+        "benchmarks_fi.json#/inflation"
+      ],
+      "order": 9
+    },
+    {
+      "id": "debt-and-bnpl",
+      "emoji": "⛓️",
+      "level": 2,
+      "tags": [
+        "debt",
+        "credit",
+        "bnpl",
+        "interest"
+      ],
+      "unlock_hint": {
+        "en": "Balance dipped below zero in the last 90 days, or archetype 'tightrope_walker', or user asks about loans / instalments.",
+        "fi": "Saldo kävi miinuksella viimeisen 90 päivän aikana, arkkityyppi 'nuorallatanssija', tai käyttäjä kysyy lainoista tai osamaksusta.",
+        "sv": "Saldot var på minus under de senaste 90 dagarna, arketypen 'lindansare', eller så frågar användaren om lån eller avbetalning."
+      },
+      "unlock_rule": {
+        "metric": "min_balance_90d",
+        "op": "<",
+        "value": 0
+      },
+      "title": {
+        "en": "Debt, interest and 'buy now, pay later'",
+        "fi": "Velka, korko ja 'osta nyt, maksa myöhemmin'",
+        "sv": "Skulder, ränta och 'köp nu, betala senare'"
+      },
+      "summary": {
+        "en": "Credit is a tool, not extra income. Know the true price before you sign.",
+        "fi": "Luotto on työkalu, ei lisätuloa. Selvitä todellinen hinta ennen allekirjoitusta.",
+        "sv": "Kredit är ett verktyg, inte extra inkomst. Känn till det verkliga priset innan du skriver under."
+      },
+      "body": {
+        "en": "Borrowing moves future income to today. Sometimes that is sensible — a home loan or a study loan can be an investment. But consumer credit for everyday spending usually makes life more expensive.\n\n**Buy now, pay later (BNPL)** and instalment plans feel painless because the price is cut into small pieces. Watch out: missed payments bring reminder fees, and several small plans at once can quietly eat your monthly budget.\n\nExample: 600 € spread over 12 months at 15 % yearly interest costs about 54 € a month — roughly 50 € more than paying cash.\n\nGood to know in Finland:\n• For most consumer credit, the law caps interest at 15 % plus the reference rate (never above 20 %), and other credit costs at 150 € a year.\n• Since 2024, lenders check the **positive credit register**, which shows all your existing loans.\n• Unpaid bills can lead to a payment default entry that makes renting or borrowing harder for years.\n\nRule of thumb: if you cannot afford it in cash, wait. If you already have debts, pay the highest interest first while keeping a small buffer.",
+        "fi": "Lainaaminen siirtää tulevia tuloja tähän päivään. Joskus se on järkevää — asuntolaina tai opintolaina voi olla sijoitus. Arjen kulutukseen otettu kulutusluotto kuitenkin yleensä vain kallistaa elämää.\n\n**Osta nyt, maksa myöhemmin** -palvelut ja osamaksut tuntuvat kivuttomilta, koska hinta pilkotaan pieniin osiin. Varo: myöhästyneistä maksuista tulee muistutusmaksuja, ja monta pientä sopimusta yhtä aikaa voi syödä kuukausibudjetin huomaamatta.\n\nEsimerkki: 600 € maksettuna 12 kuukaudessa 15 %:n vuosikorolla on noin 54 € kuussa — noin 50 € enemmän kuin käteisellä.\n\nHyvä tietää Suomessa:\n• Useimmissa kulutusluotoissa laki rajaa koron 15 prosenttiin plus viitekorko (kuitenkin enintään 20 %) ja muut luottokulut 150 euroon vuodessa.\n• Vuodesta 2024 lainanantajat tarkistavat **positiivisen luottotietorekisterin**, josta näkyvät kaikki lainasi.\n• Maksamattomat laskut voivat johtaa maksuhäiriömerkintään, joka vaikeuttaa vuokraamista ja lainansaantia vuosiksi.\n\nNyrkkisääntö: jos et pysty maksamaan käteisellä, odota. Jos velkaa jo on, maksa ensin kallein korko ja pidä silti pieni puskuri.",
+        "sv": "Att låna flyttar framtida inkomster till i dag. Ibland är det klokt — ett bostadslån eller studielån kan vara en investering. Men konsumtionskrediter för vardagsutgifter gör oftast livet dyrare.\n\n**Köp nu, betala senare** och avbetalningsplaner känns smärtfria eftersom priset delas upp i små bitar. Se upp: missade betalningar ger påminnelseavgifter, och flera små planer samtidigt kan i det tysta äta upp månadsbudgeten.\n\nExempel: 600 € utspritt på 12 månader med 15 % årsränta kostar ungefär 54 € i månaden — cirka 50 € mer än att betala kontant.\n\nBra att veta i Finland:\n• För de flesta konsumtionskrediter begränsar lagen räntan till 15 % plus referensräntan (aldrig över 20 %) och övriga kreditkostnader till 150 € om året.\n• Sedan 2024 kontrollerar långivare **det positiva kreditupplysningsregistret**, som visar alla dina befintliga lån.\n• Obetalda räkningar kan leda till en betalningsanmärkning som gör det svårare att hyra eller låna i flera år.\n\nTumregel: om du inte har råd att betala kontant, vänta. Om du redan har skulder, betala först den med högst ränta och behåll samtidigt en liten buffert."
+      },
+      "key_takeaway": {
+        "en": "Credit costs money and limits future choices — compare the total price, not the monthly slice.",
+        "fi": "Luotto maksaa ja kaventaa tulevia valintoja — vertaa kokonaishintaa, älä kuukausierää.",
+        "sv": "Kredit kostar pengar och begränsar framtida val — jämför totalpriset, inte månadsbiten."
+      },
+      "quiz": {
+        "question": {
+          "en": "You have two debts: a card at 15 % and a car loan at 5 %. Which should extra money go to first?",
+          "fi": "Sinulla on kaksi velkaa: luottokortti 15 % ja autolaina 5 %. Kumpaan ylimääräinen raha kannattaa laittaa ensin?",
+          "sv": "Du har två skulder: ett kort med 15 % ränta och ett billån med 5 %. Vart ska extra pengar gå först?"
+        },
+        "options": {
+          "en": [
+            "The car loan, because it is bigger",
+            "The card, because it has the highest interest",
+            "Split it equally"
+          ],
+          "fi": [
+            "Autolainaan, koska se on isompi",
+            "Luottokorttiin, koska sen korko on korkein",
+            "Jaetaan tasan"
+          ],
+          "sv": [
+            "Till billånet, eftersom det är större",
+            "Till kortet, eftersom det har högst ränta",
+            "Dela lika"
+          ]
+        },
+        "answer_index": 1,
+        "explanation": {
+          "en": "Paying the most expensive debt first (the 'avalanche' method) saves the most interest overall.",
+          "fi": "Kalleimman velan maksaminen ensin ('lumivyöry'-menetelmä) säästää eniten korkoja.",
+          "sv": "Att betala den dyraste skulden först ('lavinmetoden') sparar mest ränta totalt."
+        }
+      },
+      "related_concepts": [
+        "interest-rate",
+        "bnpl"
+      ],
+      "order": 10
+    },
+    {
+      "id": "smart-goals",
+      "emoji": "🎯",
+      "level": 1,
+      "tags": [
+        "goals",
+        "planning",
+        "motivation"
+      ],
+      "unlock_hint": {
+        "en": "User has no savings goal yet, or a goal is marked 'stretch' / 'unrealistic' by plan_goal.",
+        "fi": "Käyttäjällä ei ole vielä säästötavoitetta, tai plan_goal merkitsi tavoitteen 'venyttäväksi' tai 'epärealistiseksi'.",
+        "sv": "Användaren har inget sparmål ännu, eller så har plan_goal markerat ett mål som 'ansträngt' eller 'orealistiskt'."
+      },
+      "unlock_rule": {
+        "metric": "goal_count",
+        "op": "<",
+        "value": 1
+      },
+      "title": {
+        "en": "Saving for a goal: make it SMART",
+        "fi": "Säästä tavoitteeseen: tee siitä SMART",
+        "sv": "Spara till ett mål: gör det SMART"
+      },
+      "summary": {
+        "en": "'Save more' fails. '1 200 € for a laptop by June' works.",
+        "fi": "'Säästän enemmän' ei toimi. '1 200 € läppäriin kesäkuuhun mennessä' toimii.",
+        "sv": "'Spara mer' misslyckas. '1 200 € till en dator senast i juni' fungerar."
+      },
+      "body": {
+        "en": "Vague wishes like \"I should save more\" rarely survive a Friday night. A **SMART goal** turns the wish into a plan:\n\n• **Specific** — what exactly? \"A used car\", not \"something nice\".\n• **Measurable** — how much? 6 000 €.\n• **Achievable** — does it fit your monthly surplus?\n• **Relevant** — does it matter to *you*, not to your feed?\n• **Time-bound** — by when? June 2028.\n\nThen do the maths: target minus what you already have, divided by the months left. 6 000 € in 20 months is 300 € a month. If your surplus is only 180 €, you have three levers: extend the deadline, lower the target, or cut leaks — for example eating out 30 % less and fewer taxis.\n\nMake it visible: give the goal a name and an emoji, set up an automatic monthly transfer, and celebrate milestones at 25 %, 50 % and 75 %. Rahakamu's goal planner calculates the monthly amount, checks feasibility against your real spending, and suggests which leaks to trim first.",
+        "fi": "Epämääräiset toiveet, kuten \"pitäisi säästää enemmän\", harvoin kestävät perjantai-iltaa. **SMART-tavoite** muuttaa toiveen suunnitelmaksi:\n\n• **Specific, täsmällinen** — mitä tarkalleen? \"Käytetty auto\", ei \"jotain kivaa\".\n• **Measurable, mitattava** — kuinka paljon? 6 000 €.\n• **Achievable, saavutettava** — mahtuuko se kuukausittaiseen ylijäämääsi?\n• **Relevant, merkityksellinen** — onko se tärkeä *sinulle* eikä somevirrallesi?\n• **Time-bound, aikataulutettu** — mihin mennessä? Kesäkuu 2028.\n\nLaske sitten: tavoite miinus jo säästetty, jaettuna jäljellä olevilla kuukausilla. 6 000 € 20 kuukaudessa on 300 € kuussa. Jos ylijäämäsi on vain 180 €, sinulla on kolme vipua: pidennä aikaa, pienennä tavoitetta tai vähennä vuotoja — esimerkiksi syö ulkona 30 % vähemmän ja ota harvemmin taksi.\n\nTee tavoite näkyväksi: anna sille nimi ja emoji, tee automaattinen kuukausisiirto ja juhli välietappeja 25, 50 ja 75 prosentissa. Rahakamun tavoitesuunnittelija laskee kuukausisumman, vertaa sitä todelliseen kulutukseesi ja ehdottaa, mistä vuodoista kannattaa karsia ensin.",
+        "sv": "Vaga önskningar som \"jag borde spara mer\" överlever sällan en fredagskväll. Ett **SMART mål** gör önskan till en plan:\n\n• **Specifikt** — vad exakt? \"En begagnad bil\", inte \"något fint\".\n• **Mätbart** — hur mycket? 6 000 €.\n• **Accepterat** — ryms det i ditt månatliga överskott?\n• **Relevant** — betyder det något för *dig*, inte för ditt flöde?\n• **Tidsbundet** — senast när? Juni 2028.\n\nRäkna sedan: målet minus det du redan har, delat med månaderna som är kvar. 6 000 € på 20 månader är 300 € i månaden. Om ditt överskott bara är 180 € har du tre spakar: skjut fram slutdatumet, sänk målet eller minska läckorna — till exempel 30 % mindre restaurangbesök och färre taxiresor.\n\nGör målet synligt: ge det ett namn och en emoji, lägg upp en automatisk månadsöverföring och fira delmålen vid 25 %, 50 % och 75 %. Rahakamus målplanerare räknar ut månadsbeloppet, kontrollerar om det är genomförbart med dina verkliga utgifter och föreslår vilka läckor du ska minska först."
+      },
+      "key_takeaway": {
+        "en": "Goal ÷ months = monthly amount. If it does not fit, adjust time, target or leaks.",
+        "fi": "Tavoite ÷ kuukaudet = kuukausisumma. Jos se ei mahdu, säädä aikaa, summaa tai vuotoja.",
+        "sv": "Mål ÷ månader = månadsbelopp. Om det inte ryms, justera tiden, målet eller läckorna."
+      },
+      "quiz": {
+        "question": {
+          "en": "You want 2 400 € in 12 months and have saved 600 €. How much per month?",
+          "fi": "Haluat 2 400 € 12 kuukaudessa ja olet säästänyt 600 €. Paljonko kuukaudessa?",
+          "sv": "Du vill ha 2 400 € om 12 månader och har sparat 600 €. Hur mycket per månad?"
+        },
+        "options": {
+          "en": [
+            "150 €",
+            "200 €",
+            "250 €"
+          ],
+          "fi": [
+            "150 €",
+            "200 €",
+            "250 €"
+          ],
+          "sv": [
+            "150 €",
+            "200 €",
+            "250 €"
+          ]
+        },
+        "answer_index": 0,
+        "explanation": {
+          "en": "(2 400 − 600) ÷ 12 = 150 € a month.",
+          "fi": "(2 400 − 600) ÷ 12 = 150 € kuussa.",
+          "sv": "(2 400 − 600) ÷ 12 = 150 € i månaden."
+        }
+      },
+      "related_concepts": [
+        "smart-goal"
+      ],
+      "order": 11
+    },
+    {
+      "id": "investing-basics",
+      "emoji": "🌱",
+      "level": 3,
+      "tags": [
+        "investing",
+        "risk",
+        "funds",
+        "education"
+      ],
+      "unlock_hint": {
+        "en": "Emergency fund in place and savings rate above 15 %, or user asks about investing / funds / shares.",
+        "fi": "Puskuri on kunnossa ja säästöaste yli 15 %, tai käyttäjä kysyy sijoittamisesta, rahastoista tai osakkeista.",
+        "sv": "Bufferten finns och sparkvoten är över 15 %, eller så frågar användaren om placeringar, fonder eller aktier."
+      },
+      "unlock_rule": {
+        "metric": "savings_rate",
+        "op": ">",
+        "value": 0.15
+      },
+      "title": {
+        "en": "Investing basics: risk, time and diversification",
+        "fi": "Sijoittamisen perusteet: riski, aika ja hajautus",
+        "sv": "Grunderna i att placera: risk, tid och spridning"
+      },
+      "summary": {
+        "en": "General education — not advice. Why funds, why long-term, why costs matter.",
+        "fi": "Yleistä tietoa — ei neuvontaa. Miksi rahastot, miksi pitkä aika ja miksi kulut ratkaisevat.",
+        "sv": "Allmän information — inte rådgivning. Varför fonder, varför långsiktigt, varför kostnaderna spelar roll."
+      },
+      "body": {
+        "en": "This lesson is general education, not personal investment advice. For your own situation, S-Bank's advisors can help.\n\n**Order matters.** Invest only after you have an emergency fund and no expensive consumer debt. Money you need within a couple of years belongs in a savings account.\n\n**Risk and return go together.** Shares have historically grown more than deposits over long periods, but they can also drop 30 % in a bad year. The longer your horizon, the more time you have to recover from dips.\n\n**Diversify.** Do not bet on one company. A broad **index fund** spreads your money across hundreds or thousands of companies in one go.\n\n**Costs compound too.** A yearly fee of 1.5 % versus 0.3 % can eat a large part of long-term growth. Check the fund's total expense ratio.\n\n**Finnish tools.** A monthly fund savings plan lets you start with small amounts. An *osakesäästötili* (equity savings account) lets you trade listed shares without paying tax until you withdraw gains; deposits are capped at 100 000 €.\n\nNever invest money you might need for rent, and be wary of anyone promising guaranteed high returns.",
+        "fi": "Tämä oppitunti on yleistä tietoa, ei henkilökohtaista sijoitusneuvontaa. Omassa tilanteessasi S-Pankin asiantuntijat auttavat.\n\n**Järjestyksellä on väliä.** Sijoita vasta, kun sinulla on puskuri eikä kallista kulutusluottoa. Raha, jota tarvitset parin vuoden sisällä, kuuluu säästötilille.\n\n**Riski ja tuotto kulkevat yhdessä.** Osakkeet ovat historiallisesti tuottaneet pitkällä aikavälillä talletuksia enemmän, mutta huonona vuonna ne voivat laskea 30 %. Mitä pidempi sijoitusaika, sitä enemmän aikaa toipua notkahduksista.\n\n**Hajauta.** Älä laita kaikkea yhden yhtiön varaan. Laaja **indeksirahasto** jakaa rahasi kerralla satoihin tai tuhansiin yhtiöihin.\n\n**Myös kulut korkoutuvat.** 1,5 %:n ja 0,3 %:n vuosikulun ero voi syödä ison osan pitkän aikavälin kasvusta. Tarkista rahaston juoksevat kulut.\n\n**Suomalaiset työkalut.** Rahastojen kuukausisäästäminen onnistuu pienillä summilla. *Osakesäästötilillä* voit käydä kauppaa listatuilla osakkeilla maksamatta veroa ennen kuin nostat voittoja; talletusraja on 100 000 €.\n\nÄlä koskaan sijoita vuokrarahoja, ja suhtaudu epäluuloisesti kaikkiin, jotka lupaavat varmaa suurta tuottoa.",
+        "sv": "Den här lektionen är allmän information, inte personlig placeringsrådgivning. För din egen situation kan S-Bankens rådgivare hjälpa dig.\n\n**Ordningen spelar roll.** Placera först när du har en buffert och inga dyra konsumtionskrediter. Pengar som du behöver inom ett par år hör hemma på ett sparkonto.\n\n**Risk och avkastning hör ihop.** Aktier har historiskt vuxit mer än insättningar under långa perioder, men de kan också sjunka 30 % ett dåligt år. Ju längre din placeringshorisont är, desto mer tid har du att återhämta dig från nedgångar.\n\n**Sprid riskerna.** Satsa inte allt på ett företag. En bred **indexfond** sprider dina pengar på hundratals eller tusentals företag på en gång.\n\n**Kostnader växer också.** En årlig avgift på 1,5 % jämfört med 0,3 % kan äta upp en stor del av tillväxten på lång sikt. Kontrollera fondens totala kostnadsandel.\n\n**Finländska verktyg.** Ett månatligt fondsparavtal låter dig börja med små summor. Ett *aktiesparkonto* låter dig handla med noterade aktier utan att betala skatt förrän du tar ut vinsten; insättningarna är begränsade till 100 000 €.\n\nPlacera aldrig pengar som du kan behöva till hyran, och var vaksam mot alla som lovar garanterat hög avkastning."
+      },
+      "key_takeaway": {
+        "en": "Buffer first, then invest long-term, diversified and low-cost. Risk is real.",
+        "fi": "Ensin puskuri, sitten pitkäjänteisesti, hajautetusti ja edullisesti. Riski on todellinen.",
+        "sv": "Buffert först, sedan långsiktigt, brett och billigt. Risken är verklig."
+      },
+      "quiz": {
+        "question": {
+          "en": "What does a broad index fund mainly help you with?",
+          "fi": "Missä laaja indeksirahasto ensisijaisesti auttaa?",
+          "sv": "Vad hjälper en bred indexfond dig främst med?"
+        },
+        "options": {
+          "en": [
+            "Guaranteeing a fixed return",
+            "Spreading risk across many companies",
+            "Avoiding all losses",
+            "Getting money back within a month"
+          ],
+          "fi": [
+            "Takaamaan kiinteän tuoton",
+            "Hajauttamaan riskin moneen yhtiöön",
+            "Välttämään kaikki tappiot",
+            "Saamaan rahat takaisin kuukaudessa"
+          ],
+          "sv": [
+            "Att garantera en fast avkastning",
+            "Att sprida risken på många företag",
+            "Att undvika alla förluster",
+            "Att få tillbaka pengarna inom en månad"
+          ]
+        },
+        "answer_index": 1,
+        "explanation": {
+          "en": "Index funds diversify: one company's trouble hurts less. They can still fall in value — no return is guaranteed.",
+          "fi": "Indeksirahasto hajauttaa: yhden yhtiön vaikeudet vaikuttavat vähemmän. Arvo voi silti laskea — tuottoa ei taata.",
+          "sv": "Indexfonder sprider riskerna: ett enskilt företags problem skadar mindre. De kan ändå sjunka i värde — ingen avkastning är garanterad."
+        }
+      },
+      "related_concepts": [
+        "diversification",
+        "risk",
+        "equity-savings-account"
+      ],
+      "disclaimer": {
+        "en": "General financial education only — not personalised investment advice. Investing involves risk of loss.",
+        "fi": "Yleistä taloustietoa — ei henkilökohtaista sijoitusneuvontaa. Sijoittamiseen liittyy tappion riski.",
+        "sv": "Endast allmän ekonomisk information — inte personlig placeringsrådgivning. Placeringar innebär risk för förlust."
+      },
+      "order": 12
+    },
+    {
+      "id": "first-home-asp",
+      "emoji": "🏡",
+      "level": 3,
+      "tags": [
+        "home",
+        "asp",
+        "mortgage",
+        "goals"
+      ],
+      "unlock_hint": {
+        "en": "User has a 'home' goal, asks about buying a home, or home_readiness verdict is 'almost' / 'not_yet'.",
+        "fi": "Käyttäjällä on 'koti'-tavoite, hän kysyy asunnon ostamisesta tai asuntolainavalmiuden tulos on 'melkein' / 'ei vielä'.",
+        "sv": "Användaren har ett 'hem'-mål, frågar om bostadsköp eller så är resultatet för bostadslånet 'nästan' / 'inte ännu'."
+      },
+      "unlock_rule": {
+        "metric": "goal_kind",
+        "op": "has",
+        "value": "home"
+      },
+      "title": {
+        "en": "Your first home and the ASP account",
+        "fi": "Ensiasunto ja ASP-tili",
+        "sv": "Din första bostad och ASP-kontot"
+      },
+      "summary": {
+        "en": "Finland's ASP system rewards first-home savers with tax-free interest and a better loan.",
+        "fi": "ASP-järjestelmä palkitsee ensiasuntoon säästävän verottomalla korolla ja edullisemmalla lainalla.",
+        "sv": "Finlands ASP-system belönar dem som sparar till sin första bostad med skattefri ränta och ett bättre lån."
+      },
+      "body": {
+        "en": "A first home in Finland usually means a mortgage plus your own savings. The **ASP account** (asuntosäästöpalkkio) is a state-backed way to build that down payment.\n\nRules after the reform of 1 June 2026 (check current terms with your bank):\n• You can start from age 15; the old upper age limit of 44 was removed.\n• Save monthly, 50–1 500 €, for at least 20 months.\n• Savings must reach at least 10 % of the home's price.\n• Interest is tax-free, and when you buy the home the state adds bonus interest of 2–4 % for the first years of saving.\n• The ASP loan gets a state guarantee and interest subsidy, within regional loan limits.\n\nBanks also apply a **loan cap**: first-home buyers can borrow up to 95 % of the price, so some own money or extra collateral is always needed.\n\nRemember the hidden costs: transfer tax (1.5 % for an apartment in a housing company — first-home buyers also pay it since 2024), maintenance charges, home insurance and a repair buffer. Rahakamu's home-readiness check compares your income and savings with real mortgage outcomes in the dataset.",
+        "fi": "Ensiasunnon ostaminen tarkoittaa Suomessa yleensä asuntolainaa ja omia säästöjä. **ASP-tili** (asuntosäästöpalkkio) on valtion tukema tapa kerätä omarahoitusosuus.\n\nSäännöt 1.6.2026 voimaan tulleen uudistuksen jälkeen (tarkista ajantasaiset ehdot pankistasi):\n• Säästämisen voi aloittaa 15-vuotiaana; aiempi 44 vuoden yläikäraja poistui.\n• Säästä kuukausittain 50–1 500 € vähintään 20 kuukauden ajan.\n• Säästöjä pitää olla vähintään 10 % asunnon hinnasta.\n• Korko on veroton, ja asuntoa ostaessa valtio maksaa 2–4 %:n lisäkorkoa säästämisen ensimmäisiltä vuosilta.\n• ASP-laina saa valtiontakauksen ja korkotuen alueellisten enimmäismäärien rajoissa.\n\nPankit noudattavat myös **lainakattoa**: ensiasunnon ostaja voi lainata enintään 95 % hinnasta, joten omaa rahaa tai lisävakuuksia tarvitaan aina.\n\nMuista piilokulut: varainsiirtovero (asunto-osakkeesta 1,5 % — vuodesta 2024 myös ensiasunnon ostajalle), hoitovastike, kotivakuutus ja korjauspuskuri. Rahakamun asuntovalmiustesti vertaa tulojasi ja säästöjäsi aineiston todellisiin asuntolainapäätöksiin.",
+        "sv": "En första bostad i Finland betyder oftast ett bostadslån plus egna besparingar. **ASP-kontot** (bostadssparpremie) är ett statligt stött sätt att bygga upp den egna insatsen.\n\nReglerna efter reformen den 1 juni 2026 (kontrollera de aktuella villkoren med din bank):\n• Du kan börja från 15 års ålder; den gamla övre åldersgränsen på 44 år har slopats.\n• Spara varje månad, 50–1 500 €, i minst 20 månader.\n• Besparingarna måste uppgå till minst 10 % av bostadens pris.\n• Räntan är skattefri, och när du köper bostaden betalar staten en premieränta på 2–4 % för de första sparåren.\n• ASP-lånet får statsborgen och räntestöd, inom regionala lånegränser.\n\nBankerna tillämpar också ett **lånetak**: förstagångsköpare kan låna upp till 95 % av priset, så det behövs alltid lite egna pengar eller extra säkerhet.\n\nKom ihåg de dolda kostnaderna: överlåtelseskatt (1,5 % för en lägenhet i ett bostadsaktiebolag — sedan 2024 betalar även förstagångsköpare den), bolagsvederlag, hemförsäkring och en buffert för reparationer. Rahakamus bostadskoll jämför din inkomst och dina besparingar med verkliga utfall för bostadslån i datamaterialet."
+      },
+      "key_takeaway": {
+        "en": "Start an ASP early: 20 monthly deposits and 10 % savings unlock tax-free bonus interest and a better loan.",
+        "fi": "Aloita ASP ajoissa: 20 kuukausitalletusta ja 10 % säästöt avaavat verottoman lisäkoron ja paremman lainan.",
+        "sv": "Börja med ASP tidigt: 20 månatliga insättningar och 10 % sparat ger skattefri premieränta och ett bättre lån."
+      },
+      "quiz": {
+        "question": {
+          "en": "Under the ASP rules, how much of the home price must you have saved?",
+          "fi": "Kuinka paljon asunnon hinnasta ASP-säännöissä pitää olla säästettynä?",
+          "sv": "Hur stor del av bostadens pris måste du ha sparat enligt ASP-reglerna?"
+        },
+        "options": {
+          "en": [
+            "1 %",
+            "5 %",
+            "10 %",
+            "25 %"
+          ],
+          "fi": [
+            "1 %",
+            "5 %",
+            "10 %",
+            "25 %"
+          ],
+          "sv": [
+            "1 %",
+            "5 %",
+            "10 %",
+            "25 %"
+          ]
+        },
+        "answer_index": 2,
+        "explanation": {
+          "en": "ASP requires own savings of at least 10 % of the purchase price (as of 2026; changes have been proposed for 2027).",
+          "fi": "ASP edellyttää vähintään 10 %:n omasäästöosuutta kauppahinnasta (tilanne 2026; muutoksia on esitetty vuodelle 2027).",
+          "sv": "ASP kräver egna besparingar på minst 10 % av köpesumman (läget 2026; ändringar har föreslagits för 2027)."
+        }
+      },
+      "related_concepts": [
+        "asp",
+        "loan-to-value"
+      ],
+      "facts_as_of": "2026-11-14",
+      "order": 13
+    },
+    {
+      "id": "payslip-tax-card",
+      "emoji": "🧾",
+      "level": 1,
+      "tags": [
+        "income",
+        "tax",
+        "payslip",
+        "young-adults"
+      ],
+      "unlock_hint": {
+        "en": "Customer aged 25 or under, first salary transactions detected, or salary amount changes noticeably.",
+        "fi": "Asiakas on enintään 25-vuotias, ensimmäiset palkkatapahtumat havaittu tai palkan määrä muuttuu selvästi.",
+        "sv": "Kunden är högst 25 år, de första lönetransaktionerna har hittats eller lönebeloppet ändras tydligt."
+      },
+      "unlock_rule": {
+        "metric": "age",
+        "op": "<=",
+        "value": 25
+      },
+      "title": {
+        "en": "Reading your payslip and tax card",
+        "fi": "Palkkakuitti ja verokortti tutuksi",
+        "sv": "Så läser du lönespecifikationen och skattekortet"
+      },
+      "summary": {
+        "en": "Gross, net, withholding and the verokortti — what actually lands in your account.",
+        "fi": "Brutto, netto, ennakonpidätys ja verokortti — mitä tilillesi oikeasti tulee.",
+        "sv": "Brutto, netto, förskottsinnehållning och skattekortet — vad som faktiskt kommer in på kontot."
+      },
+      "body": {
+        "en": "Your contract says one number; your bank account shows a smaller one. The payslip explains the difference.\n\n• **Gross pay** (bruttopalkka) — your full salary before deductions.\n• **Tax withholding** (ennakonpidätys) — taken according to your tax card.\n• **Employee contributions** — earnings-related pension and unemployment insurance contributions, a few percent each.\n• **Net pay** (nettopalkka) — what actually arrives. Budget with this number, always.\n\nYour **tax card** (verokortti) from the Finnish Tax Administration tells your employer the withholding rate and an income limit for the year. If you earn more than the limit, a higher additional rate applies. If you give no tax card at all, the employer must withhold 60 %.\n\nPractical tips:\n• Get a new tax card in MyTax (OmaVero) when your income changes — a summer job, a raise, or switching from Kela study grant to full-time work.\n• Too low a rate can mean back taxes later; too high means a refund, but you lived on less all year.\n• Keep your payslips: they help with loan applications, Kela benefits and checking holiday pay.",
+        "fi": "Työsopimuksessa lukee yksi summa, tilille tulee pienempi. Palkkakuitti kertoo eron.\n\n• **Bruttopalkka** — koko palkka ennen vähennyksiä.\n• **Ennakonpidätys** — vero, joka pidätetään verokortin mukaan.\n• **Työntekijän maksut** — työeläkemaksu ja työttömyysvakuutusmaksu, kumpikin muutaman prosentin.\n• **Nettopalkka** — summa, joka oikeasti tulee tilille. Budjetoi aina tällä luvulla.\n\nVerohallinnon **verokortti** kertoo työnantajalle pidätysprosentin ja vuoden tulorajan. Jos ansaitset tulorajaa enemmän, käytetään korkeampaa lisäprosenttia. Jos et toimita verokorttia lainkaan, työnantajan on pidätettävä 60 %.\n\nKäytännön vinkit:\n• Tilaa uusi verokortti OmaVerosta, kun tulosi muuttuvat — kesätyö, palkankorotus tai siirtyminen Kelan opintorahalta kokoaikatyöhön.\n• Liian pieni prosentti voi tarkoittaa jäännösveroa; liian suuri tuo palautuksen, mutta elit koko vuoden vähemmällä.\n• Säilytä palkkakuitit: niitä tarvitaan lainahakemuksissa, Kelan etuuksissa ja lomarahojen tarkistamisessa.",
+        "sv": "I avtalet står ett tal; på bankkontot syns ett mindre. Lönespecifikationen förklarar skillnaden.\n\n• **Bruttolön** — hela din lön före avdrag.\n• **Förskottsinnehållning** — dras enligt ditt skattekort.\n• **Arbetstagarens avgifter** — arbetspensionsavgift och arbetslöshetsförsäkringsavgift, några procent var.\n• **Nettolön** — det som faktiskt kommer in. Gör alltid budgeten med det här talet.\n\nDitt **skattekort** från Skatteförvaltningen talar om för arbetsgivaren vilken innehållningsprocent som gäller och en inkomstgräns för året. Om du tjänar mer än gränsen gäller en högre tilläggsprocent. Om du inte lämnar något skattekort alls måste arbetsgivaren dra 60 %.\n\nPraktiska tips:\n• Beställ ett nytt skattekort i MinSkatt när din inkomst ändras — ett sommarjobb, en löneförhöjning eller när du går från studiepenning från FPA till heltidsjobb.\n• En för låg procent kan ge kvarskatt senare; en för hög ger skatteåterbäring, men då har du levt på mindre hela året.\n• Spara dina lönespecifikationer: de hjälper vid låneansökningar, FPA-förmåner och när du kontrollerar semesterlönen."
+      },
+      "key_takeaway": {
+        "en": "Budget with net pay, and update your tax card whenever your income changes.",
+        "fi": "Budjetoi nettopalkalla ja päivitä verokortti aina, kun tulosi muuttuvat.",
+        "sv": "Gör budgeten med nettolönen och uppdatera skattekortet när inkomsten ändras."
+      },
+      "quiz": {
+        "question": {
+          "en": "What happens if you start a job without giving your employer a tax card?",
+          "fi": "Mitä tapahtuu, jos aloitat työn antamatta verokorttia työnantajalle?",
+          "sv": "Vad händer om du börjar ett jobb utan att ge arbetsgivaren något skattekort?"
+        },
+        "options": {
+          "en": [
+            "No tax is withheld",
+            "The employer withholds 60 %",
+            "The employer guesses a fair rate"
+          ],
+          "fi": [
+            "Veroa ei pidätetä",
+            "Työnantaja pidättää 60 %",
+            "Työnantaja arvioi sopivan prosentin"
+          ],
+          "sv": [
+            "Ingen skatt dras",
+            "Arbetsgivaren drar 60 %",
+            "Arbetsgivaren gissar en rimlig procent"
+          ]
+        },
+        "answer_index": 1,
+        "explanation": {
+          "en": "Without a tax card the withholding is 60 %. You get the excess back later, but it hurts your cash flow — so order a tax card in MyTax first.",
+          "fi": "Ilman verokorttia pidätys on 60 %. Liika palautetaan myöhemmin, mutta kassavirta kärsii — tilaa siis verokortti OmaVerosta ensin.",
+          "sv": "Utan skattekort är förskottsinnehållningen 60 %. Du får tillbaka det som dragits för mycket senare, men det slår mot kassaflödet — så beställ först ett skattekort i MinSkatt."
+        }
+      },
+      "related_concepts": [
+        "net-income",
+        "tax-card"
+      ],
+      "order": 14
+    },
+    {
+      "id": "impulse-buying",
+      "emoji": "🧠",
+      "level": 2,
+      "tags": [
+        "psychology",
+        "leaks",
+        "habits"
+      ],
+      "unlock_hint": {
+        "en": "Late-night purchases above 10 % of spending, many unplanned purchases above 50 €, or archetype 'impulse_splurger' / 'weekend_treater'.",
+        "fi": "Myöhäisillan ostokset yli 10 % kulutuksesta, paljon suunnittelemattomia yli 50 € ostoksia tai arkkityyppi 'heräteostelija' / 'viikonloppuherkuttelija'.",
+        "sv": "Sena kvällsköp över 10 % av utgifterna, många oplanerade köp över 50 € eller arketypen 'impulsköpare' / 'helgnjutare'."
+      },
+      "unlock_rule": {
+        "metric": "late_night_share",
+        "op": ">",
+        "value": 0.1
+      },
+      "title": {
+        "en": "The psychology of impulse buying",
+        "fi": "Heräteostosten psykologia",
+        "sv": "Psykologin bakom impulsköp"
+      },
+      "summary": {
+        "en": "Shops are designed to make you buy now. A pause is your superpower.",
+        "fi": "Kaupat on suunniteltu saamaan sinut ostamaan heti. Tauko on supervoimasi.",
+        "sv": "Butiker är byggda för att du ska köpa nu. En paus är din superkraft."
+      },
+      "body": {
+        "en": "An impulse purchase is a decision made by emotion and justified by logic afterwards. It is not a character flaw — shops and apps are engineered for it.\n\nCommon triggers:\n• **Scarcity and urgency:** \"Only 2 left!\", countdown timers, flash sales.\n• **Frictionless payment:** saved cards, one-click checkout, buy now pay later.\n• **Mood:** buying when tired, bored, stressed or after a few drinks. Late-night shopping is a classic.\n• **Social proof:** influencers and \"everyone has one\".\n\nCounter-moves that work:\n1. **The 24-hour rule** — for anything non-essential over 50 €, wait a day. Most urges fade.\n2. **Wishlist instead of cart** — park it, then revisit on payday.\n3. **Cost in hours** — 120 € is how many hours of your work?\n4. **Remove friction for good habits, add it for bad ones** — delete saved cards from shopping apps, unsubscribe from sale emails.\n5. **Know your pattern** — Rahakamu shows when you spend: weekends, late evenings or right after payday.\n\nTreats are fine. Unplanned treats every day are a leak.",
+        "fi": "Heräteostos on tunteella tehty päätös, joka perustellaan järjellä jälkikäteen. Se ei ole luonteenvika — kaupat ja sovellukset on suunniteltu juuri tähän.\n\nTavallisia laukaisijoita:\n• **Niukkuus ja kiire:** \"Vain 2 jäljellä!\", laskurit ja salamatarjoukset.\n• **Kitkaton maksaminen:** tallennetut kortit, yhden klikkauksen kassa, osta nyt maksa myöhemmin.\n• **Mieliala:** ostaminen väsyneenä, tylsistyneenä, stressaantuneena tai parin drinkin jälkeen. Yöostokset ovat klassikko.\n• **Sosiaalinen paine:** vaikuttajat ja \"kaikilla on tällainen\".\n\nToimivia vastaliikkeitä:\n1. **24 tunnin sääntö** — odota päivä ennen kuin ostat mitään ei-välttämätöntä yli 50 eurolla. Useimmat himot laantuvat.\n2. **Toivelista ostoskorin sijaan** — palaa asiaan palkkapäivänä.\n3. **Hinta työtunteina** — montako tuntia työtä 120 € on?\n4. **Lisää kitkaa huonoille tavoille** — poista tallennetut kortit kauppasovelluksista ja peru alennusviestit.\n5. **Tunne kaavasi** — Rahakamu näyttää, milloin kulutat: viikonloppuisin, myöhään illalla vai heti palkkapäivän jälkeen.\n\nHerkuttelu on sallittua. Suunnittelemattomat herkut joka päivä ovat vuoto.",
+        "sv": "Ett impulsköp är ett beslut som fattas av känslorna och motiveras med logik i efterhand. Det är inget karaktärsfel — butiker och appar är konstruerade för det.\n\nVanliga triggers:\n• **Brist och brådska:** \"Bara 2 kvar!\", nedräkningar, blixtreor.\n• **Friktionsfri betalning:** sparade kort, köp med ett klick, köp nu och betala senare.\n• **Humör:** att handla när man är trött, uttråkad, stressad eller har druckit några glas. Shopping sent på kvällen är en klassiker.\n• **Socialt tryck:** influerare och \"alla har en\".\n\nMotdrag som fungerar:\n1. **24-timmarsregeln** — vänta ett dygn med allt som inte är nödvändigt och kostar över 50 €. De flesta begär går över.\n2. **Önskelista i stället för varukorg** — parkera saken och titta på den igen på lönedagen.\n3. **Kostnad i timmar** — hur många timmars arbete är 120 €?\n4. **Ta bort friktion för goda vanor och lägg till den för dåliga** — radera sparade kort i shoppingappar och avsluta prenumerationen på reklammejl.\n5. **Känn ditt mönster** — Rahakamu visar när du lägger pengar: på helger, sena kvällar eller direkt efter lönedagen.\n\nAtt unna sig är okej. Oplanerade guldkanter varje dag är en läcka."
+      },
+      "key_takeaway": {
+        "en": "Pause before you pay: 24 hours for anything optional over 50 €.",
+        "fi": "Pidä tauko ennen maksua: 24 tuntia kaikelle valinnaiselle yli 50 eurolla.",
+        "sv": "Pausa innan du betalar: 24 timmar för allt valfritt som kostar över 50 €."
+      },
+      "quiz": {
+        "question": {
+          "en": "Which tactic best reduces impulse online shopping?",
+          "fi": "Mikä keino vähentää parhaiten verkon heräteostoksia?",
+          "sv": "Vilken taktik minskar impulsköp på nätet bäst?"
+        },
+        "options": {
+          "en": [
+            "Saving your card in every shop for speed",
+            "Waiting 24 hours and using a wishlist",
+            "Shopping late at night when it is calm",
+            "Following more sale accounts"
+          ],
+          "fi": [
+            "Tallennetaan kortti jokaiseen kauppaan nopeuden vuoksi",
+            "Odotetaan 24 tuntia ja käytetään toivelistaa",
+            "Ostetaan myöhään illalla, kun on rauhallista",
+            "Seurataan useampia alennustilejä"
+          ],
+          "sv": [
+            "Att spara kortet i varje butik för att det går snabbare",
+            "Att vänta 24 timmar och använda en önskelista",
+            "Att handla sent på kvällen när det är lugnt",
+            "Att följa fler konton med erbjudanden"
+          ]
+        },
+        "answer_index": 1,
+        "explanation": {
+          "en": "A pause and a wishlist add healthy friction; most urges fade within a day.",
+          "fi": "Tauko ja toivelista lisäävät tervettä kitkaa; useimmat himot laantuvat vuorokaudessa.",
+          "sv": "En paus och en önskelista ger sund friktion; de flesta begär går över inom ett dygn."
+        }
+      },
+      "related_concepts": [
+        "impulse-purchase",
+        "leaks"
+      ],
+      "order": 15
+    },
+    {
+      "id": "compare-with-finland",
+      "emoji": "🇫🇮",
+      "level": 2,
+      "tags": [
+        "benchmarks",
+        "open-data",
+        "budgeting"
+      ],
+      "unlock_hint": {
+        "en": "Shown after the user opens the benchmark view or asks 'is my spending normal?'.",
+        "fi": "Näytetään, kun käyttäjä avaa vertailunäkymän tai kysyy 'onko kulutukseni normaalia?'.",
+        "sv": "Visas när användaren öppnar jämförelsevyn eller frågar 'är mina utgifter normala?'."
+      },
+      "unlock_rule": {
+        "always": true
+      },
+      "title": {
+        "en": "How does your spending compare with Finland?",
+        "fi": "Miten kulutuksesi vertautuu Suomeen?",
+        "sv": "Hur står sig dina utgifter jämfört med Finland?"
+      },
+      "summary": {
+        "en": "Official statistics give a reality check — not a verdict.",
+        "fi": "Viralliset tilastot antavat vertailukohdan — eivät tuomiota.",
+        "sv": "Officiell statistik ger en verklighetskoll — inte en dom."
+      },
+      "body": {
+        "en": "Statistics Finland's household budget survey asks thousands of households what they actually spend. The latest round (2022) gives useful reference points.\n\nPer consumption unit — which equals one person living alone — Finnish households spent on average about **329 € a month on food and non-alcoholic drinks** and **79 € on restaurants and cafés**. Young households (reference person 17–24) spent less on groceries, about 210 €, and around 67 € eating out. Rent was the biggest single cash cost for the young: about 442 € a month.\n\nHow to use comparisons wisely:\n• **Context first.** A Helsinki renter and a small-town homeowner live in different worlds.\n• **Prices have risen since 2022** — by roughly 8 % up to 2025 — so treat these as floors, not ceilings.\n• **Averages hide variety.** Being above average on groceries but low on takeaway may be a smart trade.\n• **Compare yourself with yourself.** Your own trend over six months is the most powerful benchmark.\n\nRahakamu shows both: your peers in the dataset and the official Statistics Finland figure, with sources.",
+        "fi": "Tilastokeskuksen kulutustutkimus kysyy tuhansilta kotitalouksilta, mihin ne oikeasti käyttävät rahansa. Uusin kierros (2022) antaa hyviä vertailukohtia.\n\nKulutusyksikköä kohden — mikä vastaa yksin asuvaa — suomalaiset kotitaloudet käyttivät keskimäärin noin **329 € kuussa ruokaan ja alkoholittomiin juomiin** ja **79 € ravintoloihin ja kahviloihin**. Nuoret taloudet (viitehenkilö 17–24-vuotias) käyttivät ruokaostoksiin vähemmän, noin 210 €, ja ulkona syömiseen noin 67 €. Vuokra oli nuorten suurin yksittäinen rahameno: noin 442 € kuussa.\n\nNäin vertailet viisaasti:\n• **Konteksti ensin.** Helsingissä vuokralla asuva ja pikkukaupungin omistusasuja elävät eri maailmoissa.\n• **Hinnat ovat nousseet vuodesta 2022** — noin 8 % vuoteen 2025 mennessä — joten pidä lukuja lattioina, ei kattoina.\n• **Keskiarvo kätkee vaihtelun.** Keskimääräistä suuremmat ruokaostokset mutta vähäinen noutoruoka voi olla fiksu vaihtokauppa.\n• **Vertaa itseäsi itseesi.** Oma kuuden kuukauden trendisi on tehokkain vertailukohta.\n\nRahakamu näyttää molemmat: vertaisryhmäsi aineistossa ja Tilastokeskuksen virallisen luvun lähteineen.",
+        "sv": "Statistikcentralens konsumtionsundersökning frågar tusentals hushåll vad de faktiskt lägger pengar på. Den senaste omgången (2022) ger användbara jämförelsepunkter.\n\nPer konsumtionsenhet — vilket motsvarar en person som bor ensam — lade finländska hushåll i genomsnitt ungefär **329 € i månaden på mat och alkoholfria drycker** och **79 € på restauranger och kaféer**. Unga hushåll (referensperson 17–24 år) lade mindre på mat, ungefär 210 €, och omkring 67 € på att äta ute. Hyran var de ungas största enskilda kostnad: ungefär 442 € i månaden.\n\nSå använder du jämförelser klokt:\n• **Sammanhanget först.** En hyresgäst i Helsingfors och en husägare i en småstad lever i olika världar.\n• **Priserna har stigit sedan 2022** — med ungefär 8 % fram till 2025 — så se siffrorna som golv, inte tak.\n• **Medeltal döljer variation.** Att ligga över genomsnittet på mat men lågt på hämtmat kan vara ett klokt byte.\n• **Jämför dig med dig själv.** Din egen trend under sex månader är den starkaste måttstocken.\n\nRahakamu visar båda: dina jämnåriga i datamaterialet och Statistikcentralens officiella siffra, med källor."
+      },
+      "key_takeaway": {
+        "en": "Use national averages as a reality check, and your own trend as the real scoreboard.",
+        "fi": "Käytä kansallisia keskiarvoja vertailukohtana ja omaa trendiäsi todellisena tulostauluna.",
+        "sv": "Använd nationella medeltal som verklighetskoll och din egen trend som den riktiga resultattavlan."
+      },
+      "quiz": {
+        "question": {
+          "en": "Why is 'per consumption unit' a fair benchmark for one person?",
+          "fi": "Miksi 'kulutusyksikköä kohden' on reilu vertailukohta yhdelle ihmiselle?",
+          "sv": "Varför är 'per konsumtionsenhet' en rättvis jämförelse för en person?"
+        },
+        "options": {
+          "en": [
+            "It counts only adults with children",
+            "For a one-person household it equals spending per person",
+            "It removes rent from the figures"
+          ],
+          "fi": [
+            "Siinä lasketaan vain lapsiperheiden aikuiset",
+            "Yhden hengen taloudessa se on sama kuin kulutus henkeä kohden",
+            "Siitä on poistettu vuokra"
+          ],
+          "sv": [
+            "Den räknar bara vuxna med barn",
+            "För ett enpersonshushåll är den lika med utgifterna per person",
+            "Den tar bort hyran ur siffrorna"
+          ]
+        },
+        "answer_index": 1,
+        "explanation": {
+          "en": "The OECD-modified scale gives the first adult weight 1, so a single person's household has exactly one consumption unit.",
+          "fi": "Muunnetussa OECD-asteikossa ensimmäisen aikuisen paino on 1, joten yksin asuvan taloudessa on tasan yksi kulutusyksikkö.",
+          "sv": "Den modifierade OECD-skalan ger den första vuxna vikten 1, så en ensam persons hushåll har exakt en konsumtionsenhet."
+        }
+      },
+      "related_concepts": [
+        "consumption-unit"
+      ],
+      "data_refs": [
+        "benchmarks_fi.json#/monthly_per_person_eur",
+        "benchmarks_fi.json#/by_age_group/17-24"
+      ],
+      "order": 16
+    }
+  ],
+  "concepts": {
+    "three-baskets": {
+      "term": {
+        "en": "The three baskets",
+        "fi": "Kolme koria",
+        "sv": "De tre korgarna"
+      },
+      "definition": {
+        "en": "Rahakamu's way of sorting spending: fixed essentials (mandatory, regular), irregular essentials (mandatory, unpredictable) and everyday leaks (optional, easy to overlook).",
+        "fi": "Rahakamun tapa lajitella kulutus: kiinteät välttämättömät (pakolliset, säännölliset), epäsäännölliset välttämättömät (pakolliset, ennalta arvaamattomat) ja arjen vuodot (valinnaiset, helposti huomaamattomat).",
+        "sv": "Rahakamus sätt att sortera utgifter: fasta måsten (obligatoriska, regelbundna), oregelbundna måsten (obligatoriska, oförutsägbara) och vardagsläckor (valfria, lätta att missa)."
+      },
+      "aliases": [
+        "baskets",
+        "basket",
+        "korit",
+        "kolme koria"
+      ],
+      "lesson_id": "three-baskets"
+    },
+    "fixed-costs": {
+      "term": {
+        "en": "Fixed essentials",
+        "fi": "Kiinteät välttämättömät menot",
+        "sv": "Fasta måsten"
+      },
+      "definition": {
+        "en": "Costs you must pay that arrive regularly at a similar size: rent, electricity, phone, groceries, travel card.",
+        "fi": "Pakolliset menot, jotka tulevat säännöllisesti ja ovat suunnilleen samansuuruisia: vuokra, sähkö, puhelin, ruoka, matkakortti.",
+        "sv": "Kostnader som måste betalas och som kommer regelbundet med ungefär samma belopp: hyra, el, telefon, mat, resekort."
+      },
+      "aliases": [
+        "fixed",
+        "fixed costs",
+        "kiinteät",
+        "kiinteät menot"
+      ],
+      "lesson_id": "three-baskets"
+    },
+    "irregular-costs": {
+      "term": {
+        "en": "Irregular essentials",
+        "fi": "Epäsäännölliset välttämättömät menot",
+        "sv": "Oregelbundna måsten"
+      },
+      "definition": {
+        "en": "Necessary costs that do not come every month: dentist, car repair, a broken laptop. Plan for them with a buffer.",
+        "fi": "Välttämättömät menot, jotka eivät tule joka kuukausi: hammaslääkäri, auton korjaus, rikkoutunut läppäri. Niihin varaudutaan puskurilla.",
+        "sv": "Nödvändiga kostnader som inte kommer varje månad: tandläkare, bilreparation, en trasig dator. Planera för dem med en buffert."
+      },
+      "aliases": [
+        "irregular",
+        "epäsäännölliset"
+      ],
+      "lesson_id": "three-baskets"
+    },
+    "leaks": {
+      "term": {
+        "en": "Everyday leaks",
+        "fi": "Arjen vuodot",
+        "sv": "Vardagsläckor"
+      },
+      "definition": {
+        "en": "Optional, often small and frequent purchases that slip through your fingers: takeaway, taxis, kiosk snacks, impulse buys.",
+        "fi": "Valinnaiset, usein pienet ja toistuvat ostokset, jotka valuvat sormien läpi: noutoruoka, taksit, kioskiherkut, heräteostokset.",
+        "sv": "Valfria, ofta små och täta köp som rinner mellan fingrarna: hämtmat, taxi, kiosksnacks, impulsköp."
+      },
+      "aliases": [
+        "leak",
+        "leaks",
+        "vuoto",
+        "vuodot"
+      ],
+      "lesson_id": "latte-factor"
+    },
+    "safe-to-spend": {
+      "term": {
+        "en": "Safe-to-spend",
+        "fi": "Turvallisesti käytettävissä",
+        "sv": "Tryggt att använda"
+      },
+      "definition": {
+        "en": "Balance minus bills due before payday, a small buffer and planned goal savings — divided by the days until payday.",
+        "fi": "Saldo miinus ennen palkkapäivää erääntyvät laskut, pieni puskuri ja suunnitellut tavoitesäästöt — jaettuna palkkapäivään jäljellä olevilla päivillä.",
+        "sv": "Saldot minus räkningar som förfaller före lönedagen, en liten buffert och planerat sparande till mål — delat med antalet dagar till lönedagen."
+      },
+      "aliases": [
+        "safe to spend",
+        "turvallisesti",
+        "käyttövara"
+      ],
+      "lesson_id": "safe-to-spend"
+    },
+    "emergency-fund": {
+      "term": {
+        "en": "Emergency fund / buffer",
+        "fi": "Puskurirahasto",
+        "sv": "Buffert"
+      },
+      "definition": {
+        "en": "Savings kept separately for unexpected but necessary costs; a common rule of thumb is 1–3 months of essential spending.",
+        "fi": "Erillään pidetyt säästöt odottamattomia mutta välttämättömiä menoja varten; yleinen nyrkkisääntö on 1–3 kuukauden välttämättömät menot.",
+        "sv": "Besparingar som hålls separat för oväntade men nödvändiga kostnader; en vanlig tumregel är 1–3 månader av de nödvändiga utgifterna."
+      },
+      "aliases": [
+        "buffer",
+        "emergency fund",
+        "puskuri",
+        "hätävara"
+      ],
+      "lesson_id": "emergency-fund"
+    },
+    "pay-yourself-first": {
+      "term": {
+        "en": "Pay yourself first",
+        "fi": "Maksa ensin itsellesi",
+        "sv": "Betala dig själv först"
+      },
+      "definition": {
+        "en": "Moving a fixed amount to savings automatically on payday, before spending anything else.",
+        "fi": "Sovitun summan siirtäminen automaattisesti säästöön palkkapäivänä ennen muita menoja.",
+        "sv": "Att automatiskt flytta en fast summa till sparande på lönedagen, innan man lägger pengar på något annat."
+      },
+      "aliases": [
+        "pay yourself first",
+        "automatic saving",
+        "automaattinen säästö"
+      ],
+      "lesson_id": "pay-yourself-first"
+    },
+    "savings-rate": {
+      "term": {
+        "en": "Savings rate",
+        "fi": "Säästöaste",
+        "sv": "Sparkvot"
+      },
+      "definition": {
+        "en": "The share of your net income that you save or invest. 10–20 % is a common target.",
+        "fi": "Se osuus nettotuloista, jonka säästät tai sijoitat. Yleinen tavoite on 10–20 %.",
+        "sv": "Den andel av nettoinkomsten som du sparar eller placerar. 10–20 % är ett vanligt mål."
+      },
+      "aliases": [
+        "savings rate",
+        "säästöaste",
+        "säästöprosentti"
+      ],
+      "lesson_id": "pay-yourself-first"
+    },
+    "subscription": {
+      "term": {
+        "en": "Subscription creep",
+        "fi": "Tilausten hiipivä kasvu",
+        "sv": "Prenumerationer som smyger sig på"
+      },
+      "definition": {
+        "en": "The slow pile-up of small recurring payments (streaming, apps, memberships) that together become a large fixed cost.",
+        "fi": "Pienten toistuvien maksujen (suoratoisto, sovellukset, jäsenyydet) vähittäinen kasautuminen suureksi kiinteäksi menoksi.",
+        "sv": "Små återkommande betalningar (streaming, appar, medlemskap) som långsamt hopar sig och tillsammans blir en stor fast kostnad."
+      },
+      "aliases": [
+        "subscriptions",
+        "subscription",
+        "tilaukset",
+        "tilaus"
+      ],
+      "lesson_id": "subscription-creep"
+    },
+    "budget": {
+      "term": {
+        "en": "50/30/20 budget",
+        "fi": "50/30/20-budjetti",
+        "sv": "50/30/20-budget"
+      },
+      "definition": {
+        "en": "A rule of thumb that splits net income into about 50 % essentials, up to 30 % wants (leaks) and at least 20 % savings.",
+        "fi": "Nyrkkisääntö, joka jakaa nettotulot noin 50 % välttämättömiin, enintään 30 % haluihin (vuotoihin) ja vähintään 20 % säästöön.",
+        "sv": "En tumregel som delar nettoinkomsten i ungefär 50 % måsten, högst 30 % önskemål (läckor) och minst 20 % sparande."
+      },
+      "aliases": [
+        "budget",
+        "50/30/20",
+        "budjetti"
+      ],
+      "lesson_id": "budget-50-30-20"
+    },
+    "compound-interest": {
+      "term": {
+        "en": "Compound interest",
+        "fi": "Korkoa korolle",
+        "sv": "Ränta på ränta"
+      },
+      "definition": {
+        "en": "Earning returns on both your original money and on returns already earned, so growth speeds up over time.",
+        "fi": "Tuottoa kertyy sekä alkuperäiselle rahalle että jo kertyneelle tuotolle, joten kasvu kiihtyy ajan myötä.",
+        "sv": "Att få avkastning både på de ursprungliga pengarna och på avkastning som man redan har fått, så att tillväxten tar fart med tiden."
+      },
+      "aliases": [
+        "compound",
+        "compounding",
+        "korkoa korolle"
+      ],
+      "lesson_id": "compound-interest"
+    },
+    "inflation": {
+      "term": {
+        "en": "Inflation",
+        "fi": "Inflaatio",
+        "sv": "Inflation"
+      },
+      "definition": {
+        "en": "The general rise in prices, measured in Finland by Statistics Finland's consumer price index. It reduces what money can buy.",
+        "fi": "Yleinen hintojen nousu, jota Suomessa mitataan Tilastokeskuksen kuluttajahintaindeksillä. Se heikentää rahan ostovoimaa.",
+        "sv": "Den allmänna prisstegringen, som i Finland mäts med Statistikcentralens konsumentprisindex. Den minskar vad pengarna räcker till."
+      },
+      "aliases": [
+        "inflation",
+        "inflaatio",
+        "cpi",
+        "kuluttajahintaindeksi",
+        "prices"
+      ],
+      "lesson_id": "inflation"
+    },
+    "real-return": {
+      "term": {
+        "en": "Real return",
+        "fi": "Reaalituotto",
+        "sv": "Real avkastning"
+      },
+      "definition": {
+        "en": "Return after inflation, roughly the interest or return rate minus the inflation rate.",
+        "fi": "Inflaatiolla korjattu tuotto, suunnilleen korko tai tuotto miinus inflaatio.",
+        "sv": "Avkastningen efter inflation, ungefär räntan eller avkastningen minus inflationen."
+      },
+      "aliases": [
+        "real return",
+        "reaalituotto",
+        "real interest"
+      ],
+      "lesson_id": "inflation"
+    },
+    "interest-rate": {
+      "term": {
+        "en": "Interest rate & APR",
+        "fi": "Korko ja todellinen vuosikorko",
+        "sv": "Ränta och effektiv ränta"
+      },
+      "definition": {
+        "en": "The price of borrowing money. The APR (todellinen vuosikorko) includes fees too, so it shows the true yearly cost of credit.",
+        "fi": "Lainatun rahan hinta. Todellinen vuosikorko sisältää myös kulut, joten se kertoo luoton todellisen vuosikustannuksen.",
+        "sv": "Priset för att låna pengar. Den effektiva räntan inkluderar också avgifter och visar därför kreditens verkliga årskostnad."
+      },
+      "aliases": [
+        "interest",
+        "apr",
+        "korko",
+        "todellinen vuosikorko"
+      ],
+      "lesson_id": "debt-and-bnpl"
+    },
+    "bnpl": {
+      "term": {
+        "en": "Buy now, pay later (BNPL)",
+        "fi": "Osta nyt, maksa myöhemmin",
+        "sv": "Köp nu, betala senare"
+      },
+      "definition": {
+        "en": "Payment services that split a purchase into instalments or delay payment. Convenient, but late fees and many parallel plans add up.",
+        "fi": "Maksupalvelut, jotka jakavat ostoksen eriin tai siirtävät maksua. Käteviä, mutta myöhästymismaksut ja monet rinnakkaiset erät kasvavat.",
+        "sv": "Betaltjänster som delar upp ett köp i delbetalningar eller skjuter upp betalningen. Smidigt, men förseningsavgifter och många parallella planer växer."
+      },
+      "aliases": [
+        "bnpl",
+        "buy now pay later",
+        "osamaksu",
+        "maksa myöhemmin",
+        "instalment"
+      ],
+      "lesson_id": "debt-and-bnpl"
+    },
+    "smart-goal": {
+      "term": {
+        "en": "SMART goal",
+        "fi": "SMART-tavoite",
+        "sv": "SMART mål"
+      },
+      "definition": {
+        "en": "A goal that is Specific, Measurable, Achievable, Relevant and Time-bound — e.g. 6 000 € for a used car by June 2028.",
+        "fi": "Tavoite, joka on täsmällinen, mitattava, saavutettava, merkityksellinen ja aikataulutettu — esim. 6 000 € käytettyyn autoon kesäkuuhun 2028 mennessä.",
+        "sv": "Ett mål som är specifikt, mätbart, accepterat, relevant och tidsbundet — t.ex. 6 000 € till en begagnad bil senast i juni 2028."
+      },
+      "aliases": [
+        "smart",
+        "goal",
+        "tavoite",
+        "smart goal"
+      ],
+      "lesson_id": "smart-goals"
+    },
+    "diversification": {
+      "term": {
+        "en": "Diversification & index funds",
+        "fi": "Hajautus ja indeksirahastot",
+        "sv": "Riskspridning och indexfonder"
+      },
+      "definition": {
+        "en": "Spreading money across many investments so one failure hurts less. An index fund holds a whole market index in one product.",
+        "fi": "Rahan jakaminen moneen sijoituskohteeseen, jotta yhden epäonnistuminen haittaa vähemmän. Indeksirahasto sisältää koko markkinaindeksin yhdessä tuotteessa.",
+        "sv": "Att sprida pengarna på många placeringar så att ett misslyckande skadar mindre. En indexfond innehåller ett helt marknadsindex i en produkt."
+      },
+      "aliases": [
+        "diversify",
+        "diversification",
+        "index fund",
+        "hajautus",
+        "indeksirahasto",
+        "rahasto",
+        "fund"
+      ],
+      "lesson_id": "investing-basics"
+    },
+    "risk": {
+      "term": {
+        "en": "Investment risk",
+        "fi": "Sijoitusriski",
+        "sv": "Placeringsrisk"
+      },
+      "definition": {
+        "en": "The chance that an investment loses value. Higher expected return usually comes with higher risk; a longer horizon helps you ride out dips.",
+        "fi": "Mahdollisuus, että sijoituksen arvo laskee. Korkeampi odotettu tuotto tarkoittaa yleensä suurempaa riskiä; pidempi sijoitusaika auttaa kestämään notkahdukset.",
+        "sv": "Risken att en placering förlorar i värde. Högre förväntad avkastning innebär oftast högre risk; en längre horisont hjälper dig att klara nedgångar."
+      },
+      "aliases": [
+        "risk",
+        "riski",
+        "volatility",
+        "volatiliteetti"
+      ],
+      "lesson_id": "investing-basics"
+    },
+    "equity-savings-account": {
+      "term": {
+        "en": "Equity savings account",
+        "fi": "Osakesäästötili",
+        "sv": "Aktiesparkonto"
+      },
+      "definition": {
+        "en": "A Finnish account for listed shares where trading and dividends are not taxed until you withdraw gains; deposits are capped at 100 000 €.",
+        "fi": "Suomalainen tili listatuille osakkeille, jolla kaupankäyntiä ja osinkoja ei veroteta ennen voittojen nostamista; talletusraja on 100 000 €.",
+        "sv": "Ett finländskt konto för noterade aktier där handel och dividender inte beskattas förrän du tar ut vinsten; insättningarna är begränsade till 100 000 €."
+      },
+      "aliases": [
+        "ost",
+        "osakesäästötili",
+        "equity savings account"
+      ],
+      "lesson_id": "investing-basics"
+    },
+    "asp": {
+      "term": {
+        "en": "ASP home savings account",
+        "fi": "ASP-tili",
+        "sv": "ASP-konto för bostadssparande"
+      },
+      "definition": {
+        "en": "A state-supported first-home savings scheme: monthly deposits (50–1 500 €, at least 20 months), tax-free interest, state bonus interest and a guaranteed ASP loan. Requires saving 10 % of the price.",
+        "fi": "Valtion tukema ensiasuntosäästäminen: kuukausitalletukset (50–1 500 €, vähintään 20 kuukautta), veroton korko, valtion lisäkorko ja takauksellinen ASP-laina. Edellyttää 10 %:n säästöjä hinnasta.",
+        "sv": "Ett statligt stött sparsystem för den första bostaden: månatliga insättningar (50–1 500 €, minst 20 månader), skattefri ränta, statlig premieränta och ett ASP-lån med statsborgen. Kräver att du sparar 10 % av priset."
+      },
+      "aliases": [
+        "asp",
+        "asp-tili",
+        "home savings",
+        "asuntosäästö",
+        "first home"
+      ],
+      "lesson_id": "first-home-asp"
+    },
+    "loan-to-value": {
+      "term": {
+        "en": "Loan cap (LTV)",
+        "fi": "Lainakatto",
+        "sv": "Lånetak (belåningsgrad)"
+      },
+      "definition": {
+        "en": "The maximum share of a home's price a bank may lend. In Finland first-home buyers can borrow up to 95 %.",
+        "fi": "Suurin osuus asunnon hinnasta, jonka pankki saa lainata. Suomessa ensiasunnon ostaja voi lainata enintään 95 %.",
+        "sv": "Den största andel av en bostads pris som banken får låna ut. I Finland kan förstagångsköpare låna upp till 95 %."
+      },
+      "aliases": [
+        "ltv",
+        "loan cap",
+        "lainakatto",
+        "loan to value"
+      ],
+      "lesson_id": "first-home-asp"
+    },
+    "tax-card": {
+      "term": {
+        "en": "Tax card",
+        "fi": "Verokortti",
+        "sv": "Skattekort"
+      },
+      "definition": {
+        "en": "A Tax Administration document telling your employer what percentage to withhold and the income limit for the year. Without one, 60 % is withheld.",
+        "fi": "Verohallinnon asiakirja, joka kertoo työnantajalle pidätysprosentin ja vuoden tulorajan. Ilman sitä pidätetään 60 %.",
+        "sv": "Ett dokument från Skatteförvaltningen som talar om för arbetsgivaren hur många procent som ska innehållas och inkomstgränsen för året. Utan skattekort innehålls 60 %."
+      },
+      "aliases": [
+        "tax card",
+        "verokortti",
+        "withholding",
+        "ennakonpidätys",
+        "tax"
+      ],
+      "lesson_id": "payslip-tax-card"
+    },
+    "net-income": {
+      "term": {
+        "en": "Gross vs net pay",
+        "fi": "Brutto- ja nettopalkka",
+        "sv": "Bruttolön och nettolön"
+      },
+      "definition": {
+        "en": "Gross pay is your salary before deductions; net pay is what reaches your account after tax withholding and employee contributions.",
+        "fi": "Bruttopalkka on palkka ennen vähennyksiä; nettopalkka on tilille tuleva summa ennakonpidätyksen ja työntekijän maksujen jälkeen.",
+        "sv": "Bruttolönen är lönen före avdrag; nettolönen är det som kommer in på kontot efter förskottsinnehållning och arbetstagarens avgifter."
+      },
+      "aliases": [
+        "net",
+        "gross",
+        "netto",
+        "brutto",
+        "payslip",
+        "palkkakuitti"
+      ],
+      "lesson_id": "payslip-tax-card"
+    },
+    "deposit-guarantee": {
+      "term": {
+        "en": "Deposit guarantee",
+        "fi": "Talletussuoja",
+        "sv": "Insättningsgaranti"
+      },
+      "definition": {
+        "en": "Protects bank deposits up to 100 000 € per customer per bank in Finland if the bank fails.",
+        "fi": "Suojaa pankkitalletukset 100 000 euroon asti asiakasta kohden pankissa, jos pankki kaatuu.",
+        "sv": "Skyddar bankinsättningar upp till 100 000 € per kund och bank i Finland om banken går i konkurs."
+      },
+      "aliases": [
+        "deposit guarantee",
+        "talletussuoja",
+        "deposit insurance"
+      ],
+      "lesson_id": "emergency-fund"
+    },
+    "impulse-purchase": {
+      "term": {
+        "en": "Impulse purchase",
+        "fi": "Heräteostos",
+        "sv": "Impulsköp"
+      },
+      "definition": {
+        "en": "An unplanned purchase driven by emotion or sales tactics. A 24-hour pause is a simple defence.",
+        "fi": "Suunnittelematon, tunteen tai myyntikikkojen ohjaama ostos. 24 tunnin tauko on yksinkertainen suoja.",
+        "sv": "Ett oplanerat köp som drivs av känslor eller försäljningsknep. En paus på 24 timmar är ett enkelt skydd."
+      },
+      "aliases": [
+        "impulse",
+        "heräteostos",
+        "impulse buy"
+      ],
+      "lesson_id": "impulse-buying"
+    },
+    "consumption-unit": {
+      "term": {
+        "en": "Consumption unit",
+        "fi": "Kulutusyksikkö",
+        "sv": "Konsumtionsenhet"
+      },
+      "definition": {
+        "en": "Statistics Finland's way to compare households of different sizes (modified OECD scale: first adult 1, other persons aged 14+ 0.5, children under 14 0.3). A single person = 1 unit.",
+        "fi": "Tilastokeskuksen tapa verrata erikokoisia kotitalouksia (muunnettu OECD-asteikko: ensimmäinen aikuinen 1, muut 14 vuotta täyttäneet 0,5, alle 14-vuotiaat 0,3). Yksin asuva = 1 yksikkö.",
+        "sv": "Statistikcentralens sätt att jämföra hushåll av olika storlek (modifierad OECD-skala: första vuxna 1, övriga personer från 14 år 0,5, barn under 14 år 0,3). En ensamboende person = 1 enhet."
+      },
+      "aliases": [
+        "consumption unit",
+        "kulutusyksikkö",
+        "oecd scale"
+      ],
+      "lesson_id": "compare-with-finland"
+    }
+  }
+}

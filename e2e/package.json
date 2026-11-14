@@ -1,0 +1,19 @@
+{
+  "name": "spankkibot-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "End-to-end tests for SPankkiBot: API smoke (Python) + Playwright UI flows (mobile web build).",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:mock": "E2E_MOCK=1 playwright test",
+    "report": "playwright show-report",
+    "install-browsers": "playwright install chromium",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "@types/node": "^20.19.43",
+    "typescript": "^5.9.3"
+  }
+}

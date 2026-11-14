@@ -1,0 +1,91 @@
+{
+  "expo": {
+    "name": "Rahakamu",
+    "slug": "spankkibot",
+    "version": "1.0.0",
+    "description": "Personal Economic Trainer \u2014 talk with your own money through an animated AI coach.",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "spankkibot",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#07140F",
+    "primaryColor": "#00B26F",
+    "ios": {
+      "bundleIdentifier": "fi.junction.spankkibot",
+      "supportsTablet": false,
+      "icon": "./assets/images/icon.png",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "Rahakamu uses the microphone so you can ask your coach questions by voice.",
+        "NSSpeechRecognitionUsageDescription": "Rahakamu turns your voice into text so your coach can answer.",
+        "NSCameraUsageDescription": "Snap a price tag or receipt and ask your coach whether you can afford it.",
+        "NSPhotoLibraryUsageDescription": "Pick a photo of a price tag or receipt to ask your coach about it."
+      }
+    },
+    "android": {
+      "package": "fi.junction.spankkibot",
+      "adaptiveIcon": {
+        "backgroundColor": "#07140F",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CAMERA"
+      ],
+      "predictiveBackGestureEnabled": false,
+      "softwareKeyboardLayoutMode": "resize"
+    },
+    "web": {
+      "output": "single",
+      "bundler": "metro",
+      "favicon": "./assets/images/favicon.png",
+      "name": "Rahakamu",
+      "shortName": "Rahakamu",
+      "lang": "en",
+      "description": "Personal Economic Trainer \u2014 talk with your own money.",
+      "themeColor": "#07140F",
+      "backgroundColor": "#07140F",
+      "display": "standalone",
+      "orientation": "portrait"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#07140F",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 160,
+          "dark": {
+            "backgroundColor": "#07140F",
+            "image": "./assets/images/splash-icon.png"
+          }
+        }
+      ],
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "Rahakamu uses the microphone so you can ask your coach questions by voice.",
+          "speechRecognitionPermission": "Rahakamu turns your voice into text so your coach can answer.",
+          "androidSpeechServicePackages": [
+            "com.google.android.googlequicksearchbox"
+          ]
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Pick a photo of a price tag or receipt to ask your coach about it.",
+          "cameraPermission": "Snap a price tag or receipt and ask your coach whether you can afford it.",
+          "microphonePermission": "Rahakamu uses the microphone so you can ask your coach questions by voice."
+        }
+      ],
+      "expo-localization"
+    ],
+    "experiments": {
+      "typedRoutes": false,
+      "reactCompiler": true
+    }
+  }
+}

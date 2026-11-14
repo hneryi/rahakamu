@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><defs>
+    <linearGradient id="fbub" x1="0.15" y1="0" x2="0.85" y2="1">
+      <stop offset="0" stop-color="#1ED68C"/>
+      <stop offset="0.55" stop-color="#00B26F"/>
+      <stop offset="1" stop-color="#008A56"/>
+    </linearGradient>
+    <linearGradient id="fcoin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFC75A"/>
+      <stop offset="1" stop-color="#D9860B"/>
+    </linearGradient>
+    <linearGradient id="fshine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="fclip"><path d="M168 72H344A112 112 0 0 1 456 184V280A112 112 0 0 1 344 392H222C204 392 188 398 174 409L118 455C106 465 89 455 92 440L104 384C76 364 56 326 56 280V184A112 112 0 0 1 168 72Z"/></clipPath></defs><g transform="translate(-7.00952380952381 -9.142857142857144) scale(0.1523809523809524)"><path d="M168 72H344A112 112 0 0 1 456 184V280A112 112 0 0 1 344 392H222C204 392 188 398 174 409L118 455C106 465 89 455 92 440L104 384C76 364 56 326 56 280V184A112 112 0 0 1 168 72Z" fill="url(#fbub)"/><rect x="150" y="262" width="50" height="70" rx="16" fill="#F2F7F4"/><rect x="222" y="222" width="50" height="110" rx="16" fill="#F2F7F4"/><rect x="294" y="178" width="50" height="154" rx="16" fill="#F2F7F4"/><circle cx="370" cy="150" r="42" fill="#F5A524"/></g></svg>

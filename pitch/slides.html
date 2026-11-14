@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rahakamu — legacy SPankkiBot pitch</title>
+<meta name="description" content="SPankkiBot: a personal trainer for your money. Junction 2026, S-Pankki Personal Economic Trainer challenge.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07140F; --bg2:#0B1F17; --surface:rgba(255,255,255,0.06); --surface2:rgba(255,255,255,0.09);
+  --border:rgba(255,255,255,0.08); --border2:rgba(255,255,255,0.14);
+  --primary:#00B26F; --mint:#3DD9B4; --amber:#F5A524; --warn:#FF6B5A;
+  --text:#F2F7F4; --muted:#9FB3A9; --dim:#6E8479;
+  --fixed:#5B8DEF; --irregular:#F5A524; --leak:#FF6B8A;
+  --radius:24px;
+  --font:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font);overflow:hidden;-webkit-font-smoothing:antialiased}
+body{background:radial-gradient(1200px 700px at 80% -10%,rgba(0,178,111,.10),transparent 60%),linear-gradient(180deg,var(--bg),var(--bg2))}
+
+/* ---------- stage & scaling ---------- */
+#viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#stage{width:1600px;height:900px;position:relative;transform-origin:center center;flex:none}
+.slide{position:absolute;inset:0;padding:72px 96px 80px;display:flex;flex-direction:column;opacity:0;visibility:hidden;
+  transform:translateX(40px);transition:opacity .45s ease,transform .55s cubic-bezier(.2,.8,.2,1),visibility 0s linear .45s;
+  border-radius:28px;overflow:hidden;
+  background:radial-gradient(900px 520px at 100% 0%,rgba(0,178,111,.13),transparent 60%),radial-gradient(700px 500px at 0% 100%,rgba(61,217,180,.07),transparent 60%),linear-gradient(160deg,#091A13,#07140F 55%,#0A1D15)}
+.slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .45s ease,transform .55s cubic-bezier(.2,.8,.2,1),visibility 0s}
+.slide.prev{transform:translateX(-40px)}
+.slide::after{content:"";position:absolute;inset:0;border:1px solid var(--border);border-radius:28px;pointer-events:none}
+
+/* ---------- typography ---------- */
+.kicker{font-size:22px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mint);display:flex;align-items:center;gap:14px}
+.kicker .num{font-family:var(--mono);color:var(--dim);letter-spacing:0;font-weight:500}
+h1{font-size:96px;line-height:1;font-weight:800;letter-spacing:-.03em}
+h2{font-size:60px;line-height:1.05;font-weight:800;letter-spacing:-.025em;margin-top:18px}
+h3{font-size:32px;font-weight:700;letter-spacing:-.01em}
+p,li{font-size:28px;line-height:1.4;color:var(--muted)}
+strong{color:var(--text);font-weight:700}
+.grad{background:linear-gradient(90deg,var(--primary),var(--mint));-webkit-background-clip:text;background-clip:text;color:transparent}
+.amber{color:var(--amber)} .mint{color:var(--mint)} .green{color:var(--primary)}
+.tab{font-variant-numeric:tabular-nums}
+
+/* ---------- building blocks ---------- */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:30px 32px;backdrop-filter:blur(10px)}
+.row{display:flex;gap:28px}
+.col{display:flex;flex-direction:column;gap:20px}
+.grow{flex:1;min-width:0}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:10px 20px;border-radius:999px;background:var(--surface2);border:1px solid var(--border2);font-size:22px;font-weight:600;color:var(--text)}
+.dot{width:14px;height:14px;border-radius:50%;flex:none}
+ul.clean{list-style:none;display:flex;flex-direction:column;gap:16px}
+ul.clean li{display:flex;gap:16px;align-items:flex-start}
+ul.clean li .ic{flex:none;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:24px;background:var(--surface2);border:1px solid var(--border)}
+.footer{position:absolute;left:96px;right:96px;bottom:30px;display:flex;justify-content:space-between;align-items:center;font-size:18px;color:var(--dim)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--muted);letter-spacing:-.01em}
+.brand i{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--primary),var(--mint));display:inline-block}
+
+/* phone frame with image + placeholder fallback */
+.phone{width:300px;height:620px;border-radius:46px;padding:12px;background:linear-gradient(160deg,#1a2a23,#0b1611);border:1px solid var(--border2);
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.7),0 0 0 1px rgba(0,0,0,.4) inset;position:relative;flex:none}
+.phone .screen{width:100%;height:100%;border-radius:36px;overflow:hidden;background:linear-gradient(180deg,#07140F,#0B1F17);position:relative}
+.phone img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.phone .ph{position:absolute;inset:0;display:none;flex-direction:column;gap:12px;padding:44px 18px 18px}
+.phone.missing img{display:none}
+.phone.missing .ph{display:flex}
+.ph .sk{border-radius:16px;background:var(--surface);border:1px solid var(--border)}
+.ph .lbl{margin-top:auto;font-family:var(--mono);font-size:13px;color:var(--dim);text-align:center;word-break:break-all}
+.ph .cap{font-size:15px;font-weight:700;color:var(--muted)}
+.phone .notch{position:absolute;top:20px;left:50%;transform:translateX(-50%);width:90px;height:24px;border-radius:14px;background:#000;z-index:2}
+.phone.sm{width:240px;height:500px;border-radius:38px;padding:10px}
+.phone.sm .screen{border-radius:30px}
+.phone.sm .notch{top:17px;width:72px;height:20px}
+.caption{font-size:20px;color:var(--muted);text-align:center;margin-top:14px;font-weight:600}
+
+/* character: design PNG if present, else inline SVG */
+.charwrap{position:relative;display:inline-block;flex:none}
+.charwrap img{display:none;width:100%;height:100%;object-fit:contain}
+.charwrap.has-img img{display:block}
+.charwrap.has-img svg{display:none}
+/* character svg sizing */
+.char{display:block}
+.glow-amber{filter:drop-shadow(0 18px 40px rgba(245,165,36,.35))}
+.glow-mint{filter:drop-shadow(0 18px 40px rgba(61,217,180,.35))}
+.float{animation:float 4.5s ease-in-out infinite}
+.float.d2{animation-delay:-2.2s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+/* ---------- slide 1 ---------- */
+.s1 .hero{flex:1;display:flex;align-items:center;gap:60px}
+.s1 .quote{font-size:64px;line-height:1.08;font-weight:800;letter-spacing:-.025em;color:var(--text)}
+.s1 .quote em{font-style:normal;color:var(--leak)}
+.leakstat{display:flex;align-items:baseline;gap:18px;margin-top:8px}
+.leakstat b{font-size:88px;font-weight:800;color:var(--leak);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.leakstat span{font-size:26px;color:var(--muted)}
+.problems{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:8px}
+.problems .card{padding:24px 26px}
+.problems p{font-size:23px}
+.problems h3{font-size:25px;margin-bottom:8px}
+
+/* ---------- slide 2 (baskets) ---------- */
+.baskets{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:44px}
+.basket{position:relative;padding:34px 32px 30px;border-radius:28px;background:var(--surface);border:1px solid var(--border);overflow:hidden}
+.basket::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;background:var(--c)}
+.basket::after{content:"";position:absolute;width:260px;height:260px;right:-90px;top:-90px;border-radius:50%;background:var(--c);opacity:.10;filter:blur(10px)}
+.basket .tag{display:inline-flex;align-items:center;gap:10px;font-size:20px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--c)}
+.basket h3{font-size:38px;margin:14px 0 6px;color:var(--text)}
+.basket .verb{font-size:24px;font-weight:700;color:var(--c);margin-bottom:16px}
+.basket p{font-size:23px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.chips span{font-size:19px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--text)}
+.meter{margin-top:36px;display:flex;align-items:center;gap:26px}
+.meter .bar{flex:1;height:26px;border-radius:13px;display:flex;overflow:hidden;background:var(--surface)}
+.meter .bar i{display:block;height:100%}
+.meter .msg{font-size:28px;font-weight:700;color:var(--text);white-space:nowrap}
+
+/* ---------- slide 3 ---------- */
+.s3 .body{flex:1;display:flex;gap:56px;align-items:center;margin-top:28px}
+.s3 .phone:not(.sm){height:580px;width:282px}
+.coach{display:flex;gap:22px;align-items:center;padding:22px 26px}
+.coach h3{font-size:30px}
+.coach p{font-size:21px;line-height:1.35}
+.coach .role{font-size:17px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+
+/* ---------- slide 4 (demo) ---------- */
+.demo{flex:1;display:grid;grid-template-columns:1fr auto;gap:44px;margin-top:30px;align-items:start}
+.steps{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.step{padding:22px 24px;border-radius:22px;background:var(--surface);border:1px solid var(--border);display:flex;gap:16px;align-items:flex-start}
+.step .n{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-family:var(--mono);font-size:18px;font-weight:500;background:rgba(0,178,111,.16);color:var(--primary);border:1px solid rgba(0,178,111,.35)}
+.step q{display:block;font-size:22px;font-weight:700;color:var(--text);quotes:"\201C" "\201D";line-height:1.3}
+.step small{display:block;font-size:19px;color:var(--muted);margin-top:6px}
+.step.aava .n{background:rgba(61,217,180,.14);color:var(--mint);border-color:rgba(61,217,180,.35)}
+.phones{display:flex;gap:24px}
+
+/* ---------- slide 5 (architecture) ---------- */
+.arch{flex:1;display:grid;grid-template-columns:1.45fr 1fr;gap:44px;margin-top:30px;align-items:center}
+.arch svg text{font-family:var(--font)}
+.arch .facts li{font-size:24px}
+.arch .facts li .ic{width:40px;height:40px;font-size:21px}
+
+/* ---------- slide 6 (impact) ---------- */
+.loop{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:44px;position:relative}
+.loop .node{padding:26px 26px;margin:0 14px;border-radius:24px;background:var(--surface);border:1px solid var(--border);position:relative}
+.loop .node:not(:last-child)::after{content:"";position:absolute;right:-24px;top:50%;width:20px;height:20px;border-top:3px solid var(--primary);border-right:3px solid var(--primary);transform:translateY(-50%) rotate(45deg)}
+.loop .em{font-size:40px}
+.loop h3{font-size:28px;margin:10px 0 6px}
+.loop p{font-size:21px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:34px}
+.metric{padding:22px 24px;border-radius:22px;border:1px dashed var(--border2)}
+.metric b{display:block;font-size:24px;color:var(--text);margin-bottom:6px}
+.metric span{font-size:19px;color:var(--muted)}
+
+/* ---------- slide 7 (integration) ---------- */
+.paths{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:38px}
+.path .badge{font-family:var(--mono);font-size:17px;color:var(--mint);border:1px solid rgba(61,217,180,.35);background:rgba(61,217,180,.08);padding:6px 12px;border-radius:10px;display:inline-block;margin-bottom:16px}
+.path h3{margin-bottom:8px}
+.path p{font-size:22px}
+.value{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:28px}
+.value .card{padding:22px 24px;background:linear-gradient(160deg,rgba(0,178,111,.14),rgba(255,255,255,.04))}
+.value b{font-size:24px;display:block;color:var(--text);margin-bottom:6px}
+.value span{font-size:19px;color:var(--muted);line-height:1.35;display:block}
+
+/* ---------- slide 8 ---------- */
+.s8 .center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:18px;padding-bottom:30px}
+.s8 h1{font-size:92px}
+.ask{display:flex;gap:24px;margin-top:10px}
+.ask .card{text-align:left;width:440px}
+.qr{width:150px;height:150px;border-radius:20px;border:2px dashed var(--border2);display:grid;place-items:center;color:var(--dim);font-size:18px;font-family:var(--mono)}
+
+/* ---------- chrome: progress, counter, notes, help ---------- */
+#progress{position:fixed;left:0;top:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--mint));transition:width .4s ease;z-index:10}
+#counter{position:fixed;right:20px;bottom:14px;font-family:var(--mono);font-size:13px;color:var(--dim);z-index:10;user-select:none}
+#hint{position:fixed;left:20px;bottom:14px;font-size:13px;color:var(--dim);z-index:10;transition:opacity .6s}
+#notes{position:fixed;left:50%;bottom:16px;transform:translateX(-50%) translateY(140%);width:min(1100px,94vw);max-height:42vh;overflow:auto;
+  background:rgba(7,20,15,.96);border:1px solid var(--border2);border-radius:18px;padding:20px 26px;z-index:20;transition:transform .35s ease;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+#notes.open{transform:translateX(-50%) translateY(0)}
+#notes h4{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+#notes p{font-size:17px;line-height:1.5;color:var(--text)}
+.notes{display:none}
+.nav-btn{position:fixed;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:1px solid var(--border2);background:rgba(255,255,255,.04);color:var(--muted);font-size:22px;cursor:pointer;z-index:10;opacity:0;transition:opacity .3s}
+body:hover .nav-btn{opacity:.6}
+.nav-btn:hover{opacity:1!important;color:var(--text)}
+#prevBtn{left:14px} #nextBtn{right:14px}
+@media (hover:none){.nav-btn{display:none}}
+@media print{
+  html,body{overflow:visible;height:auto}
+  #viewport{position:static;display:block}
+  #stage{transform:none!important;width:auto;height:auto}
+  .slide{position:relative;opacity:1;visibility:visible;transform:none;width:1600px;height:900px;page-break-after:always;margin:0 auto 20px}
+  #progress,#counter,#hint,#notes,.nav-btn{display:none}
+}
+@media (prefers-reduced-motion:reduce){.slide,.float{transition:none;animation:none}}
+</style>
+</head>
+<body>
+<div style="position:fixed;top:8px;left:16px;z-index:100;font-size:14px;color:#9FB3A9">Legacy pitch: SPankkiBot is now Rahakamu. Screenshots may be unavailable.</div>
+
+<!-- Reusable character drawings (original designs) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <radialGradient id="bearFur" cx="45%" cy="35%" r="70%"><stop offset="0" stop-color="#FFC25A"/><stop offset="1" stop-color="#D9851A"/></radialGradient>
+    <radialGradient id="owlFeather" cx="45%" cy="30%" r="75%"><stop offset="0" stop-color="#6FF0CF"/><stop offset="1" stop-color="#1FA88A"/></radialGradient>
+  </defs>
+  <symbol id="sisu" viewBox="0 0 200 200">
+    <ellipse cx="100" cy="188" rx="58" ry="8" fill="#000" opacity=".25"/>
+    <circle cx="48" cy="52" r="24" fill="url(#bearFur)"/><circle cx="48" cy="52" r="12" fill="#B86A12"/>
+    <circle cx="152" cy="52" r="24" fill="url(#bearFur)"/><circle cx="152" cy="52" r="12" fill="#B86A12"/>
+    <circle cx="100" cy="104" r="76" fill="url(#bearFur)"/>
+    <rect x="30" y="56" width="140" height="22" rx="11" fill="#00B26F"/>
+    <rect x="30" y="62" width="140" height="5" fill="#F2F7F4" opacity=".85"/>
+    <circle cx="74" cy="100" r="9" fill="#1B120A"/><circle cx="77" cy="96" r="3" fill="#fff"/>
+    <circle cx="126" cy="100" r="9" fill="#1B120A"/><circle cx="129" cy="96" r="3" fill="#fff"/>
+    <path d="M62 84 q12 -8 24 -2" stroke="#7A4510" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M114 82 q12 -6 24 2" stroke="#7A4510" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="100" cy="132" rx="36" ry="28" fill="#FFE2B0"/>
+    <ellipse cx="100" cy="120" rx="12" ry="9" fill="#2A1A0D"/>
+    <path d="M86 140 q14 14 28 0" stroke="#2A1A0D" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <circle cx="58" cy="128" r="9" fill="#FF8A5B" opacity=".45"/><circle cx="142" cy="128" r="9" fill="#FF8A5B" opacity=".45"/>
+    <path d="M100 158 v14" stroke="#F2F7F4" stroke-width="3"/>
+    <rect x="90" y="170" width="22" height="12" rx="5" fill="#C9D6CF"/>
+  </symbol>
+  <symbol id="aava" viewBox="0 0 200 200">
+    <ellipse cx="100" cy="190" rx="54" ry="8" fill="#000" opacity=".25"/>
+    <path d="M44 44 L62 76 L36 76 Z" fill="#1FA88A"/><path d="M156 44 L138 76 L164 76 Z" fill="#1FA88A"/>
+    <ellipse cx="100" cy="112" rx="70" ry="76" fill="url(#owlFeather)"/>
+    <ellipse cx="100" cy="140" rx="42" ry="44" fill="#D9FFF4" opacity=".9"/>
+    <path d="M80 128 q6 6 12 0 M108 128 q6 6 12 0 M90 146 q6 6 12 0 M70 146 q6 6 12 0 M110 146 q6 6 12 0 M94 164 q6 6 12 0" stroke="#7FD9C2" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="72" cy="94" r="26" fill="#F2FFFB"/><circle cx="128" cy="94" r="26" fill="#F2FFFB"/>
+    <circle cx="72" cy="94" r="27" fill="none" stroke="#0B3D33" stroke-width="5"/><circle cx="128" cy="94" r="27" fill="none" stroke="#0B3D33" stroke-width="5"/>
+    <path d="M99 92 h2" stroke="#0B3D33" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="74" cy="96" r="10" fill="#0B1F17"/><circle cx="77" cy="92" r="3.5" fill="#fff"/>
+    <circle cx="126" cy="96" r="10" fill="#0B1F17"/><circle cx="129" cy="92" r="3.5" fill="#fff"/>
+    <path d="M92 118 L100 132 L108 118 Z" fill="#F5A524"/>
+    <rect x="66" y="166" width="68" height="20" rx="4" fill="#00B26F"/><rect x="66" y="166" width="34" height="20" rx="4" fill="#00965D"/>
+    <path d="M100 166 v20" stroke="#F2F7F4" stroke-width="2"/>
+  </symbol>
+</svg>
+
+<div id="progress"></div>
+<button class="nav-btn" id="prevBtn" aria-label="Previous slide">&#8249;</button>
+<button class="nav-btn" id="nextBtn" aria-label="Next slide">&#8250;</button>
+
+<div id="viewport"><div id="stage">
+
+<!-- ============ 1 · PROBLEM ============ -->
+<section class="slide s1" data-title="Problem">
+  <div class="kicker"><span class="num">01</span> The problem</div>
+  <div class="hero">
+    <div class="col grow" style="gap:28px">
+      <div class="quote">&ldquo;I don&rsquo;t know where<br>my money <em>goes</em>.&rdquo;</div>
+      <div>
+        <div class="leakstat"><b class="tab">~1&nbsp;060&nbsp;&euro;</b><span>a month slips away in everyday leaks.<br><strong>Emma, 21</strong>: our demo persona, from the dataset</span></div>
+      </div>
+      <div class="problems">
+        <div class="card"><h3>📄 Receipts, not coaching</h3><p>Bank apps list <strong>what</strong> you spent. None teach <strong>why</strong> it&rsquo;s gone.</p></div>
+        <div class="card"><h3>📱 Advice from feeds</h3><p>Young adults learn money from social media, not from their bank.</p></div>
+        <div class="card"><h3>📉 Budgets get abandoned</h3><p>Spreadsheets and nagging apps are dropped within weeks.</p></div>
+      </div>
+    </div>
+    <div style="position:relative;width:360px;flex:none">
+      <svg class="char glow-amber float" width="340" height="340"><use href="#sisu"/></svg>
+    </div>
+  </div>
+  <div class="footer"><span class="brand"><i></i>SPankkiBot</span><span>Junction 2026 · S-Pankki: Personal Economic Trainer</span></div>
+  <aside class="notes">Every bank app has a transaction list. That's a receipt drawer, not a coach. People don't fail at money because they can't add up. They fail because the small, everyday spending is invisible until the month is gone. Emma, 21, our persona, loses about a thousand euros a month to things she wouldn't call "spending". S-Bank asked for a personal economic trainer. Here it is.</aside>
+</section>
+
+<!-- ============ 2 · INSIGHT: THREE BASKETS ============ -->
+<section class="slide s2" data-title="Three baskets">
+  <div class="kicker"><span class="num">02</span> The insight</div>
+  <h2>Every euro goes into one of <span class="grad">three baskets</span>.</h2>
+  <div class="baskets">
+    <div class="basket" style="--c:var(--fixed)">
+      <div class="tag"><span class="dot" style="background:var(--fixed)"></span>Fixed</div>
+      <h3>Mandatory &amp; regular</h3>
+      <div class="verb">Plan it.</div>
+      <p>The bills that come every month, whatever you do.</p>
+      <div class="chips"><span>🏠 Rent</span><span>💡 Utilities</span><span>🛒 Groceries</span><span>🚌 Transit</span><span>🔁 Subscriptions</span></div>
+    </div>
+    <div class="basket" style="--c:var(--irregular)">
+      <div class="tag"><span class="dot" style="background:var(--irregular)"></span>Irregular</div>
+      <h3>Mandatory, but surprising</h3>
+      <div class="verb">Buffer for it.</div>
+      <p>Necessary costs that don&rsquo;t arrive on a schedule.</p>
+      <div class="chips"><span>🦷 Dentist</span><span>🔧 Car repair</span><span>💊 Pharmacy</span><span>🧊 New fridge</span></div>
+    </div>
+    <div class="basket" style="--c:var(--leak)">
+      <div class="tag"><span class="dot" style="background:var(--leak)"></span>Leaks</div>
+      <h3>Slips through your fingers</h3>
+      <div class="verb">Train it.</div>
+      <p>Small everyday choices that add up without you noticing.</p>
+      <div class="chips"><span>🍔 Takeaway</span><span>🚕 Taxis</span><span>🎟️ Fun</span><span>🛍️ Impulse buys</span><span>🏪 Kiosk</span></div>
+    </div>
+  </div>
+  <div class="meter">
+    <div class="bar" aria-label="Illustrative basket split"><i style="width:52%;background:var(--fixed)"></i><i style="width:13%;background:var(--irregular)"></i><i style="width:35%;background:var(--leak)"></i></div>
+    <div class="msg">You can&rsquo;t cut rent today. <span style="color:var(--leak)">You can plug a leak.</span></div>
+  </div>
+  <div class="footer"><span class="brand"><i></i>SPankkiBot</span><span>Deterministic, explainable classification: category + MCC + amount + recurrence</span></div>
+  <aside class="notes">The single most useful money idea we found is splitting spending into three baskets. Fixed you plan, irregular you buffer for, leaks you train. Every screen, every AI answer and every lesson in SPankkiBot uses this one mental model. Repeated in context, it turns into literacy. The classification is deterministic and explainable: category, MCC code, amount and recurrence, each with a "why".</aside>
+</section>
+
+<!-- ============ 3 · SOLUTION ============ -->
+<section class="slide s3" data-title="Solution">
+  <div class="kicker"><span class="num">03</span> The solution</div>
+  <h2>A personal trainer <span class="grad">for your money</span>.</h2>
+  <div class="body">
+    <div class="phone" data-src="../e2e/screenshots/home.png" data-cap="Home: safe to spend · baskets · goals"></div>
+    <div class="col grow" style="gap:22px">
+      <ul class="clean">
+        <li><span class="ic">🎯</span><p><strong>One number you can trust.</strong> Safe to spend today, after upcoming bills, buffer and goals.</p></li>
+        <li><span class="ic">💬</span><p><strong>Talk with your own money.</strong> Type, hold to talk, or snap a price tag.</p></li>
+        <li><span class="ic">🏋️</span><p><strong>Money Gym.</strong> Micro-lessons and quizzes unlocked by <em>your</em> data.</p></li>
+      </ul>
+      <div class="row" style="gap:20px">
+        <div class="card coach grow">
+          <span class="charwrap" style="width:110px;height:110px"><img data-design="../design/png/sisu.png" alt="Sisu"><svg class="char glow-amber" width="110" height="110"><use href="#sisu"/></svg></span>
+          <div><div class="role amber">The Trainer</div><h3>Sisu 🐻</h3><p>Tough love, challenges, streaks. &ldquo;7-day no-takeaway challenge?&rdquo;</p></div>
+        </div>
+        <div class="card coach grow">
+          <span class="charwrap" style="width:110px;height:110px"><img data-design="../design/png/aava.png" alt="Aava"><svg class="char glow-mint" width="110" height="110"><use href="#aava"/></svg></span>
+          <div><div class="role mint">The Mentor</div><h3>Aava 🦉</h3><p>Calm, explains <em>why</em>, asks one reflective question.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="phone sm" data-src="../e2e/screenshots/chat.png" data-cap="Chat with generative widgets" style="align-self:flex-end"></div>
+  </div>
+  <div class="footer"><span class="brand"><i></i>SPankkiBot</span><span>Expo SDK 58 · iOS · Android · Web · Finnish &amp; English</span></div>
+  <aside class="notes">SPankkiBot is a mobile-native app. Open it and you see one number you can trust: what's safe to spend today, after bills and goals. Below that are the three baskets. At the bottom, your coach. Sisu, the energetic bear, will challenge you to a 7-day no-takeaway streak. Aava, the owl, will explain compound interest with an analogy and ask you one good question. Same data, same tools, two ways to learn.</aside>
+</section>
+
+<!-- ============ 4 · DEMO ============ -->
+<section class="slide s4" data-title="Live demo">
+  <div class="kicker"><span class="num">04</span> Live demo · Emma, 21</div>
+  <h2>Watch Emma <span class="grad">train her money</span>.</h2>
+  <div class="demo">
+  <div class="steps">
+    <div class="step"><span class="n">1</span><div><q>What kind of spender am I?</q><small>🎙️ Hold to talk → spender profile widget</small></div></div>
+    <div class="step"><span class="n">2</span><div><q>Help me save for a car, it costs 12&nbsp;000&nbsp;&euro;</q><small>Goal plan, cuts from the leak basket → Create goal</small></div></div>
+    <div class="step"><span class="n">3</span><div><q>What if I cut dining out by 20&nbsp;%?</q><small>Live what-if slider</small></div></div>
+    <div class="step aava"><span class="n">4</span><div><q>Miten selviän tästä kuusta 300&nbsp;eurolla?</q><small>🦉 Aava, in Finnish → survival plan</small></div></div>
+    <div class="step aava"><span class="n">5</span><div><q>Money Gym lesson unlocked</q><small>Lesson + quiz from her own data</small></div></div>
+    <div class="step"><span class="n">6</span><div><q>📸 Can I afford this?</q><small>Vision reads the price tag → safe to spend</small></div></div>
+  </div>
+  <div class="phones">
+    <div class="phone sm" data-src="../e2e/screenshots/goal_plan.png" data-cap="Goal plan"></div>
+    <div class="phone sm" data-src="../e2e/screenshots/survival_fi.png" data-cap="Survival plan (fi)"></div>
+  </div>
+  </div>
+  <div class="footer"><span class="brand"><i></i>SPankkiBot</span><span>Backup: these screenshots, if the live demo can&rsquo;t run</span></div>
+  <aside class="notes">Switch to the phone and follow pitch/DEMO_SCRIPT.md exactly. If the network dies, say: "We designed for this. The offline engine uses the same tools, so the numbers are identical." If the demo cannot run at all, talk through these screenshots.</aside>
+</section>
+
+<!-- ============ 5 · AI ARCHITECTURE ============ -->
+<section class="slide s5" data-title="AI architecture">
+  <div class="kicker"><span class="num">05</span> AI architecture</div>
+  <h2>Grounded. Generative. <span class="grad">Open.</span></h2>
+  <div class="arch">
+    <svg viewBox="0 0 780 520" width="100%" role="img" aria-label="Architecture: app streams to the agent, which calls deterministic tools over DuckDB and returns widgets">
+      <defs>
+        <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#3DD9B4"/></marker>
+        <linearGradient id="gBox" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="rgba(0,178,111,.22)"/><stop offset="1" stop-color="rgba(255,255,255,.04)"/></linearGradient>
+      </defs>
+      <!-- App -->
+      <rect x="6" y="160" width="178" height="200" rx="22" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.16)"/>
+      <text x="95" y="208" text-anchor="middle" font-size="28" font-weight="800" fill="#F2F7F4">📱 App</text>
+      <text x="95" y="250" text-anchor="middle" font-size="19" fill="#9FB3A9">Expo · RN · Web</text>
+      <text x="95" y="280" text-anchor="middle" font-size="19" fill="#9FB3A9">voice · camera</text>
+      <text x="95" y="310" text-anchor="middle" font-size="19" fill="#9FB3A9">widget renderer</text>
+      <!-- Agent -->
+      <rect x="260" y="120" width="250" height="280" rx="22" fill="url(#gBox)" stroke="rgba(0,178,111,.55)"/>
+      <text x="385" y="165" text-anchor="middle" font-size="28" font-weight="800" fill="#F2F7F4">🧠 Agent</text>
+      <text x="385" y="198" text-anchor="middle" font-size="19" fill="#9FB3A9">Nemotron 3.5 Super VL</text>
+      <rect x="272" y="218" width="226" height="40" rx="12" fill="rgba(245,165,36,.14)" stroke="rgba(245,165,36,.5)"/>
+      <text x="385" y="244" text-anchor="middle" font-size="19" font-weight="700" fill="#F5A524">Sisu 🐻 / Aava 🦉</text>
+      <rect x="272" y="270" width="226" height="40" rx="12" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.14)"/>
+      <text x="385" y="296" text-anchor="middle" font-size="19" font-weight="600" fill="#F2F7F4">Numbers only from tools</text>
+      <rect x="272" y="322" width="226" height="40" rx="12" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.14)"/>
+      <text x="385" y="348" text-anchor="middle" font-size="19" font-weight="600" fill="#F2F7F4">Offline fallback router</text>
+      <!-- Tools -->
+      <rect x="566" y="56" width="210" height="258" rx="22" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.16)"/>
+      <text x="671" y="100" text-anchor="middle" font-size="26" font-weight="800" fill="#F2F7F4">🛠️ 17 tools</text>
+      <text x="671" y="135" text-anchor="middle" font-size="18" fill="#9FB3A9">query_spending</text>
+      <text x="671" y="160" text-anchor="middle" font-size="18" fill="#9FB3A9">get_baskets</text>
+      <text x="671" y="185" text-anchor="middle" font-size="18" fill="#9FB3A9">safe_to_spend</text>
+      <text x="671" y="210" text-anchor="middle" font-size="18" fill="#9FB3A9">plan_goal · what_if</text>
+      <text x="671" y="235" text-anchor="middle" font-size="18" fill="#9FB3A9">survival_plan</text>
+      <text x="671" y="260" text-anchor="middle" font-size="18" fill="#9FB3A9">benchmarks · profile</text>
+      <text x="671" y="285" text-anchor="middle" font-size="18" fill="#9FB3A9">render_chart …</text>
+      <!-- DB -->
+      <ellipse cx="671" cy="380" rx="80" ry="18" fill="rgba(91,141,239,.25)" stroke="rgba(91,141,239,.6)"/>
+      <path d="M581 380 v70 a90 18 0 0 0 180 0 v-70" fill="rgba(91,141,239,.12)" stroke="rgba(91,141,239,.6)"/>
+      <text x="671" y="425" text-anchor="middle" font-size="23" font-weight="800" fill="#F2F7F4">DuckDB</text>
+      <text x="671" y="450" text-anchor="middle" font-size="18" fill="#9FB3A9">3.6 M transactions</text>
+      <!-- arrows -->
+      <path d="M180 230 H255" stroke="#3DD9B4" stroke-width="3" marker-end="url(#ah)"/>
+      <text x="218" y="218" text-anchor="middle" font-size="17" fill="#3DD9B4">ask</text>
+      <path d="M258 300 H184" stroke="#00B26F" stroke-width="3" marker-end="url(#ah)" stroke-dasharray="7 6"/>
+      <text x="218" y="325" text-anchor="middle" font-size="17" fill="#00B26F">SSE</text>
+      <path d="M510 180 H561" stroke="#3DD9B4" stroke-width="3" marker-end="url(#ah)"/>
+      <path d="M563 250 H514" stroke="#3DD9B4" stroke-width="3" marker-end="url(#ah)"/>
+      <text x="537" y="168" text-anchor="middle" font-size="17" fill="#3DD9B4">call</text>
+      <text x="537" y="275" text-anchor="middle" font-size="17" fill="#3DD9B4">aggregates</text>
+      <path d="M671 316 V358" stroke="#5B8DEF" stroke-width="3" marker-end="url(#ah)"/>
+      <!-- widgets lane -->
+      <path d="M600 470 C 420 510, 200 510, 100 356" stroke="#F5A524" stroke-width="3" fill="none" marker-end="url(#ah)" stroke-dasharray="2 8" stroke-linecap="round"/>
+      <text x="360" y="500" text-anchor="middle" font-size="19" font-weight="700" fill="#F5A524">widgets → charts · sliders · goal plans</text>
+    </svg>
+    <ul class="clean facts">
+      <li><span class="ic">🔓</span><p><strong>Open-weights</strong>, tools + vision, OpenAI-compatible. Self-host in the EU and swap models freely.</p></li>
+      <li><span class="ic">📐</span><p><strong>Grounded:</strong> the LLM picks the analysis and deterministic SQL computes it. No invented figures.</p></li>
+      <li><span class="ic">🛡️</span><p><strong>Private by design:</strong> only aggregates reach the model. Writes are confirm-first.</p></li>
+      <li><span class="ic">🧩</span><p><strong>Generative UI:</strong> answers arrive as interactive widgets, with a sources chip on every answer.</p></li>
+      <li><span class="ic">📴</span><p><strong>Resilient:</strong> provider chain, then an offline engine over the same tools.</p></li>
+    </ul>
+  </div>
+  <div class="footer"><span class="brand"><i></i>SPankkiBot</span><span>FastAPI · DuckDB · SSE · Nemotron 3.5 Super VL</span></div>
+  <aside class="notes">The LLM never does maths and never sees raw rows. It decides which analysis to run. Deterministic Python and SQL computes the answer, and the model explains it in persona. Tools also return widgets, so the answer arrives as an interactive what-if slider or a goal plan with a create button, not a wall of text. Writes are confirm-first. And because it's open-weights behind an OpenAI-compatible interface, S-Bank can host it in its own EU data centre and swap models later.</aside>
+</section>
+
+<!-- ============ 6 · IMPACT ============ -->
+<section class="slide s6" data-title="Literacy impact">
+  <div class="kicker"><span class="num">06</span> Impact on financial literacy</div>
+  <h2>Literacy is a habit, <span class="grad">built where money moves</span>.</h2>
+  <div class="loop">
+    <div class="node"><div class="em">🔍</div><h3>Insight</h3><p>&ldquo;Takeaway is 205&nbsp;&euro; a month, your biggest leak.&rdquo;</p></div>
+    <div class="node"><div class="em">💡</div><h3>Concept</h3><p>One-line tip in context: <strong>leaks vs. fixed</strong>, pay yourself first.</p></div>
+    <div class="node"><div class="em">🏋️</div><h3>Lesson</h3><p>Money Gym micro-lesson + quiz, unlocked by <strong>your</strong> data.</p></div>
+    <div class="node"><div class="em">🔥</div><h3>Habit</h3><p>Goals, challenges, streaks, nudges, safe to spend every day.</p></div>
+  </div>
+  <div class="row" style="margin-top:34px;gap:24px">
+    <div class="card grow" style="display:flex;gap:20px;align-items:center">
+      <svg class="char" width="84" height="84"><use href="#sisu"/></svg>
+      <p><strong class="amber">Coaching pedagogy</strong> for people who want a push: reps, PRs, challenges.</p>
+    </div>
+    <div class="card grow" style="display:flex;gap:20px;align-items:center">
+      <svg class="char" width="84" height="84"><use href="#aava"/></svg>
+      <p><strong class="mint">Socratic pedagogy</strong> for people who want to understand: analogies, one good question.</p>
+    </div>
+  </div>
+  <div class="metrics">
+    <div class="metric"><b>📈 Quiz mastery</b><span>Lessons completed and correct answers</span></div>
+    <div class="metric"><b>🩸 Leak share</b><span>Leak basket as % of spend, month over month</span></div>
+    <div class="metric"><b>🎯 Goal progress</b><span>Saved vs. plan, on-track rate</span></div>
+    <div class="metric"><b>🟢 Days on budget</b><span>Days under safe to spend</span></div>
+  </div>
+  <div class="footer"><span class="brand"><i></i>SPankkiBot</span><span>Benchmarks: dataset peer group + Statistics Finland, always cited</span></div>
+  <aside class="notes">Literacy isn't a course you finish. It's a habit you build where the money actually moves. We teach one concept at the moment it's relevant, using your own numbers. That's far stickier than a generic article. Benchmarks come from peers in the dataset and Statistics Finland, always cited. And the outcomes are measurable, so S-Bank can prove impact in a pilot.</aside>
+</section>
+
+<!-- ============ 7 · INTEGRATION ============ -->
+<section class="slide s7" data-title="S-mobiili integration">
+  <div class="kicker"><span class="num">07</span> Integration &amp; business case</div>
+  <h2>Built to <span class="grad">drop into S-mobiili</span>.</h2>
+  <div class="paths">
+    <div class="card path"><span class="badge">REST + SSE</span><h3>API-first</h3><p>A stateless agent behind S-mobiili&rsquo;s native screens. Widgets are versioned JSON that S-mobiili renders with its own design system.</p></div>
+    <div class="card path"><span class="badge">WebView</span><h3>Embed in a week</h3><p>The Expo web build runs in a 480&nbsp;px column, ready to sit inside the existing app and its session.</p></div>
+    <div class="card path"><span class="badge">Native</span><h3>Ship as modules</h3><p>The same React Native code ships to iOS and Android, with haptics, voice and camera.</p></div>
+  </div>
+  <div class="value">
+    <div class="card"><b>📲 Daily opens</b><span>A reason to open the bank app every day, not once a month.</span></div>
+    <div class="card"><b>🤝 Trust</b><span>An honest coach that says &ldquo;not this month&rdquo; builds loyalty.</span></div>
+    <div class="card"><b>🌱 Young customers</b><span>Meets under-25s where they are: chat, voice, characters.</span></div>
+    <div class="card"><b>🏦 Warm hand-offs</b><span>To savings, funds and mortgage advisors. Home readiness is already prototyped.</span></div>
+  </div>
+  <div class="row" style="margin-top:26px;gap:18px;flex-wrap:wrap">
+    <span class="pill"><span class="dot" style="background:var(--primary)"></span>Runs on S-Bank&rsquo;s transaction schema</span>
+    <span class="pill"><span class="dot" style="background:var(--mint)"></span>Home screen: zero LLM cost</span>
+    <span class="pill"><span class="dot" style="background:var(--amber)"></span>EU self-hosted model</span>
+    <span class="pill"><span class="dot" style="background:var(--fixed)"></span>fi · en · sv next</span>
+  </div>
+  <div class="footer"><span class="brand"><i></i>SPankkiBot</span><span>docs/S-MOBIILI_INTEGRATION.md</span></div>
+  <aside class="notes">We built this to be adopted, not admired. S-mobiili can embed the web build in a week or consume the API natively. The agent is stateless and the widget protocol is plain JSON, so S-mobiili renders it with its own components. The cost profile is friendly because most screens need no LLM at all. Business-wise: a reason to open the bank app daily, a trusted relationship with under-25s, and natural, compliant hand-offs to S-Bank's savings and mortgage teams.</aside>
+</section>
+
+<!-- ============ 8 · ASK ============ -->
+<section class="slide s8" data-title="Ask">
+  <div class="kicker"><span class="num">08</span> Our ask</div>
+  <div class="center">
+    <div class="row" style="gap:10px;align-items:flex-end">
+      <span class="charwrap float" style="width:160px;height:160px"><img data-design="../design/png/sisu.png" alt="Sisu"><svg class="char glow-amber" width="160" height="160"><use href="#sisu"/></svg></span>
+      <span class="charwrap float d2" style="width:160px;height:160px"><img data-design="../design/png/aava.png" alt="Aava"><svg class="char glow-mint" width="160" height="160"><use href="#aava"/></svg></span>
+    </div>
+    <h1><span class="grad">SPankkiBot</span></h1>
+    <p style="font-size:36px;color:var(--text);font-weight:700">A personal trainer for your money.</p>
+    <div class="ask">
+      <div class="card"><h3 class="green" style="margin-bottom:8px">🧪 Pilot</h3><p>1&nbsp;000 young S-Bank customers, 90 days. Measure savings rate and leak share.</p></div>
+      <div class="card"><h3 class="mint" style="margin-bottom:8px">🚀 Next</h3><p>Real-time card nudges, shared household goals, Swedish UI, mortgage journey.</p></div>
+      <div class="card" style="display:flex;gap:20px;align-items:center;width:auto">
+        <div class="qr">QR</div>
+        <div><h3 style="margin-bottom:6px">Team</h3><p style="font-size:22px">[Name · role]<br>[Name · role]<br>[contact]</p></div>
+      </div>
+    </div>
+    <p style="font-size:30px;margin-top:6px"><strong>Kiitos!</strong> Questions?</p>
+  </div>
+  <div class="footer"><span class="brand"><i></i>SPankkiBot</span><span>Junction 2026 · S-Pankki challenge</span></div>
+  <aside class="notes">Our ask is simple: let us run a 90-day pilot with a thousand young customers and measure whether their leak basket shrinks and their savings rate grows. Everything you saw runs on S-Bank's data model with an open-weights model you can own. Kiitos!</aside>
+</section>
+
+</div></div>
+
+<div id="notes" aria-live="polite"><h4>Speaker notes</h4><p id="notesText"></p></div>
+<div id="hint">&larr; &rarr; navigate · F fullscreen · N notes</div>
+<div id="counter"></div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var stage = document.getElementById('stage');
+  var cur = 0;
+
+  // Phone frames: build <img> + skeleton placeholder shown until the screenshot exists.
+  document.querySelectorAll('.phone').forEach(function(ph){
+    var src = ph.getAttribute('data-src'), cap = ph.getAttribute('data-cap') || '';
+    ph.innerHTML = '<div class="notch"></div><div class="screen">' +
+      '<img alt="' + cap + '" loading="eager">' +
+      '<div class="ph"><div class="cap">' + cap + '</div>' +
+      '<div class="sk" style="height:22%"></div><div class="sk" style="height:12%"></div>' +
+      '<div class="row" style="gap:10px;height:14%"><div class="sk grow"></div><div class="sk grow"></div></div>' +
+      '<div class="sk" style="height:10%;background:linear-gradient(90deg,#5B8DEF 50%,#F5A524 50% 64%,#FF6B8A 64%);opacity:.5"></div>' +
+      '<div class="lbl">' + src + '</div></div></div>';
+    var img = ph.querySelector('img');
+    img.onerror = function(){ ph.classList.add('missing'); };
+    img.src = src;
+  });
+  // Character art: use ../design/png/{sisu,aava}.png when they exist, keep the inline SVG otherwise.
+  document.querySelectorAll('img[data-design]').forEach(function(img){
+    img.onload = function(){ img.parentNode.classList.add('has-img'); };
+    img.src = img.getAttribute('data-design');
+  });
+
+  function fit(){
+    var s = Math.min(window.innerWidth / 1600, window.innerHeight / 900);
+    stage.style.transform = 'scale(' + s + ')';
+  }
+  function show(i){
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function(sl, k){
+      sl.classList.toggle('active', k === i);
+      sl.classList.toggle('prev', k < i);
+      sl.setAttribute('aria-hidden', k === i ? 'false' : 'true');
+    });
+    cur = i;
+    document.getElementById('progress').style.width = ((i + 1) / slides.length * 100) + '%';
+    document.getElementById('counter').textContent = (i + 1) + ' / ' + slides.length + ' · ' + (slides[i].dataset.title || '');
+    var n = slides[i].querySelector('.notes');
+    document.getElementById('notesText').textContent = n ? n.textContent : '';
+    if (location.hash !== '#' + (i + 1)) history.replaceState(null, '', '#' + (i + 1));
+  }
+  function next(){ show(cur + 1); }
+  function prev(){ show(cur - 1); }
+
+  document.addEventListener('keydown', function(e){
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    switch (e.key) {
+      case 'ArrowRight': case 'PageDown': case ' ': case 'Enter': e.preventDefault(); next(); break;
+      case 'ArrowLeft': case 'PageUp': case 'Backspace': e.preventDefault(); prev(); break;
+      case 'Home': show(0); break;
+      case 'End': show(slides.length - 1); break;
+      case 'f': case 'F':
+        if (!document.fullscreenElement) { (document.documentElement.requestFullscreen || function(){}).call(document.documentElement); }
+        else { document.exitFullscreen(); }
+        break;
+      case 'n': case 'N': document.getElementById('notes').classList.toggle('open'); break;
+      default:
+        if (/^[1-9]$/.test(e.key)) show(parseInt(e.key, 10) - 1);
+    }
+  });
+  document.getElementById('nextBtn').onclick = next;
+  document.getElementById('prevBtn').onclick = prev;
+
+  // touch swipe
+  var tx = null;
+  document.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    if (tx === null) return;
+    var dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 50) { dx < 0 ? next() : prev(); }
+    tx = null;
+  });
+
+  setTimeout(function(){ var h = document.getElementById('hint'); if (h) h.style.opacity = '0'; }, 5000);
+  window.addEventListener('resize', fit);
+  window.addEventListener('hashchange', function(){ var n = parseInt(location.hash.slice(1), 10); if (n) show(n - 1); });
+  fit();
+  var start = parseInt(location.hash.slice(1), 10);
+  show(start ? start - 1 : 0);
+})();
+</script>
+</body>
+</html>

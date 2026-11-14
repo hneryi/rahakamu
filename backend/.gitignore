@@ -1,0 +1,6 @@
+.cache/
+state.db
+state.db-*
+.pytest_cache/
+# chat feedback from the demo; may hold user comments
+feedback.jsonl

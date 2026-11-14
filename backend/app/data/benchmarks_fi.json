@@ -1,0 +1,576 @@
+{
+  "meta": {
+    "source": "Statistics Finland (Tilastokeskus), StatFin database via the open PxWeb API",
+    "url": "https://pxdata.stat.fi/PxWeb/api/v1/en/StatFin/",
+    "year": 2022,
+    "retrieved": "2026-11-14",
+    "license": "CC BY 4.0 — Source: Statistics Finland",
+    "notes": [
+      "Consumption figures: Household Budget Survey (kulutustutkimus) 2022, the latest available round (next round not yet published), table ktutk/14q4, COICOP 2018 classification, current (2022) prices.",
+      "Per-person method: we use Statistics Finland's own 'consumption expenditure per consumption unit per month' series. A consumption unit uses the modified OECD scale (first adult = 1, other persons 14+ = 0.5, children = 0.3), so for a ONE-PERSON household the figure equals spending per person. This is the fairest comparison for a single bank account holder.",
+      "Values are 2022 euros. Prices rose 6.2 % (2023), 1.6 % (2024) and 0.3 % (2025) since then; multiply by 'inflation.cumulative_factor_2022_to_2025' for a rough 2025-price view (an estimate, not an official statistic).",
+      "Dataset categories are mapped to COICOP aggregates by the SPankkiBot team (see category_mapping); this mapping is our interpretation, not a Statistics Finland classification.",
+      "The 17-24 age band rests on only 92 sampled households — treat it as indicative. Cells suppressed by Statistics Finland (shown as '..' in the source) are counted as 0.",
+      "The hackathon transaction dataset is synthetic; its levels (e.g. restaurants) are higher than the national averages. Benchmarks are a reality check for the coach, not a judgement."
+    ],
+    "tables": {
+      "consumption_by_age": "https://pxdata.stat.fi/PxWeb/pxweb/en/StatFin/StatFin__ktutk/14q4.px/",
+      "household_background_by_age": "https://pxdata.stat.fi/PxWeb/pxweb/en/StatFin/StatFin__ktutk/14q9.px/",
+      "income_by_age": "https://pxdata.stat.fi/PxWeb/pxweb/en/StatFin/StatFin__tjt/14k5.px/",
+      "cpi_annual_change_yearly": "https://pxdata.stat.fi/PxWeb/pxweb/en/StatFin/StatFin__khi/122q.px/",
+      "cpi_annual_change_monthly": "https://pxdata.stat.fi/PxWeb/pxweb/en/StatFin/StatFin__khi/122p.px/",
+      "household_saving_rate": "https://pxdata.stat.fi/PxWeb/pxweb/en/StatFin/StatFin__ntp/15a8.px/"
+    }
+  },
+  "unit": "EUR per consumption unit per month (= per person for a single-person household), 2022 prices",
+  "monthly_per_person_eur": {
+    "Groceries": 329.0,
+    "Restaurants": 79.0,
+    "Transportation": 165.0,
+    "Utilities": 168.0,
+    "Housing": 292.0,
+    "Entertainment": 48.0,
+    "Health": 86.0,
+    "Home & Tech": 130.0,
+    "Lifestyle": 187.0,
+    "Travel": 43.0
+  },
+  "total_consumption_monthly_per_person_eur": 2363,
+  "monthly_per_household_eur": {
+    "Groceries": 471.0,
+    "Restaurants": 111.0,
+    "Transportation": 239.0,
+    "Utilities": 240.0,
+    "Housing": 365.0,
+    "Entertainment": 69.0,
+    "Health": 118.0,
+    "Home & Tech": 184.0,
+    "Lifestyle": 267.0,
+    "Travel": 65.0
+  },
+  "total_consumption_monthly_per_household_eur": 3317,
+  "households": {
+    "households_in_sample": 3138,
+    "households_in_population": 2919000,
+    "avg_household_size_persons": 1.88,
+    "avg_consumption_units_per_household": 1.39,
+    "disposable_income_per_household_year_eur": 50270,
+    "disposable_income_per_consumption_unit_month_eur": 3013.79
+  },
+  "coicop_divisions_monthly_per_person_eur": {
+    "0 Total": 2363,
+    "01 Food and non-alcoholic beverages": 329,
+    "02 Alcoholic beverage and tobacco": 46,
+    "03 Clothing and footwear": 97,
+    "04 Housing, water, electricity, gas and other fuels": 795,
+    "05 Furnishings, household equipment and routine household maintenance": 96,
+    "06 Health": 86,
+    "07 Transport": 313,
+    "08 Information and communication": 94,
+    "09 Recreation, sport and culture": 149,
+    "10 Education services": 7,
+    "11 Restaurants and accommodation services": 91,
+    "12 Insurance and financial services": 105,
+    "13 Personal care, social protection and miscellaneous goods and services": 109
+  },
+  "age_band_rule": "Pick the band containing the customer's age: <25 → '17-24', 25-34, 35-44, 45-54, 55-64, 65-74, 75-84, 85+ (age of the household reference person in the survey).",
+  "by_age_group": {
+    "17-24": {
+      "monthly_per_consumption_unit_eur": {
+        "Groceries": 210.0,
+        "Restaurants": 67.0,
+        "Transportation": 89.0,
+        "Utilities": 77.0,
+        "Housing": 458.0,
+        "Entertainment": 30.0,
+        "Health": 45.0,
+        "Home & Tech": 94.0,
+        "Lifestyle": 159.0,
+        "Travel": 29.0
+      },
+      "total_consumption_per_consumption_unit_eur": 1535,
+      "monthly_per_household_eur": {
+        "Groceries": 251.0,
+        "Restaurants": 81.0,
+        "Transportation": 113.0,
+        "Utilities": 94.0,
+        "Housing": 522.0,
+        "Entertainment": 38.0,
+        "Health": 51.0,
+        "Home & Tech": 115.0,
+        "Lifestyle": 184.0,
+        "Travel": 39.0
+      },
+      "total_consumption_per_household_eur": 1871,
+      "households_in_sample": 92,
+      "households_in_population": 178365,
+      "avg_household_size_persons": 1.36,
+      "avg_consumption_units_per_household": 1.18,
+      "disposable_income_per_household_year_eur": 22444,
+      "disposable_income_per_consumption_unit_month_eur": 1585.03,
+      "low_sample_warning": true
+    },
+    "25-34": {
+      "monthly_per_consumption_unit_eur": {
+        "Groceries": 292.0,
+        "Restaurants": 112.0,
+        "Transportation": 152.0,
+        "Utilities": 117.0,
+        "Housing": 429.0,
+        "Entertainment": 42.0,
+        "Health": 46.0,
+        "Home & Tech": 152.0,
+        "Lifestyle": 228.0,
+        "Travel": 37.0
+      },
+      "total_consumption_per_consumption_unit_eur": 2209,
+      "monthly_per_household_eur": {
+        "Groceries": 405.0,
+        "Restaurants": 150.0,
+        "Transportation": 215.0,
+        "Utilities": 166.0,
+        "Housing": 541.0,
+        "Entertainment": 59.0,
+        "Health": 63.0,
+        "Home & Tech": 208.0,
+        "Lifestyle": 313.0,
+        "Travel": 51.0
+      },
+      "total_consumption_per_household_eur": 3044,
+      "households_in_sample": 393,
+      "households_in_population": 465298,
+      "avg_household_size_persons": 1.84,
+      "avg_consumption_units_per_household": 1.35,
+      "disposable_income_per_household_year_eur": 43616,
+      "disposable_income_per_consumption_unit_month_eur": 2692.35,
+      "low_sample_warning": false
+    },
+    "35-44": {
+      "monthly_per_consumption_unit_eur": {
+        "Groceries": 332.0,
+        "Restaurants": 110.0,
+        "Transportation": 159.0,
+        "Utilities": 156.0,
+        "Housing": 310.0,
+        "Entertainment": 51.0,
+        "Health": 59.0,
+        "Home & Tech": 163.0,
+        "Lifestyle": 196.0,
+        "Travel": 57.0
+      },
+      "total_consumption_per_consumption_unit_eur": 2362,
+      "monthly_per_household_eur": {
+        "Groceries": 575.0,
+        "Restaurants": 161.0,
+        "Transportation": 269.0,
+        "Utilities": 267.0,
+        "Housing": 443.0,
+        "Entertainment": 85.0,
+        "Health": 99.0,
+        "Home & Tech": 253.0,
+        "Lifestyle": 331.0,
+        "Travel": 95.0
+      },
+      "total_consumption_per_household_eur": 3872,
+      "households_in_sample": 407,
+      "households_in_population": 426576,
+      "avg_household_size_persons": 2.74,
+      "avg_consumption_units_per_household": 1.68,
+      "disposable_income_per_household_year_eur": 62569,
+      "disposable_income_per_consumption_unit_month_eur": 3103.62,
+      "low_sample_warning": false
+    },
+    "45-54": {
+      "monthly_per_consumption_unit_eur": {
+        "Groceries": 346.0,
+        "Restaurants": 87.0,
+        "Transportation": 215.0,
+        "Utilities": 188.0,
+        "Housing": 229.0,
+        "Entertainment": 59.0,
+        "Health": 83.0,
+        "Home & Tech": 141.0,
+        "Lifestyle": 214.0,
+        "Travel": 63.0
+      },
+      "total_consumption_per_consumption_unit_eur": 2657,
+      "monthly_per_household_eur": {
+        "Groceries": 584.0,
+        "Restaurants": 145.0,
+        "Transportation": 357.0,
+        "Utilities": 314.0,
+        "Housing": 329.0,
+        "Entertainment": 106.0,
+        "Health": 136.0,
+        "Home & Tech": 231.0,
+        "Lifestyle": 368.0,
+        "Travel": 105.0
+      },
+      "total_consumption_per_household_eur": 4382,
+      "households_in_sample": 451,
+      "households_in_population": 456093,
+      "avg_household_size_persons": 2.46,
+      "avg_consumption_units_per_household": 1.65,
+      "disposable_income_per_household_year_eur": 66173,
+      "disposable_income_per_consumption_unit_month_eur": 3342.07,
+      "low_sample_warning": false
+    },
+    "55-64": {
+      "monthly_per_consumption_unit_eur": {
+        "Groceries": 360.0,
+        "Restaurants": 86.0,
+        "Transportation": 211.0,
+        "Utilities": 199.0,
+        "Housing": 258.0,
+        "Entertainment": 60.0,
+        "Health": 100.0,
+        "Home & Tech": 136.0,
+        "Lifestyle": 202.0,
+        "Travel": 50.0
+      },
+      "total_consumption_per_consumption_unit_eur": 2712,
+      "monthly_per_household_eur": {
+        "Groceries": 500.0,
+        "Restaurants": 117.0,
+        "Transportation": 294.0,
+        "Utilities": 274.0,
+        "Housing": 313.0,
+        "Entertainment": 76.0,
+        "Health": 134.0,
+        "Home & Tech": 187.0,
+        "Lifestyle": 272.0,
+        "Travel": 71.0
+      },
+      "total_consumption_per_household_eur": 3677,
+      "households_in_sample": 574,
+      "households_in_population": 482923,
+      "avg_household_size_persons": 1.71,
+      "avg_consumption_units_per_household": 1.34,
+      "disposable_income_per_household_year_eur": 59724,
+      "disposable_income_per_consumption_unit_month_eur": 3714.18,
+      "low_sample_warning": false
+    },
+    "65-74": {
+      "monthly_per_consumption_unit_eur": {
+        "Groceries": 362.0,
+        "Restaurants": 51.0,
+        "Transportation": 167.0,
+        "Utilities": 208.0,
+        "Housing": 221.0,
+        "Entertainment": 42.0,
+        "Health": 105.0,
+        "Home & Tech": 111.0,
+        "Lifestyle": 156.0,
+        "Travel": 34.0
+      },
+      "total_consumption_per_consumption_unit_eur": 2347,
+      "monthly_per_household_eur": {
+        "Groceries": 450.0,
+        "Restaurants": 61.0,
+        "Transportation": 209.0,
+        "Utilities": 257.0,
+        "Housing": 249.0,
+        "Entertainment": 51.0,
+        "Health": 130.0,
+        "Home & Tech": 138.0,
+        "Lifestyle": 194.0,
+        "Travel": 44.0
+      },
+      "total_consumption_per_household_eur": 2895,
+      "households_in_sample": 677,
+      "households_in_population": 475159,
+      "avg_household_size_persons": 1.42,
+      "avg_consumption_units_per_household": 1.21,
+      "disposable_income_per_household_year_eur": 41872,
+      "disposable_income_per_consumption_unit_month_eur": 2883.75,
+      "low_sample_warning": false
+    },
+    "75-84": {
+      "monthly_per_consumption_unit_eur": {
+        "Groceries": 337.0,
+        "Restaurants": 38.0,
+        "Transportation": 124.0,
+        "Utilities": 182.0,
+        "Housing": 240.0,
+        "Entertainment": 43.0,
+        "Health": 146.0,
+        "Home & Tech": 90.0,
+        "Lifestyle": 136.0,
+        "Travel": 33.0
+      },
+      "total_consumption_per_consumption_unit_eur": 2251,
+      "monthly_per_household_eur": {
+        "Groceries": 413.0,
+        "Restaurants": 45.0,
+        "Transportation": 149.0,
+        "Utilities": 222.0,
+        "Housing": 263.0,
+        "Entertainment": 50.0,
+        "Health": 182.0,
+        "Home & Tech": 111.0,
+        "Lifestyle": 162.0,
+        "Travel": 38.0
+      },
+      "total_consumption_per_household_eur": 2691,
+      "households_in_sample": 466,
+      "households_in_population": 357138,
+      "avg_household_size_persons": 1.39,
+      "avg_consumption_units_per_household": 1.19,
+      "disposable_income_per_household_year_eur": 39466,
+      "disposable_income_per_consumption_unit_month_eur": 2763.73,
+      "low_sample_warning": false
+    },
+    "85+": {
+      "monthly_per_consumption_unit_eur": {
+        "Groceries": 276.0,
+        "Restaurants": 25.0,
+        "Transportation": 61.0,
+        "Utilities": 164.0,
+        "Housing": 232.0,
+        "Entertainment": 18.0,
+        "Health": 126.0,
+        "Home & Tech": 86.0,
+        "Lifestyle": 114.0,
+        "Travel": 5.0
+      },
+      "total_consumption_per_consumption_unit_eur": 1898,
+      "monthly_per_household_eur": {
+        "Groceries": 330.0,
+        "Restaurants": 32.0,
+        "Transportation": 73.0,
+        "Utilities": 197.0,
+        "Housing": 251.0,
+        "Entertainment": 24.0,
+        "Health": 151.0,
+        "Home & Tech": 98.0,
+        "Lifestyle": 136.0,
+        "Travel": 8.0
+      },
+      "total_consumption_per_household_eur": 2202,
+      "households_in_sample": 78,
+      "households_in_population": 77448,
+      "avg_household_size_persons": 1.34,
+      "avg_consumption_units_per_household": 1.17,
+      "disposable_income_per_household_year_eur": 35333,
+      "disposable_income_per_consumption_unit_month_eur": 2516.6,
+      "low_sample_warning": true
+    }
+  },
+  "income": {
+    "source": "Statistics Finland, Income distribution statistics (tulonjakotilasto) 2024, table tjt/14k5",
+    "year": 2024,
+    "notes": "Median disposable cash income per consumption unit = household's disposable cash income divided by its consumption units, median across persons in the age band. 'Personal' median = the individual's own disposable money income (no sharing of household income). Monthly = annual / 12.",
+    "by_age_group": {
+      "all": {
+        "median_disposable_cash_income_per_consumption_unit_year_eur": 30523,
+        "median_disposable_cash_income_per_consumption_unit_month_eur": 2543.58,
+        "median_personal_disposable_income_year_eur": 22726,
+        "median_personal_disposable_income_month_eur": 1893.83,
+        "persons": 5505446
+      },
+      "adults_18+": {
+        "median_disposable_cash_income_per_consumption_unit_year_eur": 30875,
+        "median_disposable_cash_income_per_consumption_unit_month_eur": 2572.92,
+        "median_personal_disposable_income_year_eur": 26605,
+        "median_personal_disposable_income_month_eur": 2217.08,
+        "persons": 4507107
+      },
+      "18-24": {
+        "median_disposable_cash_income_per_consumption_unit_year_eur": 23520,
+        "median_disposable_cash_income_per_consumption_unit_month_eur": 1960.0,
+        "median_personal_disposable_income_year_eur": 13182,
+        "median_personal_disposable_income_month_eur": 1098.5,
+        "persons": 429171
+      },
+      "25-34": {
+        "median_disposable_cash_income_per_consumption_unit_year_eur": 30374,
+        "median_disposable_cash_income_per_consumption_unit_month_eur": 2531.17,
+        "median_personal_disposable_income_year_eur": 27197,
+        "median_personal_disposable_income_month_eur": 2266.42,
+        "persons": 704016
+      },
+      "35-49": {
+        "median_disposable_cash_income_per_consumption_unit_year_eur": 33066,
+        "median_disposable_cash_income_per_consumption_unit_month_eur": 2755.5,
+        "median_personal_disposable_income_year_eur": 33214,
+        "median_personal_disposable_income_month_eur": 2767.83,
+        "persons": 1080472
+      },
+      "50-64": {
+        "median_disposable_cash_income_per_consumption_unit_year_eur": 37142,
+        "median_disposable_cash_income_per_consumption_unit_month_eur": 3095.17,
+        "median_personal_disposable_income_year_eur": 31695,
+        "median_personal_disposable_income_month_eur": 2641.25,
+        "persons": 1011495
+      },
+      "65-74": {
+        "median_disposable_cash_income_per_consumption_unit_year_eur": 29220,
+        "median_disposable_cash_income_per_consumption_unit_month_eur": 2435.0,
+        "median_personal_disposable_income_year_eur": 22452,
+        "median_personal_disposable_income_month_eur": 1871.0,
+        "persons": 664049
+      },
+      "75-84": {
+        "median_disposable_cash_income_per_consumption_unit_year_eur": 27057,
+        "median_disposable_cash_income_per_consumption_unit_month_eur": 2254.75,
+        "median_personal_disposable_income_year_eur": 21946,
+        "median_personal_disposable_income_month_eur": 1828.83,
+        "persons": 468430
+      },
+      "85+": {
+        "median_disposable_cash_income_per_consumption_unit_year_eur": 23807,
+        "median_disposable_cash_income_per_consumption_unit_month_eur": 1983.92,
+        "median_personal_disposable_income_year_eur": 20944,
+        "median_personal_disposable_income_month_eur": 1745.33,
+        "persons": 149474
+      }
+    }
+  },
+  "inflation": {
+    "source": "Statistics Finland, Consumer price index (kuluttajahintaindeksi), tables khi/122q and khi/122p",
+    "annual_change_pct": {
+      "2021": 2.2,
+      "2022": 7.1,
+      "2023": 6.2,
+      "2024": 1.6,
+      "2025": 0.3
+    },
+    "monthly_annual_change_pct": {
+      "2025-10": -0.2,
+      "2025-11": -0.1,
+      "2025-12": 0.2,
+      "2026-01": -0.2,
+      "2026-02": 0.6,
+      "2026-03": 1.3,
+      "2026-04": 1.5,
+      "2026-05": 2.1,
+      "2026-06": 2.1,
+      "2026-07": 2.1,
+      "2026-08": 2.2,
+      "2026-09": 2.5,
+      "2026-10": 3.1
+    },
+    "latest": {
+      "period": "2026-10",
+      "annual_change_pct": 3.1
+    },
+    "latest_full_year": {
+      "year": 2025,
+      "annual_change_pct": 0.3
+    },
+    "cumulative_factor_2022_to_2025": 1.0822,
+    "cumulative_factor_note": "Derived by SPankkiBot by chaining the official annual changes 2023-2025 (estimate: true — chaining annual averages is an approximation)."
+  },
+  "saving_rate": {
+    "source": "Statistics Finland, Quarterly sector accounts, table ntp/15a8, sector S14 Households, seasonally and working-day adjusted",
+    "definition": "Household saving rate = gross saving as % of disposable income (national accounts). Macro figure for all Finnish households; not directly comparable with an individual's 'savings rate' from bank transactions, but a useful anchor.",
+    "quarterly_pct": {
+      "2024Q3": 3.8,
+      "2024Q4": 6,
+      "2025Q1": 4.6,
+      "2025Q2": 7.1,
+      "2025Q3": 5.8,
+      "2025Q4": 6.1,
+      "2026Q1": 6.2,
+      "2026Q2": 4.3
+    },
+    "latest": {
+      "period": "2026Q2",
+      "pct": 4.3
+    },
+    "average_2025_pct": 5.9,
+    "average_2025_note": "Simple mean of the four seasonally adjusted 2025 quarters, computed by SPankkiBot (estimate: true).",
+    "household_indebtedness_rate_pct": {
+      "2024Q3": 123.2,
+      "2024Q4": 121.8,
+      "2025Q1": 121.5,
+      "2025Q2": 120.3,
+      "2025Q3": 119.8,
+      "2025Q4": 119.3,
+      "2026Q1": 118.1,
+      "2026Q2": 117.9
+    },
+    "household_indebtedness_note": "Household debt as % of annual disposable income (same table)."
+  },
+  "category_mapping": {
+    "Groceries": "COICOP 01 Food and non-alcoholic beverages",
+    "Restaurants": "COICOP 11.1 Food and beverage serving services (restaurants, cafés, canteens)",
+    "Transportation": "COICOP 07.2 Operation of personal transport equipment (fuel, parts, repair, parking etc.) + 07.3.1/07.3.2/07.3.4/07.3.5 rail, road, sea & combined passenger transport. Excludes 07.1 vehicle purchases and 07.3.3 air (→ Travel).",
+    "Utilities": "COICOP 04.4.1-04.4.3 water, refuse, sewage + 04.5 electricity, gas & other fuels + 08.3 information & communication services (phone, internet)",
+    "Housing": "COICOP 04.1 actual rent + 04.4.4 other services related to the dwelling + 04.6.3 interest on housing loans. Excludes 04.2 imputed rent of owner-occupiers (not a cash outflow). Loan principal repayments are not consumption and are therefore NOT included.",
+    "Entertainment": "COICOP 09.4 Recreational and sporting services (incl. gyms, games of chance, pet services) + 09.6 Cultural services (cinema, theatre, concerts, museums)",
+    "Health": "COICOP 06 Health (medicines, outpatient incl. dental, inpatient, other health services)",
+    "Home & Tech": "COICOP 05 Furnishings, household equipment & routine maintenance + 08.1 ICT equipment + 08.2 software",
+    "Lifestyle": "COICOP 03 Clothing & footwear + 09.2 other recreational goods (toys, sports gear) + 09.7 books, newspapers, stationery + 13.1 personal care + 13.2 other personal effects",
+    "Travel": "COICOP 07.3.3 air transport + 11.2 accommodation services + 09.8 package holidays"
+  },
+  "category_mapping_codes": {
+    "Groceries": [
+      "01"
+    ],
+    "Restaurants": [
+      "111"
+    ],
+    "Transportation": [
+      "072",
+      "0731",
+      "0732",
+      "0734",
+      "0735"
+    ],
+    "Utilities": [
+      "0441",
+      "0442",
+      "0443",
+      "045",
+      "083"
+    ],
+    "Housing": [
+      "041",
+      "0444",
+      "0463"
+    ],
+    "Entertainment": [
+      "094",
+      "096"
+    ],
+    "Health": [
+      "06"
+    ],
+    "Home & Tech": [
+      "05",
+      "081",
+      "082"
+    ],
+    "Lifestyle": [
+      "03",
+      "092",
+      "097",
+      "131",
+      "132"
+    ],
+    "Travel": [
+      "0733",
+      "112",
+      "098"
+    ]
+  },
+  "not_benchmarked": {
+    "Salary": "Income — compare with income.by_age_group instead.",
+    "Other Income": "Income flow, no consumption benchmark.",
+    "Invest Deposit": "Saving flow — compare with saving_rate.",
+    "Salary Sweep": "Internal transfer to savings — compare with saving_rate.",
+    "Invest Withdraw": "Income flow, no consumption benchmark."
+  },
+  "suppressed_cells_counted_as_zero": [
+    "17-24:0442",
+    "17-24:0735",
+    "85+:0463",
+    "85+:0731",
+    "85+:0734",
+    "85+:0735",
+    "85+:082",
+    "85+:112",
+    "85+:132"
+  ]
+}

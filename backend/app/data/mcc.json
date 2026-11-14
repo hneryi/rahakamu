@@ -1,0 +1,1162 @@
+{
+  "meta": {
+    "description": "Generic, brand-free labels for every Merchant Category Code (ISO 18245) in the Junction 2026 S-Pankki dataset, plus the default basket of the SPankkiBot three-basket model (docs/SPEC.md §2).",
+    "rules": "default_basket is the starting point. 'irregular_over_eur' means: a single transaction above this amount (absolute value, EUR) is re-classified as 'irregular'. Recurring-payment detection may additionally move a transaction to 'fixed'. The authoritative logic lives in app.analytics.baskets.classify().",
+    "merchant_label_pattern": "{short_label} #{merchant number}, e.g. MRC-RES-0042 with MCC 5812 → 'Restaurant #42'. Never use real brand names.",
+    "mcc_reference": "MCC descriptions follow ISO 18245 / card-network MCC lists; labels are simplified plain-language versions written by SPankkiBot."
+  },
+  "codes": {
+    "5411": {
+      "category": "Groceries",
+      "label": {
+        "en": "Grocery store / supermarket",
+        "fi": "Ruokakauppa / supermarket",
+        "sv": "Matbutik / stormarknad"
+      },
+      "short_label_en": "Grocery store",
+      "short_label_fi": "Ruokakauppa",
+      "short_label_sv": "Matbutik",
+      "icon": "🛒",
+      "default_basket": "fixed",
+      "why": {
+        "en": "Food at home is a must-have you buy every week — a fixed essential you can plan for.",
+        "fi": "Kotiruoka on välttämättömyys, jota ostat joka viikko — kiinteä menoerä, jonka voi suunnitella.",
+        "sv": "Mat hemma är ett måste som du köper varje vecka — ett fast måste som går att planera."
+      }
+    },
+    "5422": {
+      "category": "Groceries",
+      "label": {
+        "en": "Butcher / meat shop",
+        "fi": "Liha- ja kalakauppa",
+        "sv": "Kött- och fiskaffär"
+      },
+      "short_label_en": "Butcher",
+      "short_label_fi": "Lihakauppa",
+      "short_label_sv": "Köttaffär",
+      "icon": "🥩",
+      "default_basket": "fixed",
+      "why": {
+        "en": "Food at home is a must-have you buy every week — a fixed essential you can plan for.",
+        "fi": "Kotiruoka on välttämättömyys, jota ostat joka viikko — kiinteä menoerä, jonka voi suunnitella.",
+        "sv": "Mat hemma är ett måste som du köper varje vecka — ett fast måste som går att planera."
+      }
+    },
+    "5451": {
+      "category": "Groceries",
+      "label": {
+        "en": "Dairy shop",
+        "fi": "Maitotuotekauppa",
+        "sv": "Mejeributik"
+      },
+      "short_label_en": "Dairy shop",
+      "short_label_fi": "Maitokauppa",
+      "short_label_sv": "Mejeributik",
+      "icon": "🧀",
+      "default_basket": "fixed",
+      "why": {
+        "en": "Food at home is a must-have you buy every week — a fixed essential you can plan for.",
+        "fi": "Kotiruoka on välttämättömyys, jota ostat joka viikko — kiinteä menoerä, jonka voi suunnitella.",
+        "sv": "Mat hemma är ett måste som du köper varje vecka — ett fast måste som går att planera."
+      }
+    },
+    "5499": {
+      "category": "Groceries",
+      "label": {
+        "en": "Convenience store / kiosk",
+        "fi": "Lähikioski / pikakauppa",
+        "sv": "Närbutik / kiosk"
+      },
+      "short_label_en": "Kiosk",
+      "short_label_fi": "Kioski",
+      "short_label_sv": "Kiosk",
+      "icon": "🏪",
+      "default_basket": "leak",
+      "why": {
+        "en": "Kiosk runs are pricier than a planned grocery trip and often impulse snacks — a sneaky leak.",
+        "fi": "Kioskiostokset ovat kalliimpia kuin suunniteltu kauppareissu ja usein heräteostoksia — salakavala vuoto.",
+        "sv": "Kioskbesök kostar mer än ett planerat matinköp och slutar ofta med impulssnacks — en lömsk läcka."
+      }
+    },
+    "5812": {
+      "category": "Restaurants",
+      "label": {
+        "en": "Restaurant or café",
+        "fi": "Ravintola tai kahvila",
+        "sv": "Restaurang eller kafé"
+      },
+      "short_label_en": "Restaurant",
+      "short_label_fi": "Ravintola",
+      "short_label_sv": "Restaurang",
+      "icon": "🍽️",
+      "default_basket": "leak",
+      "why": {
+        "en": "Eating out is a treat, not a necessity — small, frequent and easy to lose track of.",
+        "fi": "Ulkona syöminen on herkku, ei välttämättömyys — pieniä, toistuvia ja helposti huomaamattomia ostoksia.",
+        "sv": "Att äta ute är en lyx, inte en nödvändighet — små, täta köp som är lätta att tappa koll på."
+      }
+    },
+    "5814": {
+      "category": "Restaurants",
+      "label": {
+        "en": "Fast food",
+        "fi": "Pikaruoka",
+        "sv": "Snabbmat"
+      },
+      "short_label_en": "Fast food",
+      "short_label_fi": "Pikaruoka",
+      "short_label_sv": "Snabbmat",
+      "icon": "🍔",
+      "default_basket": "leak",
+      "why": {
+        "en": "Eating out is a treat, not a necessity — small, frequent and easy to lose track of.",
+        "fi": "Ulkona syöminen on herkku, ei välttämättömyys — pieniä, toistuvia ja helposti huomaamattomia ostoksia.",
+        "sv": "Att äta ute är en lyx, inte en nödvändighet — små, täta köp som är lätta att tappa koll på."
+      }
+    },
+    "5813": {
+      "category": "Restaurants",
+      "label": {
+        "en": "Bar / pub / nightclub",
+        "fi": "Baari / pubi / yökerho",
+        "sv": "Bar / pub / nattklubb"
+      },
+      "short_label_en": "Bar",
+      "short_label_fi": "Baari",
+      "short_label_sv": "Bar",
+      "icon": "🍻",
+      "default_basket": "leak",
+      "why": {
+        "en": "Nights out are optional fun — and the bill grows round by round.",
+        "fi": "Illanvietot ovat valinnaista hauskanpitoa — ja lasku kasvaa kierros kierrokselta.",
+        "sv": "Utekvällar är valfritt nöje — och notan växer för varje runda."
+      }
+    },
+    "4111": {
+      "category": "Transportation",
+      "label": {
+        "en": "Public transport (local & commuter)",
+        "fi": "Joukkoliikenne (paikallis- ja lähiliikenne)",
+        "sv": "Kollektivtrafik (lokal- och närtrafik)"
+      },
+      "short_label_en": "Public transport",
+      "short_label_fi": "Joukkoliikenne",
+      "short_label_sv": "Kollektivtrafik",
+      "icon": "🚌",
+      "default_basket": "fixed",
+      "why": {
+        "en": "Getting to work or school is a must, and a travel card costs about the same each month — a fixed essential.",
+        "fi": "Työ- tai koulumatkat ovat pakollisia, ja matkakortti maksaa joka kuukausi suunnilleen saman — kiinteä menoerä.",
+        "sv": "Att ta sig till jobbet eller skolan är ett måste, och ett resekort kostar ungefär lika mycket varje månad — ett fast måste."
+      }
+    },
+    "4121": {
+      "category": "Transportation",
+      "label": {
+        "en": "Taxi / ride-hailing",
+        "fi": "Taksi / kyytipalvelu",
+        "sv": "Taxi / samåkningstjänst"
+      },
+      "short_label_en": "Taxi",
+      "short_label_fi": "Taksi",
+      "short_label_sv": "Taxi",
+      "icon": "🚕",
+      "default_basket": "leak",
+      "why": {
+        "en": "A taxi is usually a convenience choice when a cheaper option exists — a typical leak.",
+        "fi": "Taksi on yleensä mukavuusvalinta, kun halvempikin vaihtoehto olisi — tyypillinen vuoto.",
+        "sv": "Taxi är oftast ett bekvämlighetsval när det finns ett billigare alternativ — en typisk läcka."
+      }
+    },
+    "5541": {
+      "category": "Transportation",
+      "label": {
+        "en": "Fuel station (service station)",
+        "fi": "Huoltoasema",
+        "sv": "Bensinstation (servicestation)"
+      },
+      "short_label_en": "Fuel station",
+      "short_label_fi": "Huoltoasema",
+      "short_label_sv": "Bensinstation",
+      "icon": "⛽",
+      "default_basket": "leak",
+      "why": {
+        "en": "Small top-ups and parking add up like other everyday spending; big fills or car costs over 80 € count as irregular essentials.",
+        "fi": "Pienet tankkaukset ja pysäköinnit kertyvät kuten muukin arkikulutus; yli 80 € auto- ja polttoainekulut ovat epäsäännöllisiä välttämättömyyksiä.",
+        "sv": "Små tankningar och parkeringar växer som annan vardagskonsumtion; stora tankningar eller bilkostnader över 80 € räknas som oregelbundna måsten."
+      },
+      "irregular_over_eur": 80
+    },
+    "5542": {
+      "category": "Transportation",
+      "label": {
+        "en": "Fuel station (self-service pump)",
+        "fi": "Automaattiasema",
+        "sv": "Bensinstation (tankautomat)"
+      },
+      "short_label_en": "Fuel pump",
+      "short_label_fi": "Tankkausautomaatti",
+      "short_label_sv": "Tankautomat",
+      "icon": "⛽",
+      "default_basket": "leak",
+      "why": {
+        "en": "Small top-ups and parking add up like other everyday spending; big fills or car costs over 80 € count as irregular essentials.",
+        "fi": "Pienet tankkaukset ja pysäköinnit kertyvät kuten muukin arkikulutus; yli 80 € auto- ja polttoainekulut ovat epäsäännöllisiä välttämättömyyksiä.",
+        "sv": "Små tankningar och parkeringar växer som annan vardagskonsumtion; stora tankningar eller bilkostnader över 80 € räknas som oregelbundna måsten."
+      },
+      "irregular_over_eur": 80
+    },
+    "7523": {
+      "category": "Transportation",
+      "label": {
+        "en": "Parking",
+        "fi": "Pysäköinti",
+        "sv": "Parkering"
+      },
+      "short_label_en": "Parking",
+      "short_label_fi": "Pysäköinti",
+      "short_label_sv": "Parkering",
+      "icon": "🅿️",
+      "default_basket": "leak",
+      "why": {
+        "en": "Small top-ups and parking add up like other everyday spending; big fills or car costs over 80 € count as irregular essentials.",
+        "fi": "Pienet tankkaukset ja pysäköinnit kertyvät kuten muukin arkikulutus; yli 80 € auto- ja polttoainekulut ovat epäsäännöllisiä välttämättömyyksiä.",
+        "sv": "Små tankningar och parkeringar växer som annan vardagskonsumtion; stora tankningar eller bilkostnader över 80 € räknas som oregelbundna måsten."
+      },
+      "irregular_over_eur": 80
+    },
+    "7922": {
+      "category": "Entertainment",
+      "label": {
+        "en": "Event & ticket sales (concerts, theatre)",
+        "fi": "Tapahtumat ja lipunmyynti (konsertit, teatteri)",
+        "sv": "Evenemang och biljettförsäljning (konserter, teater)"
+      },
+      "short_label_en": "Events",
+      "short_label_fi": "Tapahtumat",
+      "short_label_sv": "Evenemang",
+      "icon": "🎟️",
+      "default_basket": "leak",
+      "why": {
+        "en": "Fun and experiences are worth budgeting for, but they are optional — a classic everyday leak.",
+        "fi": "Elämykset ja huvit kannattaa budjetoida, mutta ne ovat valinnaisia — tyypillinen arjen vuoto.",
+        "sv": "Nöjen och upplevelser är värda en plats i budgeten, men de är valfria — en klassisk vardagsläcka."
+      }
+    },
+    "7999": {
+      "category": "Entertainment",
+      "label": {
+        "en": "Recreation services",
+        "fi": "Vapaa-ajan palvelut",
+        "sv": "Fritidstjänster"
+      },
+      "short_label_en": "Recreation",
+      "short_label_fi": "Vapaa-aika",
+      "short_label_sv": "Fritid",
+      "icon": "🎳",
+      "default_basket": "leak",
+      "why": {
+        "en": "Fun and experiences are worth budgeting for, but they are optional — a classic everyday leak.",
+        "fi": "Elämykset ja huvit kannattaa budjetoida, mutta ne ovat valinnaisia — tyypillinen arjen vuoto.",
+        "sv": "Nöjen och upplevelser är värda en plats i budgeten, men de är valfria — en klassisk vardagsläcka."
+      }
+    },
+    "7832": {
+      "category": "Entertainment",
+      "label": {
+        "en": "Cinema",
+        "fi": "Elokuvateatteri",
+        "sv": "Biograf"
+      },
+      "short_label_en": "Cinema",
+      "short_label_fi": "Elokuvat",
+      "short_label_sv": "Bio",
+      "icon": "🎬",
+      "default_basket": "leak",
+      "why": {
+        "en": "Fun and experiences are worth budgeting for, but they are optional — a classic everyday leak.",
+        "fi": "Elämykset ja huvit kannattaa budjetoida, mutta ne ovat valinnaisia — tyypillinen arjen vuoto.",
+        "sv": "Nöjen och upplevelser är värda en plats i budgeten, men de är valfria — en klassisk vardagsläcka."
+      }
+    },
+    "7991": {
+      "category": "Entertainment",
+      "label": {
+        "en": "Attractions & exhibitions",
+        "fi": "Nähtävyydet ja näyttelyt",
+        "sv": "Sevärdheter och utställningar"
+      },
+      "short_label_en": "Attractions",
+      "short_label_fi": "Nähtävyydet",
+      "short_label_sv": "Sevärdheter",
+      "icon": "🏛️",
+      "default_basket": "leak",
+      "why": {
+        "en": "Fun and experiences are worth budgeting for, but they are optional — a classic everyday leak.",
+        "fi": "Elämykset ja huvit kannattaa budjetoida, mutta ne ovat valinnaisia — tyypillinen arjen vuoto.",
+        "sv": "Nöjen och upplevelser är värda en plats i budgeten, men de är valfria — en klassisk vardagsläcka."
+      }
+    },
+    "7996": {
+      "category": "Entertainment",
+      "label": {
+        "en": "Amusement park",
+        "fi": "Huvipuisto",
+        "sv": "Nöjespark"
+      },
+      "short_label_en": "Amusement park",
+      "short_label_fi": "Huvipuisto",
+      "short_label_sv": "Nöjespark",
+      "icon": "🎢",
+      "default_basket": "leak",
+      "why": {
+        "en": "Fun and experiences are worth budgeting for, but they are optional — a classic everyday leak.",
+        "fi": "Elämykset ja huvit kannattaa budjetoida, mutta ne ovat valinnaisia — tyypillinen arjen vuoto.",
+        "sv": "Nöjen och upplevelser är värda en plats i budgeten, men de är valfria — en klassisk vardagsläcka."
+      }
+    },
+    "5912": {
+      "category": "Health",
+      "label": {
+        "en": "Pharmacy",
+        "fi": "Apteekki",
+        "sv": "Apotek"
+      },
+      "short_label_en": "Pharmacy",
+      "short_label_fi": "Apteekki",
+      "short_label_sv": "Apotek",
+      "icon": "💊",
+      "default_basket": "irregular",
+      "why": {
+        "en": "Health costs are necessary but arrive unpredictably — exactly what a buffer is for.",
+        "fi": "Terveyskulut ovat välttämättömiä mutta tulevat ennalta arvaamatta — juuri tähän puskuri on olemassa.",
+        "sv": "Hälsokostnader är nödvändiga men kommer oförutsägbart — precis det som en buffert är till för."
+      }
+    },
+    "8011": {
+      "category": "Health",
+      "label": {
+        "en": "Doctor",
+        "fi": "Lääkäri",
+        "sv": "Läkare"
+      },
+      "short_label_en": "Doctor",
+      "short_label_fi": "Lääkäri",
+      "short_label_sv": "Läkare",
+      "icon": "🩺",
+      "default_basket": "irregular",
+      "why": {
+        "en": "Health costs are necessary but arrive unpredictably — exactly what a buffer is for.",
+        "fi": "Terveyskulut ovat välttämättömiä mutta tulevat ennalta arvaamatta — juuri tähän puskuri on olemassa.",
+        "sv": "Hälsokostnader är nödvändiga men kommer oförutsägbart — precis det som en buffert är till för."
+      }
+    },
+    "8099": {
+      "category": "Health",
+      "label": {
+        "en": "Health services",
+        "fi": "Terveyspalvelut",
+        "sv": "Hälsotjänster"
+      },
+      "short_label_en": "Health services",
+      "short_label_fi": "Terveyspalvelu",
+      "short_label_sv": "Hälsotjänst",
+      "icon": "🏥",
+      "default_basket": "irregular",
+      "why": {
+        "en": "Health costs are necessary but arrive unpredictably — exactly what a buffer is for.",
+        "fi": "Terveyskulut ovat välttämättömiä mutta tulevat ennalta arvaamatta — juuri tähän puskuri on olemassa.",
+        "sv": "Hälsokostnader är nödvändiga men kommer oförutsägbart — precis det som en buffert är till för."
+      }
+    },
+    "8021": {
+      "category": "Health",
+      "label": {
+        "en": "Dentist",
+        "fi": "Hammaslääkäri",
+        "sv": "Tandläkare"
+      },
+      "short_label_en": "Dentist",
+      "short_label_fi": "Hammaslääkäri",
+      "short_label_sv": "Tandläkare",
+      "icon": "🦷",
+      "default_basket": "irregular",
+      "why": {
+        "en": "Health costs are necessary but arrive unpredictably — exactly what a buffer is for.",
+        "fi": "Terveyskulut ovat välttämättömiä mutta tulevat ennalta arvaamatta — juuri tähän puskuri on olemassa.",
+        "sv": "Hälsokostnader är nödvändiga men kommer oförutsägbart — precis det som en buffert är till för."
+      }
+    },
+    "5200": {
+      "category": "Home & Tech",
+      "label": {
+        "en": "Home supply store",
+        "fi": "Rautakauppa / kodin tarvikkeet",
+        "sv": "Järnhandel / hemförnödenheter"
+      },
+      "short_label_en": "Home supplies",
+      "short_label_fi": "Kodintarvike",
+      "short_label_sv": "Hemförnödenheter",
+      "icon": "🏠",
+      "default_basket": "irregular",
+      "why": {
+        "en": "Repairs and home supplies are necessary but irregular — they belong to the buffer basket.",
+        "fi": "Korjaukset ja kodin tarvikkeet ovat välttämättömiä mutta epäsäännöllisiä — ne kuuluvat puskurikoriin.",
+        "sv": "Reparationer och hemförnödenheter är nödvändiga men oregelbundna — de hör till buffertkorgen."
+      }
+    },
+    "5251": {
+      "category": "Home & Tech",
+      "label": {
+        "en": "Hardware store",
+        "fi": "Rautakauppa",
+        "sv": "Järnhandel"
+      },
+      "short_label_en": "Hardware store",
+      "short_label_fi": "Rautakauppa",
+      "short_label_sv": "Järnhandel",
+      "icon": "🔨",
+      "default_basket": "irregular",
+      "why": {
+        "en": "Repairs and home supplies are necessary but irregular — they belong to the buffer basket.",
+        "fi": "Korjaukset ja kodin tarvikkeet ovat välttämättömiä mutta epäsäännöllisiä — ne kuuluvat puskurikoriin.",
+        "sv": "Reparationer och hemförnödenheter är nödvändiga men oregelbundna — de hör till buffertkorgen."
+      }
+    },
+    "5732": {
+      "category": "Home & Tech",
+      "label": {
+        "en": "Electronics store",
+        "fi": "Elektroniikkaliike",
+        "sv": "Elektronikaffär"
+      },
+      "short_label_en": "Electronics",
+      "short_label_fi": "Elektroniikka",
+      "short_label_sv": "Elektronik",
+      "icon": "📱",
+      "default_basket": "leak",
+      "why": {
+        "en": "Gadgets and décor are mostly wants; purchases over 150 € are treated as irregular essentials (e.g. replacing a broken laptop).",
+        "fi": "Laitteet ja sisustus ovat enimmäkseen haluja; yli 150 € ostot käsitellään epäsäännöllisinä välttämättömyyksinä (esim. rikkoutuneen läppärin tilalle).",
+        "sv": "Prylar och inredning är mest önskemål; köp över 150 € räknas som oregelbundna måsten (t.ex. en ny dator när den gamla gått sönder)."
+      },
+      "irregular_over_eur": 150
+    },
+    "5734": {
+      "category": "Home & Tech",
+      "label": {
+        "en": "Software & computer store",
+        "fi": "Ohjelmistot ja tietokoneet",
+        "sv": "Program och datorer"
+      },
+      "short_label_en": "Software",
+      "short_label_fi": "Ohjelmistot",
+      "short_label_sv": "Program",
+      "icon": "💻",
+      "default_basket": "leak",
+      "why": {
+        "en": "Gadgets and décor are mostly wants; purchases over 150 € are treated as irregular essentials (e.g. replacing a broken laptop).",
+        "fi": "Laitteet ja sisustus ovat enimmäkseen haluja; yli 150 € ostot käsitellään epäsäännöllisinä välttämättömyyksinä (esim. rikkoutuneen läppärin tilalle).",
+        "sv": "Prylar och inredning är mest önskemål; köp över 150 € räknas som oregelbundna måsten (t.ex. en ny dator när den gamla gått sönder)."
+      },
+      "irregular_over_eur": 150
+    },
+    "5712": {
+      "category": "Home & Tech",
+      "label": {
+        "en": "Furniture & home décor",
+        "fi": "Huonekalut ja sisustus",
+        "sv": "Möbler och inredning"
+      },
+      "short_label_en": "Furniture",
+      "short_label_fi": "Huonekalut",
+      "short_label_sv": "Möbler",
+      "icon": "🛋️",
+      "default_basket": "leak",
+      "why": {
+        "en": "Gadgets and décor are mostly wants; purchases over 150 € are treated as irregular essentials (e.g. replacing a broken laptop).",
+        "fi": "Laitteet ja sisustus ovat enimmäkseen haluja; yli 150 € ostot käsitellään epäsäännöllisinä välttämättömyyksinä (esim. rikkoutuneen läppärin tilalle).",
+        "sv": "Prylar och inredning är mest önskemål; köp över 150 € räknas som oregelbundna måsten (t.ex. en ny dator när den gamla gått sönder)."
+      },
+      "irregular_over_eur": 150
+    },
+    "5941": {
+      "category": "Lifestyle",
+      "label": {
+        "en": "Sports store",
+        "fi": "Urheiluliike",
+        "sv": "Sportaffär"
+      },
+      "short_label_en": "Sports store",
+      "short_label_fi": "Urheiluliike",
+      "short_label_sv": "Sportaffär",
+      "icon": "👟",
+      "default_basket": "leak",
+      "why": {
+        "en": "Nice-to-have shopping: optional, and it adds up quietly.",
+        "fi": "Kiva-olla-ostokset: valinnaisia, ja ne kertyvät huomaamatta.",
+        "sv": "Shopping för nöjes skull: valfritt, och det växer i det tysta."
+      }
+    },
+    "5651": {
+      "category": "Lifestyle",
+      "label": {
+        "en": "Clothing store (family)",
+        "fi": "Vaatekauppa",
+        "sv": "Klädaffär"
+      },
+      "short_label_en": "Clothing",
+      "short_label_fi": "Vaatekauppa",
+      "short_label_sv": "Klädaffär",
+      "icon": "👕",
+      "default_basket": "leak",
+      "why": {
+        "en": "Nice-to-have shopping: optional, and it adds up quietly.",
+        "fi": "Kiva-olla-ostokset: valinnaisia, ja ne kertyvät huomaamatta.",
+        "sv": "Shopping för nöjes skull: valfritt, och det växer i det tysta."
+      }
+    },
+    "5691": {
+      "category": "Lifestyle",
+      "label": {
+        "en": "Fashion store",
+        "fi": "Muotiliike",
+        "sv": "Modebutik"
+      },
+      "short_label_en": "Fashion",
+      "short_label_fi": "Muotiliike",
+      "short_label_sv": "Modebutik",
+      "icon": "🧥",
+      "default_basket": "leak",
+      "why": {
+        "en": "Nice-to-have shopping: optional, and it adds up quietly.",
+        "fi": "Kiva-olla-ostokset: valinnaisia, ja ne kertyvät huomaamatta.",
+        "sv": "Shopping för nöjes skull: valfritt, och det växer i det tysta."
+      }
+    },
+    "5999": {
+      "category": "Lifestyle",
+      "label": {
+        "en": "Specialty retail",
+        "fi": "Erikoisliike",
+        "sv": "Specialaffär"
+      },
+      "short_label_en": "Specialty shop",
+      "short_label_fi": "Erikoisliike",
+      "short_label_sv": "Specialaffär",
+      "icon": "🛍️",
+      "default_basket": "leak",
+      "why": {
+        "en": "Nice-to-have shopping: optional, and it adds up quietly.",
+        "fi": "Kiva-olla-ostokset: valinnaisia, ja ne kertyvät huomaamatta.",
+        "sv": "Shopping för nöjes skull: valfritt, och det växer i det tysta."
+      }
+    },
+    "5942": {
+      "category": "Lifestyle",
+      "label": {
+        "en": "Bookshop",
+        "fi": "Kirjakauppa",
+        "sv": "Bokhandel"
+      },
+      "short_label_en": "Bookshop",
+      "short_label_fi": "Kirjakauppa",
+      "short_label_sv": "Bokhandel",
+      "icon": "📚",
+      "default_basket": "leak",
+      "why": {
+        "en": "Nice-to-have shopping: optional, and it adds up quietly.",
+        "fi": "Kiva-olla-ostokset: valinnaisia, ja ne kertyvät huomaamatta.",
+        "sv": "Shopping för nöjes skull: valfritt, och det växer i det tysta."
+      }
+    },
+    "5945": {
+      "category": "Lifestyle",
+      "label": {
+        "en": "Toy, hobby & game store",
+        "fi": "Lelu-, harraste- ja pelikauppa",
+        "sv": "Leksaks-, hobby- och spelaffär"
+      },
+      "short_label_en": "Toy store",
+      "short_label_fi": "Lelukauppa",
+      "short_label_sv": "Leksaksaffär",
+      "icon": "🧸",
+      "default_basket": "leak",
+      "why": {
+        "en": "Nice-to-have shopping: optional, and it adds up quietly.",
+        "fi": "Kiva-olla-ostokset: valinnaisia, ja ne kertyvät huomaamatta.",
+        "sv": "Shopping för nöjes skull: valfritt, och det växer i det tysta."
+      }
+    },
+    "4722": {
+      "category": "Travel",
+      "label": {
+        "en": "Travel agency",
+        "fi": "Matkatoimisto",
+        "sv": "Resebyrå"
+      },
+      "short_label_en": "Travel agency",
+      "short_label_fi": "Matkatoimisto",
+      "short_label_sv": "Resebyrå",
+      "icon": "🧳",
+      "default_basket": "leak",
+      "why": {
+        "en": "Trips are wonderful but optional — plan them as a savings goal instead of letting them leak.",
+        "fi": "Matkat ovat ihania mutta valinnaisia — suunnittele ne säästötavoitteeksi, ettei raha valu.",
+        "sv": "Resor är underbara men valfria — planera dem som ett sparmål i stället för att låta pengarna läcka."
+      }
+    },
+    "4511": {
+      "category": "Travel",
+      "label": {
+        "en": "Airline",
+        "fi": "Lentoyhtiö",
+        "sv": "Flygbolag"
+      },
+      "short_label_en": "Airline",
+      "short_label_fi": "Lentoyhtiö",
+      "short_label_sv": "Flygbolag",
+      "icon": "✈️",
+      "default_basket": "leak",
+      "why": {
+        "en": "Trips are wonderful but optional — plan them as a savings goal instead of letting them leak.",
+        "fi": "Matkat ovat ihania mutta valinnaisia — suunnittele ne säästötavoitteeksi, ettei raha valu.",
+        "sv": "Resor är underbara men valfria — planera dem som ett sparmål i stället för att låta pengarna läcka."
+      }
+    },
+    "7011": {
+      "category": "Travel",
+      "label": {
+        "en": "Hotel & accommodation",
+        "fi": "Hotelli ja majoitus",
+        "sv": "Hotell och logi"
+      },
+      "short_label_en": "Hotel",
+      "short_label_fi": "Hotelli",
+      "short_label_sv": "Hotell",
+      "icon": "🏨",
+      "default_basket": "leak",
+      "why": {
+        "en": "Trips are wonderful but optional — plan them as a savings goal instead of letting them leak.",
+        "fi": "Matkat ovat ihania mutta valinnaisia — suunnittele ne säästötavoitteeksi, ettei raha valu.",
+        "sv": "Resor är underbara men valfria — planera dem som ett sparmål i stället för att låta pengarna läcka."
+      }
+    },
+    "7512": {
+      "category": "Travel",
+      "label": {
+        "en": "Car rental",
+        "fi": "Autovuokraamo",
+        "sv": "Biluthyrning"
+      },
+      "short_label_en": "Car rental",
+      "short_label_fi": "Autovuokraamo",
+      "short_label_sv": "Biluthyrning",
+      "icon": "🚗",
+      "default_basket": "leak",
+      "why": {
+        "en": "Trips are wonderful but optional — plan them as a savings goal instead of letting them leak.",
+        "fi": "Matkat ovat ihania mutta valinnaisia — suunnittele ne säästötavoitteeksi, ettei raha valu.",
+        "sv": "Resor är underbara men valfria — planera dem som ett sparmål i stället för att låta pengarna läcka."
+      }
+    }
+  },
+  "null_mcc": {
+    "Groceries": {
+      "category": "Groceries",
+      "label": {
+        "en": "Grocery purchase",
+        "fi": "Ruokaostos",
+        "sv": "Matinköp"
+      },
+      "short_label_en": "Grocery store",
+      "short_label_fi": "Ruokakauppa",
+      "short_label_sv": "Matbutik",
+      "icon": "🛒",
+      "default_basket": "fixed",
+      "why": {
+        "en": "Food at home is a must-have you buy every week — a fixed essential you can plan for.",
+        "fi": "Kotiruoka on välttämättömyys, jota ostat joka viikko — kiinteä menoerä, jonka voi suunnitella.",
+        "sv": "Mat hemma är ett måste som du köper varje vecka — ett fast måste som går att planera."
+      }
+    },
+    "Restaurants": {
+      "category": "Restaurants",
+      "label": {
+        "en": "Eating out",
+        "fi": "Ulkona syöminen",
+        "sv": "Äta ute"
+      },
+      "short_label_en": "Restaurant",
+      "short_label_fi": "Ravintola",
+      "short_label_sv": "Restaurang",
+      "icon": "🍽️",
+      "default_basket": "leak",
+      "why": {
+        "en": "Eating out is a treat, not a necessity — small, frequent and easy to lose track of.",
+        "fi": "Ulkona syöminen on herkku, ei välttämättömyys — pieniä, toistuvia ja helposti huomaamattomia ostoksia.",
+        "sv": "Att äta ute är en lyx, inte en nödvändighet — små, täta köp som är lätta att tappa koll på."
+      }
+    },
+    "Transportation": {
+      "category": "Transportation",
+      "label": {
+        "en": "Transport purchase",
+        "fi": "Liikkumisen ostos",
+        "sv": "Resekostnad"
+      },
+      "short_label_en": "Transport",
+      "short_label_fi": "Liikenne",
+      "short_label_sv": "Trafik",
+      "icon": "🚦",
+      "default_basket": "leak",
+      "why": {
+        "en": "Small top-ups and parking add up like other everyday spending; big fills or car costs over 80 € count as irregular essentials.",
+        "fi": "Pienet tankkaukset ja pysäköinnit kertyvät kuten muukin arkikulutus; yli 80 € auto- ja polttoainekulut ovat epäsäännöllisiä välttämättömyyksiä.",
+        "sv": "Små tankningar och parkeringar växer som annan vardagskonsumtion; stora tankningar eller bilkostnader över 80 € räknas som oregelbundna måsten."
+      },
+      "irregular_over_eur": 80
+    },
+    "Entertainment": {
+      "category": "Entertainment",
+      "label": {
+        "en": "Entertainment",
+        "fi": "Viihde",
+        "sv": "Nöjen"
+      },
+      "short_label_en": "Entertainment",
+      "short_label_fi": "Viihde",
+      "short_label_sv": "Nöjen",
+      "icon": "🎉",
+      "default_basket": "leak",
+      "why": {
+        "en": "Fun and experiences are worth budgeting for, but they are optional — a classic everyday leak.",
+        "fi": "Elämykset ja huvit kannattaa budjetoida, mutta ne ovat valinnaisia — tyypillinen arjen vuoto.",
+        "sv": "Nöjen och upplevelser är värda en plats i budgeten, men de är valfria — en klassisk vardagsläcka."
+      }
+    },
+    "Health": {
+      "category": "Health",
+      "label": {
+        "en": "Health purchase",
+        "fi": "Terveysostos",
+        "sv": "Hälsoutgift"
+      },
+      "short_label_en": "Health",
+      "short_label_fi": "Terveys",
+      "short_label_sv": "Hälsa",
+      "icon": "🩺",
+      "default_basket": "irregular",
+      "why": {
+        "en": "Health costs are necessary but arrive unpredictably — exactly what a buffer is for.",
+        "fi": "Terveyskulut ovat välttämättömiä mutta tulevat ennalta arvaamatta — juuri tähän puskuri on olemassa.",
+        "sv": "Hälsokostnader är nödvändiga men kommer oförutsägbart — precis det som en buffert är till för."
+      }
+    },
+    "Home & Tech": {
+      "category": "Home & Tech",
+      "label": {
+        "en": "Home & tech purchase",
+        "fi": "Koti- ja tekniikkaostos",
+        "sv": "Köp för hem och teknik"
+      },
+      "short_label_en": "Home & tech",
+      "short_label_fi": "Koti ja tekniikka",
+      "short_label_sv": "Hem och teknik",
+      "icon": "📦",
+      "default_basket": "leak",
+      "why": {
+        "en": "Gadgets and décor are mostly wants; purchases over 150 € are treated as irregular essentials (e.g. replacing a broken laptop).",
+        "fi": "Laitteet ja sisustus ovat enimmäkseen haluja; yli 150 € ostot käsitellään epäsäännöllisinä välttämättömyyksinä (esim. rikkoutuneen läppärin tilalle).",
+        "sv": "Prylar och inredning är mest önskemål; köp över 150 € räknas som oregelbundna måsten (t.ex. en ny dator när den gamla gått sönder)."
+      },
+      "irregular_over_eur": 150
+    },
+    "Lifestyle": {
+      "category": "Lifestyle",
+      "label": {
+        "en": "Shopping",
+        "fi": "Ostokset",
+        "sv": "Shopping"
+      },
+      "short_label_en": "Shop",
+      "short_label_fi": "Liike",
+      "short_label_sv": "Butik",
+      "icon": "🛍️",
+      "default_basket": "leak",
+      "why": {
+        "en": "Nice-to-have shopping: optional, and it adds up quietly.",
+        "fi": "Kiva-olla-ostokset: valinnaisia, ja ne kertyvät huomaamatta.",
+        "sv": "Shopping för nöjes skull: valfritt, och det växer i det tysta."
+      }
+    },
+    "Travel": {
+      "category": "Travel",
+      "label": {
+        "en": "Travel purchase",
+        "fi": "Matkaostos",
+        "sv": "Reseköp"
+      },
+      "short_label_en": "Travel",
+      "short_label_fi": "Matka",
+      "short_label_sv": "Resa",
+      "icon": "🌍",
+      "default_basket": "leak",
+      "why": {
+        "en": "Trips are wonderful but optional — plan them as a savings goal instead of letting them leak.",
+        "fi": "Matkat ovat ihania mutta valinnaisia — suunnittele ne säästötavoitteeksi, ettei raha valu.",
+        "sv": "Resor är underbara men valfria — planera dem som ett sparmål i stället för att låta pengarna läcka."
+      }
+    },
+    "Housing": {
+      "category": "Housing",
+      "label": {
+        "en": "Rent or housing payment",
+        "fi": "Vuokra tai asumiskulu",
+        "sv": "Hyra eller boendekostnad"
+      },
+      "short_label_en": "Housing payment",
+      "short_label_fi": "Asumiskulu",
+      "short_label_sv": "Boendekostnad",
+      "icon": "🏠",
+      "default_basket": "fixed",
+      "why": {
+        "en": "A roof over your head is the first bill to cover — the biggest fixed essential.",
+        "fi": "Katto pään päällä on ensimmäinen maksettava lasku — suurin kiinteä menoerä.",
+        "sv": "Tak över huvudet är den första räkningen att betala — det största fasta måstet."
+      }
+    },
+    "Utilities": {
+      "category": "Utilities",
+      "label": {
+        "en": "Utility bill (electricity, water, internet, phone)",
+        "fi": "Lasku (sähkö, vesi, netti, puhelin)",
+        "sv": "Räkning (el, vatten, internet, telefon)"
+      },
+      "short_label_en": "Utility bill",
+      "short_label_fi": "Lasku",
+      "short_label_sv": "Räkning",
+      "icon": "💡",
+      "default_basket": "fixed",
+      "why": {
+        "en": "Electricity, water and connections arrive every month at a similar size — fixed essentials.",
+        "fi": "Sähkö, vesi ja liittymät laskutetaan joka kuukausi suunnilleen saman suuruisina — kiinteitä menoja.",
+        "sv": "El, vatten och abonnemang faktureras varje månad med ungefär samma belopp — fasta måsten."
+      }
+    },
+    "Salary": {
+      "category": "Salary",
+      "label": {
+        "en": "Salary",
+        "fi": "Palkka",
+        "sv": "Lön"
+      },
+      "short_label_en": "Salary",
+      "short_label_fi": "Palkka",
+      "short_label_sv": "Lön",
+      "icon": "💼",
+      "default_basket": "income",
+      "why": {
+        "en": "Money in — the fuel for all three baskets.",
+        "fi": "Tulot — polttoaine kaikille kolmelle korille.",
+        "sv": "Pengar in — bränslet för alla tre korgar."
+      }
+    },
+    "Other Income": {
+      "category": "Other Income",
+      "label": {
+        "en": "Other income (e.g. benefits, refunds)",
+        "fi": "Muut tulot (esim. etuudet, palautukset)",
+        "sv": "Övriga inkomster (t.ex. förmåner, återbäringar)"
+      },
+      "short_label_en": "Income",
+      "short_label_fi": "Tulo",
+      "short_label_sv": "Inkomst",
+      "icon": "💶",
+      "default_basket": "income",
+      "why": {
+        "en": "Extra money in — a great moment to top up savings first.",
+        "fi": "Lisätuloa — hyvä hetki kasvattaa säästöjä ensin.",
+        "sv": "Extra pengar in — ett bra tillfälle att fylla på sparandet först."
+      }
+    },
+    "Invest Withdraw": {
+      "category": "Invest Withdraw",
+      "label": {
+        "en": "Investment withdrawal",
+        "fi": "Sijoitusten nosto",
+        "sv": "Uttag från placeringar"
+      },
+      "short_label_en": "Investment withdrawal",
+      "short_label_fi": "Sijoitusnosto",
+      "short_label_sv": "Placeringsuttag",
+      "icon": "📤",
+      "default_basket": "income",
+      "why": {
+        "en": "Money coming back from your investments.",
+        "fi": "Sijoituksista palaavaa rahaa.",
+        "sv": "Pengar som kommer tillbaka från dina placeringar."
+      }
+    },
+    "Invest Deposit": {
+      "category": "Invest Deposit",
+      "label": {
+        "en": "Investment deposit",
+        "fi": "Sijoitustalletus",
+        "sv": "Insättning till placeringar"
+      },
+      "short_label_en": "Investing",
+      "short_label_fi": "Sijoitus",
+      "short_label_sv": "Placering",
+      "icon": "📈",
+      "default_basket": "saving",
+      "why": {
+        "en": "Paying your future self — money that keeps working for you.",
+        "fi": "Maksat tulevalle itsellesi — raha jatkaa töitä puolestasi.",
+        "sv": "Du betalar ditt framtida jag — pengar som fortsätter arbeta för dig."
+      }
+    },
+    "Salary Sweep": {
+      "category": "Salary Sweep",
+      "label": {
+        "en": "Automatic transfer to savings",
+        "fi": "Automaattinen siirto säästöön",
+        "sv": "Automatisk överföring till sparande"
+      },
+      "short_label_en": "Savings transfer",
+      "short_label_fi": "Säästösiirto",
+      "short_label_sv": "Sparöverföring",
+      "icon": "🐷",
+      "default_basket": "saving",
+      "why": {
+        "en": "Paying yourself first, automatically — the strongest saving habit there is.",
+        "fi": "Maksat ensin itsellesi, automaattisesti — vahvin säästötapa.",
+        "sv": "Du betalar dig själv först, automatiskt — den starkaste sparvanan som finns."
+      }
+    }
+  },
+  "categories": {
+    "Groceries": {
+      "icon": "🛒",
+      "label": {
+        "en": "Groceries",
+        "fi": "Ruokaostokset",
+        "sv": "Matinköp"
+      },
+      "default_basket": "fixed",
+      "color": "#5B8DEF"
+    },
+    "Restaurants": {
+      "icon": "🍽️",
+      "label": {
+        "en": "Restaurants & cafés",
+        "fi": "Ravintolat ja kahvilat",
+        "sv": "Restauranger och kaféer"
+      },
+      "default_basket": "leak",
+      "color": "#FF6B8A"
+    },
+    "Transportation": {
+      "icon": "🚌",
+      "label": {
+        "en": "Transport",
+        "fi": "Liikkuminen",
+        "sv": "Transport"
+      },
+      "default_basket": "leak",
+      "color": "#7AA2F7"
+    },
+    "Utilities": {
+      "icon": "💡",
+      "label": {
+        "en": "Utilities & bills",
+        "fi": "Asumisen laskut",
+        "sv": "Boenderäkningar"
+      },
+      "default_basket": "fixed",
+      "color": "#4FC3F7"
+    },
+    "Housing": {
+      "icon": "🏠",
+      "label": {
+        "en": "Rent & housing",
+        "fi": "Vuokra ja asuminen",
+        "sv": "Hyra och boende"
+      },
+      "default_basket": "fixed",
+      "color": "#5B8DEF"
+    },
+    "Entertainment": {
+      "icon": "🎟️",
+      "label": {
+        "en": "Entertainment",
+        "fi": "Viihde",
+        "sv": "Nöjen"
+      },
+      "default_basket": "leak",
+      "color": "#C792EA"
+    },
+    "Health": {
+      "icon": "🩺",
+      "label": {
+        "en": "Health",
+        "fi": "Terveys",
+        "sv": "Hälsa"
+      },
+      "default_basket": "irregular",
+      "color": "#F5A524"
+    },
+    "Home & Tech": {
+      "icon": "📱",
+      "label": {
+        "en": "Home & tech",
+        "fi": "Koti ja tekniikka",
+        "sv": "Hem och teknik"
+      },
+      "default_basket": "leak",
+      "color": "#FFB86C"
+    },
+    "Lifestyle": {
+      "icon": "🛍️",
+      "label": {
+        "en": "Shopping & lifestyle",
+        "fi": "Ostokset ja vapaa-aika",
+        "sv": "Shopping och fritid"
+      },
+      "default_basket": "leak",
+      "color": "#FF79C6"
+    },
+    "Travel": {
+      "icon": "✈️",
+      "label": {
+        "en": "Travel",
+        "fi": "Matkailu",
+        "sv": "Resor"
+      },
+      "default_basket": "leak",
+      "color": "#8BE9FD"
+    },
+    "Salary": {
+      "icon": "💼",
+      "label": {
+        "en": "Salary",
+        "fi": "Palkka",
+        "sv": "Lön"
+      },
+      "default_basket": "income",
+      "color": "#00B26F"
+    },
+    "Other Income": {
+      "icon": "💶",
+      "label": {
+        "en": "Other income",
+        "fi": "Muut tulot",
+        "sv": "Övriga inkomster"
+      },
+      "default_basket": "income",
+      "color": "#00B26F"
+    },
+    "Invest Withdraw": {
+      "icon": "📤",
+      "label": {
+        "en": "Investment withdrawal",
+        "fi": "Sijoitusten nosto",
+        "sv": "Uttag från placeringar"
+      },
+      "default_basket": "income",
+      "color": "#3DD9B4"
+    },
+    "Invest Deposit": {
+      "icon": "📈",
+      "label": {
+        "en": "Investing",
+        "fi": "Sijoittaminen",
+        "sv": "Placeringar"
+      },
+      "default_basket": "saving",
+      "color": "#3DD9B4"
+    },
+    "Salary Sweep": {
+      "icon": "🐷",
+      "label": {
+        "en": "Moved to savings",
+        "fi": "Siirto säästöön",
+        "sv": "Sparöverföringar"
+      },
+      "default_basket": "saving",
+      "color": "#3DD9B4"
+    }
+  },
+  "baskets": {
+    "fixed": {
+      "label": {
+        "en": "Fixed essentials",
+        "fi": "Kiinteät välttämättömät",
+        "sv": "Fasta måsten"
+      },
+      "emoji": "🧱",
+      "color": "#5B8DEF",
+      "why": {
+        "en": "Mandatory and regular: rent, bills, groceries, commuting. Predictable, so plan them first.",
+        "fi": "Pakolliset ja säännölliset: vuokra, laskut, ruoka, työmatkat. Ennustettavia, joten suunnittele ne ensin.",
+        "sv": "Obligatoriska och regelbundna: hyra, räkningar, mat, arbetsresor. Förutsägbara, så planera dem först."
+      }
+    },
+    "irregular": {
+      "label": {
+        "en": "Irregular essentials",
+        "fi": "Epäsäännölliset välttämättömät",
+        "sv": "Oregelbundna måsten"
+      },
+      "emoji": "🧰",
+      "color": "#F5A524",
+      "why": {
+        "en": "Mandatory but unpredictable: dentist, car repair, a broken laptop. Cover them with a buffer.",
+        "fi": "Pakolliset mutta ennalta arvaamattomat: hammaslääkäri, auton korjaus, rikkoutunut läppäri. Varaudu puskurilla.",
+        "sv": "Obligatoriska men oförutsägbara: tandläkare, bilreparation, en trasig dator. Täck dem med en buffert."
+      }
+    },
+    "leak": {
+      "label": {
+        "en": "Everyday leaks",
+        "fi": "Arjen vuodot",
+        "sv": "Vardagsläckor"
+      },
+      "emoji": "💧",
+      "color": "#FF6B8A",
+      "why": {
+        "en": "Optional everyday spending that slips through your fingers: takeaway, taxis, treats, impulse buys.",
+        "fi": "Valinnainen arkikulutus, joka valuu sormien läpi: noutoruoka, taksit, herkut, heräteostokset.",
+        "sv": "Valfri vardagskonsumtion som rinner mellan fingrarna: hämtmat, taxi, godsaker, impulsköp."
+      }
+    },
+    "income": {
+      "label": {
+        "en": "Income",
+        "fi": "Tulot",
+        "sv": "Inkomster"
+      },
+      "emoji": "💶",
+      "color": "#00B26F",
+      "why": {
+        "en": "Money coming in.",
+        "fi": "Sisään tuleva raha.",
+        "sv": "Pengar som kommer in."
+      }
+    },
+    "saving": {
+      "label": {
+        "en": "Saving & investing",
+        "fi": "Säästäminen ja sijoittaminen",
+        "sv": "Sparande och placeringar"
+      },
+      "emoji": "🐷",
+      "color": "#3DD9B4",
+      "why": {
+        "en": "Money set aside for your future self.",
+        "fi": "Tulevalle itselle sivuun laitettu raha.",
+        "sv": "Pengar som du lägger undan åt ditt framtida jag."
+      }
+    }
+  }
+}

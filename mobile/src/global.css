@@ -1,0 +1,34 @@
+/* Web-only global styles (ignored on native). The app renders inside a phone-sized
+   frame on desktop; these rules make the page behind it calm and non-scrolling. */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  background: #040d09;
+}
+/* Dynamic viewport height: follows mobile browser chrome and an embedding web view (S-mobiili). */
+@supports (height: 100dvh) {
+  html,
+  body {
+    height: 100dvh;
+  }
+}
+body {
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
+  overscroll-behavior: none;
+}
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+*::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+input,
+textarea {
+  outline: none !important;
+}

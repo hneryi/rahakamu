@@ -1,0 +1,346 @@
+{
+  "description": "Scripted questions from the S-Pankki 'Personal Economic Trainer' brief (en + fi + sv). expect_tools = any of these tools must be called. expect_lang (default: locale) = the language the answer must be written in; it differs from locale when the user writes in another language than the app is set to.",
+  "questions": [
+    {
+      "id": "taxi_en",
+      "customer_id": "CUST05020",
+      "persona": "sisu",
+      "locale": "en",
+      "question": "How much did I spend on taxis last month?",
+      "expect_tools": [
+        "query_spending",
+        "search_transactions"
+      ]
+    },
+    {
+      "id": "spender_en",
+      "customer_id": "CUST05020",
+      "persona": "aava",
+      "locale": "en",
+      "question": "What kind of spender am I?",
+      "expect_tools": [
+        "spender_profile"
+      ]
+    },
+    {
+      "id": "safe_week_en",
+      "customer_id": "CUST00584",
+      "persona": "sisu",
+      "locale": "en",
+      "question": "What is safe for me to spend this week?",
+      "expect_tools": [
+        "safe_to_spend"
+      ]
+    },
+    {
+      "id": "dining_cut_en",
+      "customer_id": "CUST00586",
+      "persona": "aava",
+      "locale": "en",
+      "question": "How much could I save if I reduced dining out by 20%?",
+      "expect_tools": [
+        "simulate_what_if"
+      ]
+    },
+    {
+      "id": "car_goal_en",
+      "customer_id": "CUST05020",
+      "persona": "sisu",
+      "locale": "en",
+      "question": "Help me save for a car that costs 12000",
+      "expect_tools": [
+        "plan_goal"
+      ]
+    },
+    {
+      "id": "survive_en",
+      "customer_id": "CUST00584",
+      "persona": "sisu",
+      "locale": "en",
+      "question": "How do I survive this month with 300 €?",
+      "expect_tools": [
+        "survival_plan"
+      ]
+    },
+    {
+      "id": "taxi_fi",
+      "customer_id": "CUST00586",
+      "persona": "sisu",
+      "locale": "fi",
+      "question": "Paljonko käytin takseihin viime kuussa?",
+      "expect_tools": [
+        "query_spending",
+        "search_transactions"
+      ]
+    },
+    {
+      "id": "spender_fi",
+      "customer_id": "CUST00586",
+      "persona": "aava",
+      "locale": "fi",
+      "question": "Millainen kuluttaja olen?",
+      "expect_tools": [
+        "spender_profile"
+      ]
+    },
+    {
+      "id": "safe_week_fi",
+      "customer_id": "CUST05020",
+      "persona": "aava",
+      "locale": "fi",
+      "question": "Paljonko voin turvallisesti käyttää tällä viikolla?",
+      "expect_tools": [
+        "safe_to_spend"
+      ]
+    },
+    {
+      "id": "dining_cut_fi",
+      "customer_id": "CUST05020",
+      "persona": "sisu",
+      "locale": "fi",
+      "question": "Paljonko säästäisin, jos vähentäisin ulkona syömistä 20 %?",
+      "expect_tools": [
+        "simulate_what_if"
+      ]
+    },
+    {
+      "id": "car_goal_fi",
+      "customer_id": "CUST05020",
+      "persona": "aava",
+      "locale": "fi",
+      "question": "Auta minua säästämään 12000 € autoon kesäkuuhun mennessä",
+      "expect_tools": [
+        "plan_goal"
+      ]
+    },
+    {
+      "id": "survive_fi",
+      "customer_id": "CUST00584",
+      "persona": "aava",
+      "locale": "fi",
+      "question": "Miten selviän tästä kuusta 300 eurolla?",
+      "expect_tools": [
+        "survival_plan"
+      ]
+    },
+    {
+      "id": "peers_en",
+      "customer_id": "CUST00001",
+      "persona": "aava",
+      "locale": "en",
+      "question": "Am I spending more than people my age?",
+      "expect_tools": [
+        "benchmarks"
+      ]
+    },
+    {
+      "id": "baskets_en",
+      "customer_id": "CUST05020",
+      "persona": "aava",
+      "locale": "en",
+      "question": "Explain the three money baskets with my own numbers",
+      "expect_tools": [
+        "get_baskets"
+      ]
+    },
+    {
+      "id": "home_fi",
+      "customer_id": "CUST00961",
+      "persona": "aava",
+      "locale": "fi",
+      "question": "Voinko ostaa asunnon? Miksi lainahakemukseni hylättiin?",
+      "expect_tools": [
+        "home_readiness"
+      ]
+    },
+    {
+      "id": "subs_en",
+      "customer_id": "CUST00586",
+      "persona": "sisu",
+      "locale": "en",
+      "question": "Which recurring payments and subscriptions do I have?",
+      "expect_tools": [
+        "recurring_payments"
+      ]
+    },
+    {
+      "id": "compound_en",
+      "customer_id": "CUST00001",
+      "persona": "aava",
+      "locale": "en",
+      "question": "What is compound interest?",
+      "expect_tools": [
+        "explain_concept"
+      ]
+    },
+    {
+      "id": "biggest_en",
+      "customer_id": "CUST00586",
+      "persona": "sisu",
+      "locale": "en",
+      "question": "Show my biggest purchases last month",
+      "expect_tools": [
+        "search_transactions",
+        "query_spending"
+      ]
+    },
+    {
+      "id": "groceries_fi",
+      "customer_id": "CUST00001",
+      "persona": "sisu",
+      "locale": "fi",
+      "question": "Paljonko käytin ruokaan viime kuussa?",
+      "expect_tools": [
+        "query_spending"
+      ]
+    },
+    {
+      "id": "restaurant_trend_en",
+      "customer_id": "CUST00586",
+      "persona": "aava",
+      "locale": "en",
+      "question": "How has my restaurant spending changed per month this year?",
+      "expect_tools": [
+        "query_spending"
+      ]
+    },
+    {
+      "id": "afford_trip_en",
+      "customer_id": "CUST00584",
+      "persona": "sisu",
+      "locale": "en",
+      "question": "Can I afford a 250 € concert trip this weekend?",
+      "expect_tools": [
+        "safe_to_spend",
+        "survival_plan"
+      ]
+    },
+    {
+      "id": "overview_fi",
+      "customer_id": "CUST00001",
+      "persona": "aava",
+      "locale": "fi",
+      "question": "Miten rahani voivat tässä kuussa?",
+      "expect_tools": [
+        "get_overview",
+        "get_baskets",
+        "query_spending"
+      ]
+    },
+    {
+      "id": "taxi_sv",
+      "customer_id": "CUST05020",
+      "persona": "sisu",
+      "locale": "sv",
+      "question": "Hur mycket lade jag på taxi förra månaden?",
+      "expect_tools": [
+        "query_spending",
+        "search_transactions"
+      ]
+    },
+    {
+      "id": "spender_sv",
+      "customer_id": "CUST00586",
+      "persona": "aava",
+      "locale": "sv",
+      "question": "Hurdan konsument är jag?",
+      "expect_tools": [
+        "spender_profile"
+      ]
+    },
+    {
+      "id": "safe_week_sv",
+      "customer_id": "CUST00584",
+      "persona": "sisu",
+      "locale": "sv",
+      "question": "Hur mycket kan jag tryggt använda den här veckan?",
+      "expect_tools": [
+        "safe_to_spend"
+      ]
+    },
+    {
+      "id": "dining_cut_sv",
+      "customer_id": "CUST05020",
+      "persona": "aava",
+      "locale": "sv",
+      "question": "Hur mycket sparar jag om jag minskar restaurangbesöken med 20 %?",
+      "expect_tools": [
+        "simulate_what_if"
+      ]
+    },
+    {
+      "id": "car_goal_sv",
+      "customer_id": "CUST05020",
+      "persona": "sisu",
+      "locale": "sv",
+      "question": "Hjälp mig spara till en bil som kostar 12 000 € senast i juni",
+      "expect_tools": [
+        "plan_goal"
+      ]
+    },
+    {
+      "id": "survive_sv",
+      "customer_id": "CUST00584",
+      "persona": "aava",
+      "locale": "sv",
+      "question": "Hur klarar jag månaden med 150 euro?",
+      "expect_tools": [
+        "survival_plan"
+      ]
+    },
+    {
+      "id": "leaks_sv",
+      "customer_id": "CUST00586",
+      "persona": "sisu",
+      "locale": "sv",
+      "question": "Var läcker mina pengar?",
+      "expect_tools": [
+        "get_baskets",
+        "query_spending"
+      ]
+    },
+    {
+      "id": "home_sv",
+      "customer_id": "CUST00961",
+      "persona": "aava",
+      "locale": "sv",
+      "question": "Kan jag köpa en bostad? Varför fick min låneansökan avslag?",
+      "expect_tools": [
+        "home_readiness"
+      ]
+    },
+    {
+      "id": "sv_in_fi_app",
+      "customer_id": "CUST00001",
+      "persona": "aava",
+      "locale": "fi",
+      "expect_lang": "sv",
+      "question": "Hur mycket lade jag på mat förra månaden?",
+      "expect_tools": [
+        "query_spending"
+      ]
+    },
+    {
+      "id": "en_in_sv_app",
+      "customer_id": "CUST00001",
+      "persona": "sisu",
+      "locale": "sv",
+      "expect_lang": "en",
+      "question": "How much did I spend on groceries last month?",
+      "expect_tools": [
+        "query_spending"
+      ]
+    },
+    {
+      "id": "fi_in_en_app",
+      "customer_id": "CUST00584",
+      "persona": "sisu",
+      "locale": "en",
+      "expect_lang": "fi",
+      "question": "Paljonko voin turvallisesti käyttää tällä viikolla?",
+      "expect_tools": [
+        "safe_to_spend"
+      ]
+    }
+  ]
+}
