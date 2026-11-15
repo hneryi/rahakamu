@@ -5,6 +5,14 @@ Trainer challenge, shared for organisers and reviewers. Sisu (the trainer) and
 Aava (the mentor) explain spending through three baskets: fixed essentials,
 irregular essentials and flexible spending.
 
+<p>
+  <img src="docs/img/home.png" alt="Emma's demo home view with balance, spending allowance and goals" width="260" />
+  <img src="docs/img/insights.png" alt="Insights showing basket trends and spending categories" width="260" />
+  <img src="docs/img/coach.png" alt="Sisu's offline coach conversation showing the three baskets" width="260" />
+</p>
+
+*Home, spending insights and a conversation with Sisu.* Screenshots use synthetic demo data and the offline scripted coach.
+
 - Six demo customers, including Joni, with different financial situations.
 - English, Finnish and Swedish (`en` / `fi` / `sv`).
 - Data-driven recovery support: prioritise repairing a negative balance or stabilising
